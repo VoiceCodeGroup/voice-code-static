@@ -1,25 +1,36 @@
-import React, { Component } from 'react';
+import React from 'react';
+import styled from 'styled-components';
+import CodeEditor from '../components/CodeEditor';
 
-export default class Fetch extends Component {
-  state = { data: "This is what we're all about" };
+const PageWrapper = styled.div`
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-  constructor(props) {
-    super(props);
-    fetch('https://jsonplaceholder.typicode.com/posts/1')
-      .then(response => response.json())
-      .then(json => this.hasData('Hi'));
-  }
-  hasData = data => {
-    this.setState({ data });
-  };
+const Wrapper = styled.div`
+  background: ${props => (props.left ? '#dedede' : 'white')};
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
 
-  render() {
-    console.log(this.state.data);
-    return (
-      <div>
-        <h1>{this.state.data}</h1>
-        <p>React, static sites, performance, speed. It's the stuff that makes us tick.</p>
-      </div>
-    );
-  }
-}
+const onChange = (a, b) => {
+  console.log(a, b);
+};
+
+export default () => {
+  return (
+    <PageWrapper>
+      <Wrapper left>
+        <CodeEditor />
+      </Wrapper>
+      <Wrapper>
+        <divCodeEditor />
+      </Wrapper>
+    </PageWrapper>
+  );
+};
