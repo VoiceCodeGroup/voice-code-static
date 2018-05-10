@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import CodeEditor from '../components/CodeEditor';
+import Frame from '../components/Frame';
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -29,7 +30,7 @@ export default () => {
         <CodeEditor />
       </Wrapper>
       <Wrapper>
-        <divCodeEditor />
+        <Frame />
       </Wrapper>
     </PageWrapper>
   );
