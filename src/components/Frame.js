@@ -4,17 +4,7 @@ import styled from 'styled-components';
 class Frame extends Component {
   myRef = React.createRef();
   componentDidMount() {
-    console.log(
-      this.myRef.current.contentWindow.eval(`
-    
-    var x = window.document.createElement('div');
-    x.style.backgroundColor = "red";
-    x.style.width = "100px";
-    x.style.height = "100px";
-
-    document.body.append(x);
-    `)
-    );
+    this.props.getExecute(this.myRef.current.contentWindow.eval);
   }
 
   render() {

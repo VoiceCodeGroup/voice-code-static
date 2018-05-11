@@ -20,11 +20,22 @@ const Wrapper = styled.div`
 `;
 
 export default class extends Component {
-  state = { code: '' };
+  state = { code: '', execute: false };
 
   onEditorChange = val => {
     console.log(val);
     this.setState({ code: val });
+  };
+
+  getCodeFunction = func => {
+    console.log(func);
+    this.setState({ executeCode: func });
+  };
+
+  onClick = () => {
+    if (this.state.executeCode) {
+      this.state.executeCode(this.state.code);
+    }
   };
 
   render() {
@@ -32,9 +43,10 @@ export default class extends Component {
       <PageWrapper>
         <Wrapper left>
           <CodeEditor val={this.state.code} onChange={this.onEditorChange} />
+          <button onClick={this.onClick}>Execute</button>
         </Wrapper>
         <Wrapper>
-          <Frame />
+          <Frame getExecute={this.getCodeFunction} />
         </Wrapper>
       </PageWrapper>
     );
