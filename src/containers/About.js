@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import CodeEditor from '../components/CodeEditor';
 import Frame from '../components/Frame';
@@ -19,19 +19,24 @@ const Wrapper = styled.div`
   height: 100vh;
 `;
 
-const onChange = (a, b) => {
-  console.log(a, b);
-};
+export default class extends Component {
+  state = { code: '' };
 
-export default () => {
-  return (
-    <PageWrapper>
-      <Wrapper left>
-        <CodeEditor />
-      </Wrapper>
-      <Wrapper>
-        <Frame />
-      </Wrapper>
-    </PageWrapper>
-  );
-};
+  onEditorChange = val => {
+    console.log(val);
+    this.setState({ code: val });
+  };
+
+  render() {
+    return (
+      <PageWrapper>
+        <Wrapper left>
+          <CodeEditor val={this.state.code} onChange={this.onEditorChange} />
+        </Wrapper>
+        <Wrapper>
+          <Frame />
+        </Wrapper>
+      </PageWrapper>
+    );
+  }
+}
