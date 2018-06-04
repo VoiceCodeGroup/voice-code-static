@@ -23,7 +23,15 @@ const Wrapper = styled.div`
 `;
 
 export default class extends Component {
-  state = { code: '', execute: false, spokenText: '' };
+  state = {
+    code: `var x = window.document.createElement('div');
+x.style.backgroundColor = "red";
+x.style.width = "100px";
+x.style.height = "100px";
+document.body.append(x);`,
+    execute: false,
+    spokenText: ''
+  };
 
   componentDidMount() {
     this.setState({ SpeechRecognition: new speechRecognition(this.onSpeechResult) });
