@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "start": "PORT=3001 react-scripts start",
   "scripts": {
     "start": "react-static start",
     "stage": "react-static build --staging",

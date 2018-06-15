@@ -23,14 +23,26 @@ const Wrapper = styled.div`
 `;
 
 export default class extends Component {
+  constructor(props){
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
   state = {
-    code: `var x = window.document.createElement('div');
-x.style.backgroundColor = "red";
-x.style.width = "100px";
-x.style.height = "100px";
-document.body.append(x);`,
+    code: `//var x = window.document.createElement('div');
+//x.style.backgroundColor = 'red';
+//x.style.width = '100px';
+//x.style.height = '100px';
+//document.body.append(x);
+\n
+//var x equals window dot document dot create element div
+//x dot style dot background colour equals red
+//x dot style dot width equals 100px
+//x dot style dot height equals 100px
+//document dot body dot append x;`,
     execute: false,
-    spokenText: ''
+    spokenText: 'document dot body dot append x',
+    defaultText: 'document dot body dot append x',
+    queryResponse: ''
   };
 
   componentDidMount() {
@@ -42,12 +54,16 @@ document.body.append(x);`,
     this.setState({ code: val });
   };
 
+  handleChange = value => {
+    this.setState({spokenText: value});
+  }
+
   getCodeFunction = func => {
     this.setState({ executeCode: func });
   };
 
-  insertSpeech = speechText => {
-    this.setState({ code: `${this.state.code}${speechText}` });
+  insertCode = responseText => {
+    this.setState({ code: `${this.state.code}\n${responseText}` });
   };
 
   onClick = () => {
@@ -56,12 +72,33 @@ document.body.append(x);`,
     }
   };
 
+  sendQuery = () => {
+    (async () => {
+      console.log(JSON.stringify({text: this.state.spokenText}));
+      const rawResponse = await fetch('http://localhost:3000', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({text: this.state.spokenText})
+      });
+      const content = await rawResponse.json();
+      const response = content.response;
+      console.log(content);
+      this.setState({queryResponse: response});
+      this.insertCode(response);
+    })();
+  }
+
   onSpeechResult = event => {
     const last = event.results.length - 1;
     const spokenText = event.results[last][0].transcript;
     this.setState({ spokenText });
-    this.insertSpeech(spokenText);
+    this.sendQuery();
     tts(spokenText);
+  };
+  onBlur = event => {
+    this.setState({spokenText: event.target.value});
   };
 
   render() {
@@ -79,6 +116,17 @@ document.body.append(x);`,
           >
             Speech Recognition
           </button>
+
+          <br/>
+          <label for="query">Query: </label>
+          {/* <textarea id="query" name = "query" value={this.state.defaultText} onChange={this.handleChange}/> */}
+          <input type ="text" size="50" onBlur={this.onBlur.bind(this)}/>
+          <button onClick={this.sendQuery}>
+            Send Query
+          </button>
+          <br/>
+          <label for="response">Response: </label>
+          <input id="response" size="50" name = "response" value={this.state.queryResponse} readonly/>
         </Wrapper>
         <Wrapper>
           <Frame getExecute={this.getCodeFunction} />
