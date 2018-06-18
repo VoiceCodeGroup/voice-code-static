@@ -11,7 +11,7 @@ export default {
     return [
       {
         path: '/',
-        component: 'src/containers/About'
+        component: 'src/containers/Editors'
       },
       {
         is404: true,

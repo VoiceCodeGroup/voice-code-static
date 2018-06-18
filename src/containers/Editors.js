@@ -1,47 +1,50 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import CodeEditor from '../components/CodeEditor';
+import EditorGroup from '../components/EditorGroup';
 import Frame from '../components/Frame';
 import speechRecognition from '../util/speechRecognition';
 import tts from '../util/textToSpeech';
+import { edit } from 'brace';
 
 const PageWrapper = styled.div`
   min-height: 100vh;
+  padding:1rem;
+  width:100%
+  background: #fff;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
 
 const Wrapper = styled.div`
   background: ${props => (props.left ? '#dedede' : 'white')};
-  display: flex;
-  flex-direction: column;
-  width: 50%;
+  vertical-align: top;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  width:100%;   
+  margin: 0.75em 0 0 0;
+  `;
+
+const EditWrapper = styled.div`
+    display: inline-block;
+    width: 31%;
+    height: 20rem;
+    margin: 15px;
+    vertical-align: top;
 `;
 
 export default class extends Component {
   constructor(props){
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.onEditorChange = this.onEditorChange.bind(this);
   }
   state = {
-    code: `//var x = window.document.createElement('div');
-//x.style.backgroundColor = 'red';
-//x.style.width = '100px';
-//x.style.height = '100px';
-//document.body.append(x);
-\n
-//var x equals window dot document dot create element div
-//x dot style dot background colour equals red
-//x dot style dot width equals 100px
-//x dot style dot height equals 100px
-//document dot body dot append x;`,
+    code:``,
     execute: false,
-    spokenText: 'document dot body dot append x',
-    defaultText: 'document dot body dot append x',
+    spokenText: '',
+    defaultText: '',
     queryResponse: ''
   };
 
@@ -63,12 +66,12 @@ export default class extends Component {
   };
 
   insertCode = responseText => {
-    this.setState({ code: `${this.state.code}\n${responseText}` });
+    this.setState({ code: `${this.state.javascriptCode}\n${responseText}` });
   };
 
   onClick = () => {
     if (this.state.executeCode) {
-      this.state.executeCode(this.state.code);
+      this.state.executeCode(this.state.javascriptCode);
     }
   };
 
@@ -102,31 +105,9 @@ export default class extends Component {
   };
 
   render() {
-    console.log(this.state.code);
     return (
       <PageWrapper>
-        <Wrapper left>
-          <CodeEditor val={this.state.code} onChange={this.onEditorChange} />
-          <button onClick={this.onClick}>Execute</button>
-          <button
-            onClick={() => {
-              this.state.SpeechRecognition.start();
-              this.setState({ spokenText: '' });
-            }}
-          >
-            Speech Recognition
-          </button>
-
-          <br/>
-          <label for="query">Query: </label>
-          <input type ="text" size="50" value= {this.state.spokenText} onBlur={this.onBlur.bind(this)}/>
-          <button onClick={this.sendQuery}>
-            Send Query
-          </button>
-          <br/>
-          <label for="response">Response: </label>
-          <input id="response" size="50" name = "response" value={this.state.queryResponse} readonly/>
-        </Wrapper>
+                <EditorGroup updateCode={this.onEditorChange}/>
         <Wrapper>
           <Frame getExecute={this.getCodeFunction} />
         </Wrapper>

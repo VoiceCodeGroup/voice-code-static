@@ -4,7 +4,7 @@ import styled from 'styled-components';
 class Frame extends Component {
   myRef = React.createRef();
   componentDidMount() {
-    this.props.getExecute(this.myRef.current.contentWindow.eval);
+    this.props.getExecute(this.myRef.current.contentWindow.document);
   }
 
   render() {
