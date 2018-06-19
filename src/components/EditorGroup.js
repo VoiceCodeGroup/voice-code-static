@@ -28,12 +28,12 @@ export default class EditorGroup extends Component{
         this.state = {
             htmlCode: ``,
             cssCode: ``,
-            jsCode: ``,
+            javascriptCode: ``,
             code: ''
         }
     };
     compile(){
-        this.setState({code: this.state.htmlCode+"<style>"+this.state.cssCode+"<\/style><script>"+this.state.jsCode+"<\/script>"});
+        this.setState({code: this.state.htmlCode+"<style>"+this.state.cssCode+"<\/style><script>"+this.state.javascriptCode+"<\/script>"});
         console.log(this.state.code);
     }
     
@@ -53,7 +53,7 @@ export default class EditorGroup extends Component{
                     <CodeEditor val={this.state.cssCode} onChange={this.onChange.bind(this)} height={"100%"} width={"100%"} mode={"css"}/>
                 </EditWrapper>     
                 <EditWrapper>
-                    <CodeEditor val={this.state.jsCode} onChange={this.onChange.bind(this)} height={"100%"} width={"100%"} mode={"javascript"}/>   
+                    <CodeEditor val={this.state.javascriptCode} onChange={this.onChange.bind(this)} height={"100%"} width={"100%"} mode={"javascript"}/>   
                 </EditWrapper>  
             </Wrapper>   
         );
