@@ -32,16 +32,17 @@ export default class EditorGroup extends Component{
             code: ''
         }
     };
-
-  onChange(field, value) {
-    // parent class change handler is always called with field name and value
-    this.setState({[field]: value});
-    compile();
-    this.props.updateCode(this.state.code);
-}
     compile(){
         this.setState({code: this.state.htmlCode+"<style>"+this.state.cssCode+"<\/style><script>"+this.state.jsCode+"<\/script>"});
+        console.log(this.state.code);
     }
+    
+  onChange(field, value) {
+    this.setState({[field]: value});
+    this.compile();
+    this.props.updateCode(this.state.code);
+}
+
     render(){
         return (
             <Wrapper>
