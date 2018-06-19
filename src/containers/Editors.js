@@ -24,6 +24,7 @@ const Wrapper = styled.div`
   align-items: center;
   width:100%;   
   margin: 0.75em 0 0 0;
+  height:50vh;
   `;
 
 const EditWrapper = styled.div`
@@ -107,9 +108,9 @@ export default class extends Component {
   render() {
     return (
       <PageWrapper>
-                <EditorGroup updateCode={this.onEditorChange}/>
+        <EditorGroup updateCode={this.onEditorChange}/>
         <Wrapper>
-          <Frame getExecute={this.getCodeFunction} />
+          <Frame content={this.state.code} getExecute={this.getCodeFunction} />
         </Wrapper>
       </PageWrapper>
     );
