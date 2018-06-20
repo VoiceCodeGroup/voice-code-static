@@ -22,6 +22,8 @@ const Wrapper = styled.div`
   vertical-align: top;
   justify-content: center;
   align-items: center;
+  display: flex;
+  flex-direction: column;
   width:100%;   
   margin: 0.75em 0 0 0;
   height:50vh;
@@ -44,8 +46,8 @@ export default class extends Component {
   state = {
     code:``,
     execute: false,
-    spokenText: '',
-    defaultText: '',
+    spokenText: 'create element div',
+    defaultText: 'create element div',
     queryResponse: ''
   };
 
@@ -109,7 +111,25 @@ export default class extends Component {
     return (
       <PageWrapper>
         <EditorGroup updateCode={this.onEditorChange}/>
+
         <Wrapper>
+          <button
+            onClick={() => {
+              this.state.SpeechRecognition.start();
+              this.setState({ spokenText: '' });
+            }}
+          >
+            Speech Recognition
+          </button>
+          <br/>
+          <label>Query: </label>
+          <input id="query" type ="text" size="50" value= {this.state.spokenText} onBlur={this.onBlur.bind(this)}/>
+          <button onClick={this.sendQuery}>
+            Send Query
+          </button>
+          <br/>
+          <label>Response: </label>
+          <input id="response" size="50" name = "response" value={this.state.queryResponse} readOnly/>
           <Frame content={this.state.code} getExecute={this.getCodeFunction} />
         </Wrapper>
       </PageWrapper>
