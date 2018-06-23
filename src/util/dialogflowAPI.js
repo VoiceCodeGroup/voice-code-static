@@ -1,6 +1,6 @@
 export default async spokenText => {
   console.log(JSON.stringify({ text: spokenText }));
-  const dialogflowResponse = await fetch('http://localhost:3000', {
+  const dialogflowResponse = await fetch('https://voice-code.herokuapp.com/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

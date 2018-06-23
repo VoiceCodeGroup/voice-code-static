@@ -1,3 +1,5 @@
+import codeFormatter from './codeFormatter';
+
 class Model {
   constructor() {
     this.state = {
@@ -5,12 +7,18 @@ class Model {
       css: '',
       js: '',
       previousState: [],
-      inFocus: 'html'
+      currentMode: 'html'
     };
   }
-  createElement = element => {
-    console.log('Creating element: ' + element);
-    this.state = { ...this.state, html: `${this.state.html} <${element}>hello1</${element}>` };
+  createElement = async tag => {
+    console.log('Creating element: ' + tag);
+    const newHTML = await this.formatCode(
+      `${this.state.html} <div><${tag}>Hello World!</${tag}></div>`
+    );
+    this.state = {
+      ...this.state,
+      html: newHTML
+    };
   };
 
   getVals = () => {
@@ -21,9 +29,14 @@ class Model {
     };
   };
 
-  performAction = ({ intent, params }) => {
+  formatCode = async code => {
+    const formattedCode = await codeFormatter(code, this.state.currentMode);
+    return formattedCode;
+  };
+
+  performAction = async ({ intent, params }) => {
     console.log('Perform', intent, params);
-    this[intent](...params);
+    await this[intent](...params);
     return this.getVals();
   };
 }
