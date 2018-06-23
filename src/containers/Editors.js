@@ -4,6 +4,9 @@ import EditorGroup from '../components/EditorGroup';
 import Frame from '../components/Frame';
 import speechRecognition from '../util/speechRecognition';
 import tts from '../util/textToSpeech';
+import EditorModel from '../util/EditorModel';
+import dialogflowAPI from '../util/dialogflowAPI';
+
 import { edit } from 'brace';
 
 const PageWrapper = styled.div`
@@ -24,27 +27,28 @@ const Wrapper = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  width:100%;   
+  width: 100%;
   margin: 0.75em 0 0 0;
-  height:50vh;
-  `;
+  height: 50vh;
+`;
 
 const EditWrapper = styled.div`
-    display: inline-block;
-    width: 31%;
-    height: 20rem;
-    margin: 15px;
-    vertical-align: top;
+  display: inline-block;
+  width: 31%;
+  height: 20rem;
+  margin: 15px;
+  vertical-align: top;
 `;
 
 export default class extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.onEditorChange = this.onEditorChange.bind(this);
+    this.EditorModel = new EditorModel();
   }
   state = {
-    code:``,
+    code: ``,
     execute: false,
     spokenText: 'create element div',
     defaultText: 'create element div',
@@ -61,8 +65,8 @@ export default class extends Component {
   };
 
   handleChange = value => {
-    this.setState({spokenText: value});
-  }
+    this.setState({ spokenText: value });
+  };
 
   getCodeFunction = func => {
     this.setState({ executeCode: func });
@@ -78,39 +82,26 @@ export default class extends Component {
     }
   };
 
-  sendQuery = () => {
-    (async () => {
-      console.log(JSON.stringify({text: this.state.spokenText}));
-      const rawResponse = await fetch('http://localhost:3000', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({text: this.state.spokenText})
-      });
-      const content = await rawResponse.json();
-      const response = content.response;
-      console.log(content);
-      this.setState({queryResponse: response});
-      this.insertCode(response);
-    })();
-  }
+  sendQuery = async () => {
+    console.log(JSON.stringify({ text: this.state.spokenText }));
+    console.log(await dialogflowAPI(this.state.spokenText));
+  };
 
   onSpeechResult = event => {
     const last = event.results.length - 1;
     const spokenText = event.results[last][0].transcript;
     this.setState({ spokenText });
-    this.sendQuery();
+    console.log(dialogflowAPI(spokenText));
     tts(spokenText);
   };
   onBlur = event => {
-    this.setState({spokenText: event.target.value});
+    this.setState({ spokenText: event.target.value });
   };
 
   render() {
     return (
       <PageWrapper>
-        <EditorGroup updateCode={this.onEditorChange}/>
+        <EditorGroup updateCode={this.onEditorChange} />
 
         <Wrapper>
           <button
@@ -121,15 +112,25 @@ export default class extends Component {
           >
             Speech Recognition
           </button>
-          <br/>
+          <br />
           <label>Query: </label>
-          <input id="query" type ="text" size="50" value= {this.state.spokenText} onBlur={this.onBlur.bind(this)}/>
-          <button onClick={this.sendQuery}>
-            Send Query
-          </button>
-          <br/>
+          <input
+            id="query"
+            type="text"
+            size="50"
+            value={this.state.spokenText}
+            onBlur={this.onBlur.bind(this)}
+          />
+          <button onClick={this.sendQuery}>Send Query</button>
+          <br />
           <label>Response: </label>
-          <input id="response" size="50" name = "response" value={this.state.queryResponse} readOnly/>
+          <input
+            id="response"
+            size="50"
+            name="response"
+            value={this.state.queryResponse}
+            readOnly
+          />
           <Frame content={this.state.code} getExecute={this.getCodeFunction} />
         </Wrapper>
       </PageWrapper>

@@ -1,20 +1,5 @@
 class Model {
   constructor() {
-    this.actions = {
-      html: {
-        insert: {
-          createElement: this.createElement
-        }
-      },
-      css: {
-        insert: {
-          createElementStyle: this.createElementStyle
-        }
-      },
-      js: {},
-      all: {}
-    };
-
     this.state = {
       html: '',
       css: '',
@@ -25,15 +10,14 @@ class Model {
   }
   createElement = element => {
     console.log('Creating element: ' + element);
+    this.setState({ html: `${this.state.html} <${element}></${element}` });
   };
 
-  createElementStyle = element => {};
-
-  performAction = (actionContext, actionType, actionIntent, params) => {
-    console.log(
-      this.actions[actionContext ? this.state.inFocus : 'all'][actionType][actionIntent](...params)
-    );
+  performAction = (actionIntent, params) => {
+    console.log('Perform', actionIntent, params);
+    console.log(this[actionIntent]);
+    console.log(this[actionIntent](params.tag.stringValue));
   };
 }
 
-export default new Model();
+export default Model;
