@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 
 export default {
+  devServer: {
+    port: 3001
+  },
   getSiteData: () => ({
     title: 'React Static'
   }),
