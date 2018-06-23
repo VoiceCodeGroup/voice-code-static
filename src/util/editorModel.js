@@ -10,13 +10,21 @@ class Model {
   }
   createElement = element => {
     console.log('Creating element: ' + element);
-    this.setState({ html: `${this.state.html} <${element}></${element}` });
+    this.state = { ...this.state, html: `${this.state.html} <${element}>hello1</${element}>` };
   };
 
-  performAction = (actionIntent, params) => {
-    console.log('Perform', actionIntent, params);
-    console.log(this[actionIntent]);
-    console.log(this[actionIntent](params.tag.stringValue));
+  getVals = () => {
+    return {
+      html: this.state.html,
+      css: this.state.css,
+      js: this.state.js
+    };
+  };
+
+  performAction = ({ intent, params }) => {
+    console.log('Perform', intent, params);
+    this[intent](...params);
+    return this.getVals();
   };
 }
 

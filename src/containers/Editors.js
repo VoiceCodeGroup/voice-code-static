@@ -48,7 +48,8 @@ export default class extends Component {
     this.EditorModel = new EditorModel();
   }
   state = {
-    code: ``,
+    code: {},
+    compiledCode: '',
     execute: false,
     spokenText: 'create element div',
     defaultText: 'create element div',
@@ -68,12 +69,15 @@ export default class extends Component {
     this.setState({ spokenText: value });
   };
 
-  getCodeFunction = func => {
-    this.setState({ executeCode: func });
-  };
-
   insertCode = responseText => {
     this.setState({ code: `${this.state.javascriptCode}\n${responseText}` });
+  };
+
+  compile = () => {
+    const { html, css, js } = this.state.code;
+    this.setState({
+      compiledCode: `${html}<style>${css}</style><script>${js}</script>`
+    });
   };
 
   onClick = () => {
@@ -83,8 +87,10 @@ export default class extends Component {
   };
 
   sendQuery = async () => {
-    console.log(JSON.stringify({ text: this.state.spokenText }));
-    console.log(await dialogflowAPI(this.state.spokenText));
+    const dialogflowResult = await dialogflowAPI(this.state.spokenText);
+    const codeVals = await this.EditorModel.performAction(dialogflowResult);
+    await this.setState({ code: codeVals });
+    this.compile();
   };
 
   onSpeechResult = event => {
@@ -94,6 +100,7 @@ export default class extends Component {
     console.log(dialogflowAPI(spokenText));
     tts(spokenText);
   };
+
   onBlur = event => {
     this.setState({ spokenText: event.target.value });
   };
@@ -101,7 +108,7 @@ export default class extends Component {
   render() {
     return (
       <PageWrapper>
-        <EditorGroup updateCode={this.onEditorChange} />
+        <EditorGroup updateCode={this.onEditorChange} vals={this.state.code} />
 
         <Wrapper>
           <button
@@ -131,7 +138,7 @@ export default class extends Component {
             value={this.state.queryResponse}
             readOnly
           />
-          <Frame content={this.state.code} getExecute={this.getCodeFunction} />
+          <Frame content={this.state.compiledCode} getExecute={this.getCodeFunction} />
         </Wrapper>
       </PageWrapper>
     );

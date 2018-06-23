@@ -25,6 +25,7 @@ const EditWrapper = styled.div`
 export default class EditorGroup extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       htmlCode: ``,
       cssCode: ``,
@@ -32,6 +33,7 @@ export default class EditorGroup extends Component {
       code: ''
     };
   }
+
   compile = () => {
     this.setState({
       code:
@@ -42,7 +44,6 @@ export default class EditorGroup extends Component {
         this.state.javascriptCode +
         '</script>'
     });
-    console.log(this.state.code);
   };
 
   onChange = (field, value) => {
@@ -52,11 +53,13 @@ export default class EditorGroup extends Component {
   };
 
   render() {
+    console.log(this.props.vals);
+    const { html, css, js } = this.props.vals;
     return (
       <Wrapper>
         <EditWrapper>
           <CodeEditor
-            val={this.state.htmlCode}
+            val={html}
             onChange={this.onChange}
             height={'100%'}
             width={'100%'}
@@ -65,7 +68,7 @@ export default class EditorGroup extends Component {
         </EditWrapper>
         <EditWrapper>
           <CodeEditor
-            val={this.state.cssCode}
+            val={css}
             onChange={this.onChange}
             height={'100%'}
             width={'100%'}
@@ -74,7 +77,7 @@ export default class EditorGroup extends Component {
         </EditWrapper>
         <EditWrapper>
           <CodeEditor
-            val={this.state.javascriptCode}
+            val={js}
             onChange={this.onChange}
             height={'100%'}
             width={'100%'}
