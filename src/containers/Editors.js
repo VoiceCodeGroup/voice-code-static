@@ -4,7 +4,7 @@ import EditorGroup from '../components/EditorGroup';
 import Frame from '../components/Frame';
 import speechRecognition from '../util/speechRecognition';
 import tts from '../util/textToSpeech';
-import EditorModel from '../util/EditorModel';
+import EditorModel from '../model/EditorModel';
 import dialogflowAPI from '../util/dialogflowAPI';
 
 import { edit } from 'brace';

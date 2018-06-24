@@ -1,4 +1,5 @@
-import codeFormatter from './codeFormatter';
+import codeFormatter from '../util/codeFormatter';
+import HtmlModel from './HtmlModel';
 
 class Model {
   constructor() {
@@ -7,14 +8,15 @@ class Model {
       css: '',
       js: '',
       previousState: [],
-      currentMode: 'html'
+      currentMode: 'html',
+      htmlModel: new HtmlModel()
     };
   }
   createElement = async tag => {
+    console.log(this.state.htmlModel.toString());
     console.log('Creating element: ' + tag);
-    const newHTML = await this.formatCode(
-      `<div>${this.state.html}<${tag}>Hello World!</${tag}></div>`
-    );
+    this.state.htmlModel.addElement(tag);
+    const newHTML = await this.formatCode(this.state.htmlModel.toString());
     this.state = {
       ...this.state,
       html: newHTML
