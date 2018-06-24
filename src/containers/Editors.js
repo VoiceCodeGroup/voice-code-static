@@ -11,7 +11,6 @@ import { edit } from 'brace';
 
 const PageWrapper = styled.div`
   min-height: 100vh;
-  padding:1rem;
   width:100%
   background: #fff;
   display: flex;
@@ -86,19 +85,19 @@ export default class extends Component {
     }
   };
 
-  sendQuery = async () => {
+  sendQuery = async spokenText => {
     const dialogflowResult = await dialogflowAPI(this.state.spokenText);
     const codeVals = await this.EditorModel.performAction(dialogflowResult);
     await this.setState({ code: codeVals });
     this.compile();
   };
 
-  onSpeechResult = event => {
+  onSpeechResult = async event => {
     const last = event.results.length - 1;
     const spokenText = event.results[last][0].transcript;
-    this.setState({ spokenText });
-    console.log(dialogflowAPI(spokenText));
     tts(spokenText);
+    await this.setState({ spokenText });
+    this.sendQuery();
   };
 
   onBlur = event => {

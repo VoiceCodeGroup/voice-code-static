@@ -9,81 +9,17 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: 0.75em 0 0 0;
-`;
-
-const EditWrapper = styled.div`
-  width: 31%;
-  height: 20rem;
-  margin: 15px;
-  vertical-align: top;
-  border-style: solid;
-  border-radius: 2px;
-  border-width: 1px;
 `;
 
 export default class EditorGroup extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      htmlCode: ``,
-      cssCode: ``,
-      javascriptCode: ``,
-      code: ''
-    };
-  }
-
-  compile = () => {
-    this.setState({
-      code:
-        this.state.htmlCode +
-        '<style>' +
-        this.state.cssCode +
-        '</style><script>' +
-        this.state.javascriptCode +
-        '</script>'
-    });
-  };
-
-  onChange = (field, value) => {
-    this.setState({ [field]: value });
-    this.compile();
-    this.props.updateCode(this.state.code);
-  };
-
   render() {
     console.log(this.props.vals);
     const { html, css, js } = this.props.vals;
     return (
       <Wrapper>
-        <EditWrapper>
-          <CodeEditor
-            val={html}
-            onChange={this.onChange}
-            height={'100%'}
-            width={'100%'}
-            mode={'html'}
-          />
-        </EditWrapper>
-        <EditWrapper>
-          <CodeEditor
-            val={css}
-            onChange={this.onChange}
-            height={'100%'}
-            width={'100%'}
-            mode={'css'}
-          />
-        </EditWrapper>
-        <EditWrapper>
-          <CodeEditor
-            val={js}
-            onChange={this.onChange}
-            height={'100%'}
-            width={'100%'}
-            mode={'javascript'}
-          />
-        </EditWrapper>
+        <CodeEditor val={html} mode={'html'} />
+        <CodeEditor val={css} mode={'css'} />
+        <CodeEditor val={js} mode={'javascript'} />
       </Wrapper>
     );
   }

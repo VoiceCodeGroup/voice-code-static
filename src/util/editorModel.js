@@ -13,7 +13,7 @@ class Model {
   createElement = async tag => {
     console.log('Creating element: ' + tag);
     const newHTML = await this.formatCode(
-      `${this.state.html} <div><${tag}>Hello World!</${tag}></div>`
+      `<div>${this.state.html}<${tag}>Hello World!</${tag}></div>`
     );
     this.state = {
       ...this.state,
