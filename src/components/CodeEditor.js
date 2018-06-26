@@ -29,7 +29,7 @@ class CodeEditor extends Component {
   render() {
     const { mode, val } = this.props;
     return (
-      <Wrapper>
+      <Wrapper inFocus={this.props.inFocus}>
         <AceEditor
           ref={`${mode}Editor`}
           mode={mode}
@@ -46,6 +46,7 @@ class CodeEditor extends Component {
 }
 
 const Wrapper = styled.div`
+  border: ${props => (props.inFocus ? '3px solid #33dddd' : '')};
   width: 31%;
   height: 20rem;
   margin: 15px;

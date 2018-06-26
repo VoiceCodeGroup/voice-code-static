@@ -12,6 +12,7 @@ class Model {
       htmlModel: new HtmlModel()
     };
   }
+
   createElement = async tag => {
     console.log(this.state.htmlModel.toString());
     console.log('Creating element: ' + tag);
@@ -23,6 +24,10 @@ class Model {
     };
   };
 
+  switchEditor = editor => {
+    this.state.currentMode = editor;
+  };
+
   getVals = () => {
     return {
       html: this.state.html,
@@ -30,6 +35,8 @@ class Model {
       js: this.state.js
     };
   };
+
+  getMode = () => this.state.currentMode;
 
   formatCode = async code => {
     const formattedCode = await codeFormatter(code, this.state.currentMode);

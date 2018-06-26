@@ -52,7 +52,8 @@ export default class extends Component {
     execute: false,
     spokenText: 'create element div',
     defaultText: 'create element div',
-    queryResponse: ''
+    queryResponse: '',
+    currentMode: 'html'
   };
 
   componentDidMount() {
@@ -87,8 +88,11 @@ export default class extends Component {
 
   sendQuery = async spokenText => {
     const dialogflowResult = await dialogflowAPI(this.state.spokenText);
-    const codeVals = await this.EditorModel.performAction(dialogflowResult);
-    await this.setState({ code: codeVals });
+    await this.EditorModel.performAction(dialogflowResult);
+    await this.setState({
+      code: this.EditorModel.getVals(),
+      currentMode: this.EditorModel.getMode()
+    });
     this.compile();
   };
 
@@ -107,7 +111,11 @@ export default class extends Component {
   render() {
     return (
       <PageWrapper>
-        <EditorGroup updateCode={this.onEditorChange} vals={this.state.code} />
+        <EditorGroup
+          updateCode={this.onEditorChange}
+          vals={this.state.code}
+          mode={this.state.currentMode}
+        />
 
         <Wrapper>
           <button

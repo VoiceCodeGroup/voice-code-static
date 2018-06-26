@@ -17,9 +17,9 @@ export default class EditorGroup extends Component {
     const { html, css, js } = this.props.vals;
     return (
       <Wrapper>
-        <CodeEditor val={html} mode={'html'} />
-        <CodeEditor val={css} mode={'css'} />
-        <CodeEditor val={js} mode={'javascript'} />
+        <CodeEditor val={html} mode={'html'} inFocus={this.props.mode === 'html'} />
+        <CodeEditor val={css} mode={'css'} inFocus={this.props.mode === 'css'} />
+        <CodeEditor val={js} mode={'javascript'} inFocus={this.props.mode === 'js'} />
       </Wrapper>
     );
   }
