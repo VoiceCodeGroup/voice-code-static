@@ -6,7 +6,8 @@ export default async (code, mode) => {
       semi: false
     },
     css: {
-      printWidth: 100
+      printWidth: 100,
+      parser: 'postcss'
     },
     js: {
       printWidth: 100

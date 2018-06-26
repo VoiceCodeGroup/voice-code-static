@@ -1,5 +1,6 @@
 import codeFormatter from '../util/codeFormatter';
 import HtmlModel from './HtmlModel';
+import CSSModel from './CSSModel';
 
 class Model {
   constructor() {
@@ -9,12 +10,12 @@ class Model {
       js: '',
       previousState: [],
       currentMode: 'html',
-      htmlModel: new HtmlModel()
+      htmlModel: new HtmlModel(),
+      cssModel: new CSSModel()
     };
   }
 
   createElement = async tag => {
-    console.log(this.state.htmlModel.toString());
     console.log('Creating element: ' + tag);
     this.state.htmlModel.addElement(tag);
     const newHTML = await this.formatCode(this.state.htmlModel.toString());
@@ -26,6 +27,16 @@ class Model {
 
   switchEditor = editor => {
     this.state.currentMode = editor;
+  };
+
+  createStyle = async id => {
+    console.log('create style for id: ' + id);
+    this.state.cssModel.addStyle('id', id);
+    const newCSS = await this.formatCode(this.state.cssModel.toString());
+    this.state = {
+      ...this.state,
+      css: newCSS
+    };
   };
 
   getVals = () => {

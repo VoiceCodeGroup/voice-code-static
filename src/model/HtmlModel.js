@@ -3,6 +3,8 @@ class HtmlModel {
     this.html = {
       children: [this.h('div', { id: 'root' })]
     };
+
+    this.currentId = 1;
   }
 
   h = (tag, props, ...children) => {
@@ -29,7 +31,8 @@ class HtmlModel {
   };
 
   addElement = tag => {
-    const id = 'myID';
+    const id = this.currentId;
+    this.currentId++;
 
     this.html.children[0].children.push(this.h(tag, { id }, this.h('text', null, 'oh hello1')));
   };
