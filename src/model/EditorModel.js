@@ -1,4 +1,3 @@
-import codeFormatter from '../util/codeFormatter';
 import HtmlModel from './HtmlModel';
 import CSSModel from './CSSModel';
 
@@ -15,29 +14,42 @@ class Model {
     };
   }
 
-  createElement = async tag => {
+  createElement = async ({ tag }) => {
     console.log('Creating element: ' + tag);
     this.state.htmlModel.addElement(tag);
-    const newHTML = await this.formatCode(this.state.htmlModel.toString());
+    const newHTML = await this.state.htmlModel.toString();
     this.state = {
       ...this.state,
       html: newHTML
     };
   };
 
-  switchEditor = editor => {
+  switchEditor = ({ editor }) => {
     this.state.currentMode = editor;
+    console.log('EDITOR', editor);
   };
 
-  createStyle = async id => {
+  createStyle = async ({ id }) => {
     console.log('create style for id: ' + id);
     this.state.cssModel.addStyle('id', id);
-    const newCSS = await this.formatCode(this.state.cssModel.toString());
+    const newCSS = await this.state.cssModel.toString();
     this.state = {
       ...this.state,
       css: newCSS
     };
   };
+
+  addPropertyCSS = async ({ property, value }) => {
+    console.log(`add css property ${property} with value ${value}`);
+    this.state.cssModel.addProperty(property, value);
+    const newCSS = await this.state.cssModel.toString();
+    this.state = {
+      ...this.state,
+      css: newCSS
+    };
+  };
+
+  addStyleProperty;
 
   getVals = () => {
     return {
@@ -56,7 +68,7 @@ class Model {
 
   performAction = async ({ intent, params }) => {
     console.log('Perform', intent, params);
-    await this[intent](...params);
+    await this[intent](params);
     return this.getVals();
   };
 }

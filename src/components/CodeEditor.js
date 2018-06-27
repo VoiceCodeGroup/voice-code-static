@@ -21,8 +21,8 @@ class CodeEditor extends Component {
   updateEditor() {
     if (this.props.mode === 'html') {
       const editor = this.refs[`${this.props.mode}Editor`].editor;
-      editor.focus();
-      editor.moveCursorTo(1, 5);
+      // editor.focus();
+      // editor.moveCursorTo(1, 5);
     }
   }
 

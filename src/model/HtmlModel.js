@@ -1,3 +1,5 @@
+import codeFormatter from '../util/codeFormatter';
+
 class HtmlModel {
   constructor() {
     this.html = {
@@ -57,8 +59,10 @@ class HtmlModel {
     return htmlString;
   };
 
-  toString = () => {
-    return this.processElement(this.html);
+  toString = async () => {
+    const htmlString = this.processElement(this.html);
+    const formattedHTML = await codeFormatter(htmlString, 'html');
+    return formattedHTML;
   };
 }
 
@@ -69,33 +73,3 @@ export default HtmlModel;
 //   { id: 'second' },
 //   this.h('button', { id: 'button' }, this.h('text', { id: 'text' }, 'oh hello1'))
 // )
-
-// {
-//   id: 'root',
-//   selfEnding: false,
-//   startString: '<div>',
-//   endString: '</div>',
-//   children: [
-//     {
-//       id: 'second',
-//       selfEnding: false,
-//       startString: '<div>',
-//       endString: '</div>',
-//       children: [
-//         {
-//           id: 'button',
-//           selfEnding: false,
-//           startString: '<button>',
-//           endString: '</button>',
-//           children: [
-//             {
-//               selfEnding: true,
-//               startString: 'buttonText',
-//               endString: ''
-//             }
-//           ]
-//         }
-//       ]
-//     }
-//   ]
-// }

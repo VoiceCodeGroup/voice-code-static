@@ -74,7 +74,7 @@ export default class extends Component {
   };
 
   compile = () => {
-    const { html, css, js } = this.state.code;
+    const { html, css, js } = this.EditorModel.getVals();
     this.setState({
       compiledCode: `${html}<style>${css}</style><script>${js}</script>`
     });
@@ -87,13 +87,14 @@ export default class extends Component {
   };
 
   sendQuery = async spokenText => {
-    const dialogflowResult = await dialogflowAPI(this.state.spokenText);
+    const dialogflowResult = await dialogflowAPI(this.state.spokenText, this.EditorModel.getMode());
     await this.EditorModel.performAction(dialogflowResult);
-    await this.setState({
-      code: this.EditorModel.getVals(),
-      currentMode: this.EditorModel.getMode()
-    });
+
     this.compile();
+  };
+
+  onChange = event => {
+    this.setState({ spokenText: event.target.value });
   };
 
   onSpeechResult = async event => {
@@ -113,8 +114,8 @@ export default class extends Component {
       <PageWrapper>
         <EditorGroup
           updateCode={this.onEditorChange}
-          vals={this.state.code}
-          mode={this.state.currentMode}
+          vals={this.EditorModel.getVals()}
+          mode={this.EditorModel.getMode()}
         />
 
         <Wrapper>
@@ -133,6 +134,7 @@ export default class extends Component {
             type="text"
             size="50"
             value={this.state.spokenText}
+            onChange={this.onChange}
             onBlur={this.onBlur.bind(this)}
           />
           <button onClick={this.sendQuery}>Send Query</button>

@@ -1,11 +1,11 @@
-export default async spokenText => {
-  console.log(JSON.stringify({ text: spokenText }));
+export default async (spokenText, mode) => {
+  console.log(JSON.stringify({ text: `${mode} ${spokenText}` }));
   const dialogflowResponse = await fetch('https://voice-code.herokuapp.com/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ text: spokenText })
+    body: JSON.stringify({ text: `${mode} ${spokenText}` })
   });
 
   const body = await dialogflowResponse.json();
@@ -35,10 +35,13 @@ params looks like
   }
 */
 const normaliseParams = params => {
-  return Object.entries(params).map(param => {
+  let normalisedParams = {};
+  Object.entries(params).forEach(param => {
     const paramName = param[0];
     const paramType = param[1].kind;
     const paramValue = param[1][paramType];
-    return paramValue;
+    normalisedParams[paramName] = paramValue;
   });
+
+  return normalisedParams;
 };

@@ -1,3 +1,5 @@
+import codeFormatter from '../util/codeFormatter';
+
 class CSSModel {
   constructor() {
     this.styles = [];
@@ -13,7 +15,12 @@ class CSSModel {
     });
   };
 
-  toString() {
+  addProperty = (property, value) => {
+    // TODO: currently just adds to the first style
+    this.styles[0].props[property] = value;
+  };
+
+  toString = async () => {
     let cssString = '';
 
     // Create each style
@@ -22,15 +29,16 @@ class CSSModel {
       cssString = `${cssString}${style.selector} {`;
 
       // add each property e.g. width: 100px
-      Object.entries(style.props).map(prop => {
-        cssString += `${prop.name}: ${propvalue};`;
+      Object.entries(style.props).map(([key, value]) => {
+        cssString += `${key}: ${value};`;
       });
 
       cssString += '}';
-
-      console.log('CSS STRING', cssString);
     });
-  }
+
+    const formattedCSS = await codeFormatter(cssString, 'css');
+    return formattedCSS;
+  };
 }
 
 export default CSSModel;
