@@ -61,6 +61,10 @@ class Model {
     };
   };
 
+  addClickListener = async ({ id }) => {
+    console.log(`add click listener for id: ${id}`);
+  };
+
   addStyleProperty;
 
   getVals = () => {
