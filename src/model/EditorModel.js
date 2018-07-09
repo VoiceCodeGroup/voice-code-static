@@ -79,7 +79,7 @@ class Model {
   };
 
   performAction = async ({ intent, params }) => {
-    console.log('Perform', intent, params);
+    console.log(`Perform ${intent} intent, params:`, params);
     await this[intent](params);
     return this.getVals();
   };

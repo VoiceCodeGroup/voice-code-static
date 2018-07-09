@@ -24,7 +24,7 @@ class HtmlModel {
     const selfEnding = tag === 'input';
     let startString = `<${tag} `;
     Object.entries(props).map(prop => {
-      startString += `${prop[0]}="${prop[0]}"`;
+      startString += `${prop[0]}="${prop[1]}"`;
     });
 
     startString += selfEnding ? '/>' : '>';
