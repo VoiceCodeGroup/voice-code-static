@@ -13,7 +13,6 @@ const Wrapper = styled.div`
 
 export default class EditorGroup extends Component {
   render() {
-    console.log(this.props.vals);
     const { html, css, js } = this.props.vals;
     return (
       <Wrapper>

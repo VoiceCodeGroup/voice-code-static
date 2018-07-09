@@ -1,17 +1,18 @@
-export default async (spokenText, mode) => {
-  console.log(JSON.stringify({ text: `${mode} ${spokenText}` }));
+const dialogRequest = async (spokenText, mode) => {
+  console.log('Request to dialogflow', JSON.stringify({ text: `${spokenText}` }));
   const dialogflowResponse = await fetch('https://voice-code.herokuapp.com/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ text: `${mode} ${spokenText}` })
+    body: JSON.stringify({ text: `${spokenText}` })
   });
 
   const body = await dialogflowResponse.json();
-  console.log('BODY', body);
+  console.log('Body response from dialogflow', body);
   const intent = body.intent.displayName;
   const params = body.parameters.fields;
+  const context = extractContext(body.outputContexts);
   const normalisedParams = normaliseParams(params);
 
   return {
@@ -19,6 +20,13 @@ export default async (spokenText, mode) => {
     params: normalisedParams
   };
 };
+
+// this sets the context to 'html' in dialogflow
+export const init = async () => {
+  dialogRequest('switch to html');
+};
+
+export default dialogRequest;
 
 /*
 params looks like 
@@ -44,4 +52,8 @@ const normaliseParams = params => {
   });
 
   return normalisedParams;
+};
+
+const extractContext = rawContext => {
+  return rawContext;
 };

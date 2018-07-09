@@ -5,7 +5,7 @@ import Frame from '../components/Frame';
 import speechRecognition from '../util/speechRecognition';
 import tts from '../util/textToSpeech';
 import EditorModel from '../model/EditorModel';
-import dialogflowAPI from '../util/dialogflowAPI';
+import dialogflowAPI, { init } from '../util/dialogflowAPI';
 
 import { edit } from 'brace';
 
@@ -58,6 +58,7 @@ export default class extends Component {
 
   componentDidMount() {
     this.setState({ SpeechRecognition: new speechRecognition(this.onSpeechResult) });
+    init();
   }
 
   onEditorChange = val => {

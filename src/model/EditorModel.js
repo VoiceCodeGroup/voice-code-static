@@ -29,6 +29,18 @@ class Model {
     console.log('EDITOR', editor);
   };
 
+  switchEditorToHTML = () => {
+    this.state.currentMode = 'html';
+  };
+
+  switchEditorToCSS = () => {
+    this.state.currentMode = 'css';
+  };
+
+  switchEditorToJS = () => {
+    this.state.currentMode = 'js';
+  };
+
   createStyle = async ({ id }) => {
     console.log('create style for id: ' + id);
     this.state.cssModel.addStyle('id', id);
@@ -39,7 +51,7 @@ class Model {
     };
   };
 
-  addPropertyCSS = async ({ property, value }) => {
+  addProperty = async ({ property, value }) => {
     console.log(`add css property ${property} with value ${value}`);
     this.state.cssModel.addProperty(property, value);
     const newCSS = await this.state.cssModel.toString();
