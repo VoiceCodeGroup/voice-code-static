@@ -9,6 +9,7 @@ class HtmlModel {
     this.currentId = 1;
   }
 
+  // Create an element
   h = (tag, props, ...children) => {
     // Text is a special case as it has no enclosing tags and no children
     if (tag === 'text') {
@@ -32,13 +33,8 @@ class HtmlModel {
     return { startString, endString };
   };
 
-  addElement = tag => {
-    const id = this.currentId;
-    this.currentId++;
-
-    this.html.children[0].children.push(this.h(tag, { id }, this.h('text', null, 'oh hello1')));
-  };
-
+  // turn a dom element into a string
+  // first element is an empty dom node
   processElement = element => {
     let htmlString = '';
     let children = element.children;
@@ -63,6 +59,16 @@ class HtmlModel {
     const htmlString = this.processElement(this.html);
     const formattedHTML = await codeFormatter(htmlString, 'html');
     return formattedHTML;
+  };
+
+  //----------------------------------------------------------Actions-------------------------------------------//
+
+  // add an element to the 'dom' by pushing the created element
+  addElement = tag => {
+    const id = this.currentId;
+    this.currentId++;
+
+    this.html.children[0].children.push(this.h(tag, { id }, this.h('text', null, 'oh hello1')));
   };
 }
 

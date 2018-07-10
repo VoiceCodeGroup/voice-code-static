@@ -1,5 +1,6 @@
 import HtmlModel from './HtmlModel';
 import CSSModel from './CSSModel';
+import JSModel from './JSModel';
 
 class Model {
   constructor() {
@@ -7,27 +8,34 @@ class Model {
       html: '',
       css: '',
       js: '',
-      previousState: [],
       currentMode: 'html',
       htmlModel: new HtmlModel(),
-      cssModel: new CSSModel()
+      cssModel: new CSSModel(),
+      jsModel: new JSModel()
     };
   }
 
-  createElement = async ({ tag }) => {
-    console.log('Creating element: ' + tag);
-    this.state.htmlModel.addElement(tag);
-    const newHTML = await this.state.htmlModel.toString();
-    this.state = {
-      ...this.state,
-      html: newHTML
+  getVals = () => {
+    return {
+      html: this.state.html,
+      css: this.state.css,
+      js: this.state.js
     };
   };
 
-  switchEditor = ({ editor }) => {
-    this.state.currentMode = editor;
-    console.log('EDITOR', editor);
+  getMode = () => this.state.currentMode;
+
+  performAction = async ({ intent, params }) => {
+    console.log(`Perform ${intent} intent, params:`, params);
+    await this[intent](params);
+    return this.getVals();
   };
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////
+  //---------------------------------------ACTIONS-----------------------------------------------//
+  /////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // --------------------------------general-------------------------------//
 
   switchEditorToHTML = () => {
     this.state.currentMode = 'html';
@@ -40,6 +48,20 @@ class Model {
   switchEditorToJS = () => {
     this.state.currentMode = 'js';
   };
+
+  // --------------------------------html-------------------------------//
+
+  createElement = async ({ tag }) => {
+    console.log('Creating element: ' + tag);
+    this.state.htmlModel.addElement(tag);
+    const newHTML = await this.state.htmlModel.toString();
+    this.state = {
+      ...this.state,
+      html: newHTML
+    };
+  };
+
+  // --------------------------------css-------------------------------//
 
   createStyle = async ({ id }) => {
     console.log('create style for id: ' + id);
@@ -61,31 +83,26 @@ class Model {
     };
   };
 
+  // --------------------------------js-------------------------------//
+
   addClickListener = async ({ id }) => {
     console.log(`add click listener for id: ${id}`);
-  };
-
-  addStyleProperty;
-
-  getVals = () => {
-    return {
-      html: this.state.html,
-      css: this.state.css,
-      js: this.state.js
+    this.state.jsModel.addClickListener(id);
+    const newJS = await this.state.jsModel.toString();
+    this.state = {
+      ...this.state,
+      js: newJS
     };
   };
 
-  getMode = () => this.state.currentMode;
-
-  formatCode = async code => {
-    const formattedCode = await codeFormatter(code, this.state.currentMode);
-    return formattedCode;
-  };
-
-  performAction = async ({ intent, params }) => {
-    console.log(`Perform ${intent} intent, params:`, params);
-    await this[intent](params);
-    return this.getVals();
+  setProperty = async ({ id, property, value }) => {
+    console.log(`set ${property} to ${value} for id: ${id}`);
+    this.state.jsModel.setProperty(id, property, value);
+    const newJS = await this.state.jsModel.toString();
+    this.state = {
+      ...this.state,
+      js: newJS
+    };
   };
 }
 

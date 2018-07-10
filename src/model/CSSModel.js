@@ -5,21 +5,6 @@ class CSSModel {
     this.styles = [];
   }
 
-  addStyle = (selectorType, selectorTag) => {
-    // #id, or .class
-    const selector = `${selectorType === 'id' ? '#' : '.'}${selectorTag}`;
-    this.styles.push({
-      name: selectorTag,
-      selector,
-      props: {}
-    });
-  };
-
-  addProperty = (property, value) => {
-    // TODO: currently just adds to the first style
-    this.styles[0].props[property] = value;
-  };
-
   toString = async () => {
     let cssString = '';
 
@@ -38,6 +23,23 @@ class CSSModel {
 
     const formattedCSS = await codeFormatter(cssString, 'css');
     return formattedCSS;
+  };
+
+  //----------------------------------------------------------Actions-------------------------------------------//
+
+  addStyle = (selectorType, selectorTag) => {
+    // #id, or .class
+    const selector = `${selectorType === 'id' ? '#' : '.'}${selectorTag}`;
+    this.styles.push({
+      name: selectorTag,
+      selector,
+      props: {}
+    });
+  };
+
+  addProperty = (property, value) => {
+    // TODO: currently just adds to the first style
+    this.styles[0].props[property] = value;
   };
 }
 
