@@ -6,6 +6,7 @@ import speechRecognition from '../util/speechRecognition';
 import tts from '../util/textToSpeech';
 import EditorModel from '../model/EditorModel';
 import dialogflowAPI, { init } from '../util/dialogflowAPI';
+import Button from '../components/Button';
 
 import { edit } from 'brace';
 
@@ -104,14 +105,14 @@ export default class extends Component {
         />
 
         <Wrapper>
-          <button
+          <Button
             onClick={() => {
               this.state.SpeechRecognition.start();
               this.setState({ spokenText: '' });
             }}
           >
             Speech Recognition
-          </button>
+          </Button>
           <br />
           <label>Query: </label>
           <input
@@ -122,7 +123,7 @@ export default class extends Component {
             onChange={this.onChange}
             onBlur={this.onBlur.bind(this)}
           />
-          <button onClick={this.sendQuery}>Send Query</button>
+          <Button onClick={this.sendQuery}>Send Query</Button>
           <br />
           <label>Response: </label>
           <input
