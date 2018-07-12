@@ -45,7 +45,7 @@ class JSModel {
 
   //----------------------------------------------------------Actions-------------------------------------------//
 
-  addClickListener = id => {
+  addClickListener = ({ id }) => {
     this.codeSections.push({
       type: 'BLOCK',
       startString: `document.getElementById("${id}").addEventListener("click", function(){`,
@@ -54,7 +54,7 @@ class JSModel {
     });
   };
 
-  setProperty = (id, property, value) => {
+  setProperty = ({ id, property, value }) => {
     this.codeSections[0].childSections.push({
       type: 'STATEMENT',
       string: `document.getElementById("${id}").style.${property} = "${value}";`

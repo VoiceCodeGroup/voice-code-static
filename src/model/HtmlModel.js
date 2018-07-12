@@ -64,7 +64,7 @@ class HtmlModel {
   //----------------------------------------------------------Actions-------------------------------------------//
 
   // add an element to the 'dom' by pushing the created element
-  addElement = tag => {
+  createElement = ({ tag }) => {
     const id = this.ids.pop();
     this.ids.push(id);
 

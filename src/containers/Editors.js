@@ -42,7 +42,6 @@ const EditWrapper = styled.div`
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
     this.onEditorChange = this.onEditorChange.bind(this);
     this.EditorModel = new EditorModel();
   }
@@ -66,14 +65,6 @@ export default class extends Component {
     this.setState({ code: val });
   };
 
-  handleChange = value => {
-    this.setState({ spokenText: value });
-  };
-
-  insertCode = responseText => {
-    this.setState({ code: `${this.state.javascriptCode}\n${responseText}` });
-  };
-
   compile = () => {
     const { html, css, js } = this.EditorModel.getVals();
     this.setState({
@@ -81,17 +72,10 @@ export default class extends Component {
     });
   };
 
-  onClick = () => {
-    if (this.state.executeCode) {
-      this.state.executeCode(this.state.javascriptCode);
-    }
-  };
-
-  sendQuery = async spokenText => {
+  sendQuery = async () => {
     const dialogflowResult = await dialogflowAPI(this.state.spokenText, this.EditorModel.getMode());
     await this.EditorModel.performAction(dialogflowResult);
-
-    this.compile();
+    await this.compile();
   };
 
   onChange = event => {

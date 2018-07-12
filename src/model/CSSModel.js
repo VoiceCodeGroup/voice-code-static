@@ -27,7 +27,11 @@ class CSSModel {
 
   //----------------------------------------------------------Actions-------------------------------------------//
 
-  addStyle = (selectorType, selectorTag) => {
+  createStyle = ({ id }) => {
+    // TODO
+    const selectorType = 'id';
+    const selectorTag = id;
+    console.log(`Creating an ${selectorType} style for ${selectorTag}`);
     // #id, or .class
     const selector = `${selectorType === 'id' ? '#' : '.'}${selectorTag}`;
     this.styles.push({
@@ -37,7 +41,7 @@ class CSSModel {
     });
   };
 
-  addProperty = (property, value) => {
+  addProperty = ({ property, value }) => {
     // TODO: currently just adds to the first style
     this.styles[0].props[property] = value;
   };
