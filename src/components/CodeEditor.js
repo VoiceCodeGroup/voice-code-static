@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import Paper from '@material-ui/core/Paper';
 
 import brace from 'brace';
 import AceEditor from 'react-ace';
@@ -28,8 +29,9 @@ class CodeEditor extends Component {
 
   render() {
     const { mode, val } = this.props;
+    const height = this.props.inFocus ? 15 : 2;
     return (
-      <Wrapper inFocus={this.props.inFocus}>
+      <Wrapper elevation={height} inFocus={this.props.inFocus}>
         <AceEditor
           ref={`${mode}Editor`}
           mode={mode}
@@ -45,11 +47,11 @@ class CodeEditor extends Component {
   }
 }
 
-const Wrapper = styled.div`
-  border: ${props => (props.inFocus ? '3px solid #33dddd' : '')};
+const Wrapper = styled(Paper)`
   width: 31%;
   height: 20rem;
-  margin: 15px;
+  margin: 12px;
+  border: ${props => (props.inFocus ? '2px solid #33dddd' : '')};
 `;
 
 export default CodeEditor;
