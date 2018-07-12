@@ -22,11 +22,8 @@ class Frame extends Component {
     const iframe = this.refs.iframe;
     const { html, css, js } = this.props.content;
     const document = iframe.contentDocument;
-    const head = document.getElementsByTagName('head')[0];
-    document.body.innerHTML = this.props.content;
-
-    iframe.contentWindow.document.write(`${html}<style>${css}</style><script>${js}</script>`);
-    iframe.contentWindow.document.close();
+    document.write(`${html}<style>${css}</style><script>${js}</script>`);
+    document.close();
   }
 
   /**

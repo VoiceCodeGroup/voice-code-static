@@ -6,7 +6,7 @@ class HtmlModel {
       children: [this.h('div', { id: 'root' })]
     };
 
-    this.currentId = 1;
+    this.ids = ['one', 'two', 'three', 'four'];
   }
 
   // Create an element
@@ -65,8 +65,8 @@ class HtmlModel {
 
   // add an element to the 'dom' by pushing the created element
   addElement = tag => {
-    const id = this.currentId;
-    this.currentId++;
+    const id = this.ids.pop();
+    this.ids.push(id);
 
     this.html.children[0].children.push(this.h(tag, { id }, this.h('text', null, 'oh hello1')));
   };
