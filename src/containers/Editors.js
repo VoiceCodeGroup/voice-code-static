@@ -7,6 +7,8 @@ import tts from '../util/textToSpeech';
 import EditorModel from '../model/EditorModel';
 import dialogflowAPI, { init } from '../util/dialogflowAPI';
 import Button from '../components/Button';
+import TextInput from '../components/TextInput';
+import AppBar from '../components/AppBar';
 
 import { edit } from 'brace';
 
@@ -26,18 +28,9 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   display: flex;
-  flex-direction: column;
   width: 100%;
   margin: 0.75em 0 0 0;
   height: 50vh;
-`;
-
-const EditWrapper = styled.div`
-  display: inline-block;
-  width: 31%;
-  height: 20rem;
-  margin: 15px;
-  vertical-align: top;
 `;
 
 export default class extends Component {
@@ -98,6 +91,11 @@ export default class extends Component {
   render() {
     return (
       <PageWrapper>
+        <AppBar
+          sendQuery={this.sendQuery}
+          onInputChange={this.onChange}
+          spokenText={this.state.spokenText}
+        />
         <EditorGroup
           updateCode={this.onEditorChange}
           vals={this.EditorModel.getVals()}
@@ -114,27 +112,17 @@ export default class extends Component {
             Speech Recognition
           </Button>
           <br />
-          <label>Query: </label>
-          <input
+          <TextInput
             id="query"
-            type="text"
-            size="50"
+            label="Query"
             value={this.state.spokenText}
             onChange={this.onChange}
-            onBlur={this.onBlur.bind(this)}
           />
           <Button onClick={this.sendQuery}>Send Query</Button>
           <br />
-          <label>Response: </label>
-          <input
-            id="response"
-            size="50"
-            name="response"
-            value={this.state.queryResponse}
-            readOnly
-          />
-          <Frame content={this.state.compiledCode} getExecute={this.getCodeFunction} />
+          <TextInput label="Response" value={this.state.queryResponse} />
         </Wrapper>
+        <Frame content={this.state.compiledCode} getExecute={this.getCodeFunction} />
       </PageWrapper>
     );
   }

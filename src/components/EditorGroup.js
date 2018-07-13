@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import CodeEditor from '../components/CodeEditor';
 
 const Wrapper = styled.div`
-  background: #aedede;
   display: flex;
   vertical-align: top;
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 50%;
 `;
 
 export default class EditorGroup extends Component {
