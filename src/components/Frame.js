@@ -4,7 +4,6 @@ import styled from 'styled-components';
 const StyledFrame = styled.iframe`
   width: 1000px;
   min-height: 80vh;
-  border: 1px solid red;
 `;
 
 class Frame extends Component {

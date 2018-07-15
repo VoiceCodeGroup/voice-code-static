@@ -1,9 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import Frame from './Frame';
 import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
+import React from 'react';
+import Frame from './Frame';
 
 const styles = {
   dialogPaper: {}

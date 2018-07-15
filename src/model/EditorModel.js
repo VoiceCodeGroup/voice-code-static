@@ -22,7 +22,7 @@ class Model {
 
   getMode = () => this.state.currentMode;
 
-  performAction = async ({ intent, params }) => {
+  performAction = async ({ intent, params }, openContext) => {
     if (this[intent]) {
       // GENERAL ACTION
       console.log(`Perform General ${intent} intent, params:`, params);
@@ -32,7 +32,7 @@ class Model {
       console.log(`Perform ${this.state.currentMode} ${intent} intent, params:`, params);
       const mode = this.state.currentMode;
       const model = this.state[mode].model;
-      await model[intent](params);
+      await model[intent](params, openContext);
       this.state[mode].val = await model.toString();
     }
 

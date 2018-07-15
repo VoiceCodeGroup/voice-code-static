@@ -64,7 +64,8 @@ class HtmlModel {
   //----------------------------------------------------------Actions-------------------------------------------//
 
   // add an element to the 'dom' by pushing the created element
-  createElement = ({ tag }) => {
+  createElement = ({ tag }, openContext) => {
+    openContext('createElement');
     const id = this.ids.pop();
     this.html.children[0].children.push(this.h(tag, { id }, this.h('text', null, 'oh hello1')));
   };

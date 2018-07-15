@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import EditorGroup from '../components/EditorGroup';
-import Frame from '../components/Frame';
 import speechRecognition from '../util/speechRecognition';
 import tts from '../util/textToSpeech';
-import EditorModel from '../model/EditorModel';
 import dialogflowAPI, { init } from '../util/dialogflowAPI';
-import PreviewButton from '../components/PreviewButton';
-import AppBar from '../components/AppBar';
-import PreviewModal from '../components/PreviewModal';
 
-import { edit } from 'brace';
+import AppBar from '../components/AppBar';
+import EditorGroup from '../components/EditorGroup';
+import PreviewButton from '../components/PreviewButton';
+import PreviewModal from '../components/PreviewModal';
+import EditorModel from '../model/EditorModel';
+import ContextDialogGroup from '../components/ContextDialogGroup';
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -23,15 +22,15 @@ const PageWrapper = styled.div`
 `;
 
 export default class extends Component {
+  EditorModel = new EditorModel();
+
   state = {
     compiledCode: '',
     spokenText: 'create element div',
     defaultText: 'create element div',
-    currentMode: 'html',
+    context: '',
     preview: false
   };
-
-  EditorModel = new EditorModel();
 
   componentDidMount() {
     this.setState({ SpeechRecognition: new speechRecognition(this.onSpeechResult) });
@@ -47,7 +46,7 @@ export default class extends Component {
 
   sendQuery = async () => {
     const dialogflowResult = await dialogflowAPI(this.state.spokenText, this.EditorModel.getMode());
-    await this.EditorModel.performAction(dialogflowResult);
+    await this.EditorModel.performAction(dialogflowResult, this.openContext);
     await this.compile();
   };
 
@@ -72,6 +71,14 @@ export default class extends Component {
 
   handlePreviewClose = () => this.setState({ preview: false });
 
+  openContext = context => {
+    this.setState({ context });
+  };
+
+  closeContext = () => {
+    this.setState({ context: '' });
+  };
+
   render() {
     return (
       <PageWrapper>
@@ -83,6 +90,8 @@ export default class extends Component {
         />
         <EditorGroup vals={this.EditorModel.getVals()} mode={this.EditorModel.getMode()} />
         <PreviewButton onClick={this.handlePreviewOpen} />
+
+        <ContextDialogGroup context={this.state.context} handleClose={this.closeContext} />
         <PreviewModal
           isOpen={this.state.preview}
           handleClose={this.handlePreviewClose}
