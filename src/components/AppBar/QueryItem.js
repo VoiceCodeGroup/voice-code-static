@@ -5,6 +5,12 @@ import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/PlayCircleFilled';
 import Input from '@material-ui/core/Input';
 
+const StyledInput = styled(Input)`
+  && {
+    color: white;
+  }
+`;
+
 export default props => (
   <div>
     <StyledInput
@@ -19,9 +25,3 @@ export default props => (
     </IconButton>
   </div>
 );
-
-const StyledInput = styled(Input)`
-  && {
-    color: white;
-  }
-`;

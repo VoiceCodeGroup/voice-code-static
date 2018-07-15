@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+const StyledFrame = styled.iframe`
+  width: 1000px;
+  min-height: 80vh;
+  border: 1px solid red;
+`;
+
 class Frame extends Component {
   /**
    * Called after mounting the component. Triggers initial update of
@@ -19,7 +25,7 @@ class Frame extends Component {
   }
 
   updateIframe() {
-    const iframe = this.refs.iframe;
+    const iframe = this.iframe;
     const { html, css, js } = this.props.content;
     const document = iframe.contentDocument;
     document.write(`${html}<style>${css}</style><script>${js}</script>`);
@@ -30,11 +36,14 @@ class Frame extends Component {
    * This component renders just and iframe
    */
   render() {
-    return <iframe ref="iframe" width="100%" height="100%" />;
+    return (
+      <StyledFrame
+        innerRef={x => {
+          this.iframe = x;
+        }}
+      />
+    );
   }
 }
-export default styled(Frame)`
-  width: 100%;
-  min-height: 100vh;
-  border: none;
-`;
+
+export default Frame;

@@ -11,8 +11,8 @@ const StyledPreviewButton = styled(Button)`
   }
 `;
 
-const PreviewButton = () => (
-  <StyledPreviewButton variant="fab" color="secondary">
+const PreviewButton = ({ onClick }) => (
+  <StyledPreviewButton onClick={onClick} variant="fab" color="secondary">
     <PreviewIcon />
   </StyledPreviewButton>
 );

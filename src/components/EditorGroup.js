@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   width: 100%;
   height: 50%;
   margin-bottom: 30px;
+  margin-top: 75px;
 `;
 
 export default class EditorGroup extends Component {

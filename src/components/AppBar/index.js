@@ -25,7 +25,7 @@ const styles = {
 function ButtonAppBar(props) {
   const { classes } = props;
   return (
-    <AppBar position="static">
+    <AppBar position="absolute">
       <Toolbar>
         <Typography variant="title" color="inherit" className={classes.flex}>
           VoiceCode

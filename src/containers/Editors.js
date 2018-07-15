@@ -8,6 +8,7 @@ import EditorModel from '../model/EditorModel';
 import dialogflowAPI, { init } from '../util/dialogflowAPI';
 import PreviewButton from '../components/PreviewButton';
 import AppBar from '../components/AppBar';
+import PreviewModal from '../components/PreviewModal';
 
 import { edit } from 'brace';
 
@@ -22,29 +23,20 @@ const PageWrapper = styled.div`
 `;
 
 export default class extends Component {
-  constructor(props) {
-    super(props);
-    this.onEditorChange = this.onEditorChange.bind(this);
-    this.EditorModel = new EditorModel();
-  }
   state = {
-    code: {},
     compiledCode: '',
-    execute: false,
     spokenText: 'create element div',
     defaultText: 'create element div',
-    currentMode: 'html'
+    currentMode: 'html',
+    preview: false
   };
+
+  EditorModel = new EditorModel();
 
   componentDidMount() {
     this.setState({ SpeechRecognition: new speechRecognition(this.onSpeechResult) });
     init();
   }
-
-  onEditorChange = val => {
-    console.log(val);
-    this.setState({ code: val });
-  };
 
   compile = () => {
     const { html, css, js } = this.EditorModel.getVals();
@@ -76,9 +68,9 @@ export default class extends Component {
     this.sendQuery();
   };
 
-  onBlur = event => {
-    this.setState({ spokenText: event.target.value });
-  };
+  handlePreviewOpen = () => this.setState({ preview: true });
+
+  handlePreviewClose = () => this.setState({ preview: false });
 
   render() {
     return (
@@ -89,13 +81,13 @@ export default class extends Component {
           spokenText={this.state.spokenText}
           startSpeechRecognition={this.startSpeechRecognition}
         />
-        <EditorGroup
-          updateCode={this.onEditorChange}
-          vals={this.EditorModel.getVals()}
-          mode={this.EditorModel.getMode()}
+        <EditorGroup vals={this.EditorModel.getVals()} mode={this.EditorModel.getMode()} />
+        <PreviewButton onClick={this.handlePreviewOpen} />
+        <PreviewModal
+          isOpen={this.state.preview}
+          handleClose={this.handlePreviewClose}
+          codeVals={this.state.compiledCode}
         />
-        <PreviewButton />
-        <Frame content={this.state.compiledCode} getExecute={this.getCodeFunction} />
       </PageWrapper>
     );
   }
