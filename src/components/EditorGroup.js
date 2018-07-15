@@ -9,6 +9,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 50%;
+  margin-bottom: 30px;
 `;
 
 export default class EditorGroup extends Component {

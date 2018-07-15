@@ -49,7 +49,7 @@ class CodeEditor extends Component {
 
 const Wrapper = styled(Paper)`
   width: 31%;
-  height: 20rem;
+  height: 80vh;
   margin: 12px;
   border: ${props => (props.inFocus ? '2px solid #33dddd' : '')};
 `;

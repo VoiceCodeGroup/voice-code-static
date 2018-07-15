@@ -30,7 +30,12 @@ function ButtonAppBar(props) {
         <Typography variant="title" color="inherit" className={classes.flex}>
           VoiceCode
         </Typography>
-        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+        <IconButton
+          className={classes.menuButton}
+          onClick={props.startSpeechRecognition}
+          color="inherit"
+          aria-label="Menu"
+        >
           <VoiceRecordIcon />
         </IconButton>
         <QueryItem

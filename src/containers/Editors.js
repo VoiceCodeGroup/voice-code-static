@@ -22,17 +22,6 @@ const PageWrapper = styled.div`
   align-items: center;
 `;
 
-const Wrapper = styled.div`
-  background: ${props => (props.left ? '#dedede' : 'white')};
-  vertical-align: top;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  width: 100%;
-  margin: 0.75em 0 0 0;
-  height: 50vh;
-`;
-
 export default class extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +34,6 @@ export default class extends Component {
     execute: false,
     spokenText: 'create element div',
     defaultText: 'create element div',
-    queryResponse: '',
     currentMode: 'html'
   };
 
@@ -76,6 +64,11 @@ export default class extends Component {
     this.setState({ spokenText: event.target.value });
   };
 
+  startSpeechRecognition = () => {
+    this.state.SpeechRecognition.start();
+    this.setState({ spokenText: '' });
+  };
+
   onSpeechResult = async event => {
     const last = event.results.length - 1;
     const spokenText = event.results[last][0].transcript;
@@ -95,33 +88,13 @@ export default class extends Component {
           sendQuery={this.sendQuery}
           onInputChange={this.onChange}
           spokenText={this.state.spokenText}
+          startSpeechRecognition={this.startSpeechRecognition}
         />
         <EditorGroup
           updateCode={this.onEditorChange}
           vals={this.EditorModel.getVals()}
           mode={this.EditorModel.getMode()}
         />
-
-        <Wrapper>
-          <Button
-            onClick={() => {
-              this.state.SpeechRecognition.start();
-              this.setState({ spokenText: '' });
-            }}
-          >
-            Speech Recognition
-          </Button>
-          <br />
-          <TextInput
-            id="query"
-            label="Query"
-            value={this.state.spokenText}
-            onChange={this.onChange}
-          />
-          <Button onClick={this.sendQuery}>Send Query</Button>
-          <br />
-          <TextInput label="Response" value={this.state.queryResponse} />
-        </Wrapper>
         <Frame content={this.state.compiledCode} getExecute={this.getCodeFunction} />
       </PageWrapper>
     );
