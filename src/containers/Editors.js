@@ -6,8 +6,7 @@ import speechRecognition from '../util/speechRecognition';
 import tts from '../util/textToSpeech';
 import EditorModel from '../model/EditorModel';
 import dialogflowAPI, { init } from '../util/dialogflowAPI';
-import Button from '../components/Button';
-import TextInput from '../components/TextInput';
+import PreviewButton from '../components/PreviewButton';
 import AppBar from '../components/AppBar';
 
 import { edit } from 'brace';
@@ -95,6 +94,7 @@ export default class extends Component {
           vals={this.EditorModel.getVals()}
           mode={this.EditorModel.getMode()}
         />
+        <PreviewButton />
         <Frame content={this.state.compiledCode} getExecute={this.getCodeFunction} />
       </PageWrapper>
     );
