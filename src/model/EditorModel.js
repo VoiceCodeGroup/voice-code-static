@@ -34,7 +34,7 @@ class Model {
       console.log(`Perform ${this.state.currentMode} ${intent} intent, params:`, params);
       const mode = this.state.currentMode;
       const model = this.state[mode].model;
-      await model[intent](params, openContext);
+      await model[intent](params, this.updateContext);
       this.state[mode].val = await model.toString();
     }
 
@@ -44,18 +44,15 @@ class Model {
   // --------------------------------general actions-------------------------------//
 
   switchEditorToHTML = () => {
-    const context = ['html'];
-    this.updateContext(context);
+    this.updateContext(['html']);
   };
 
   switchEditorToCSS = () => {
-    const context = ['css'];
-    this.updateContext(context);
+    this.updateContext(['css']);
   };
 
   switchEditorToJS = () => {
-    const context = ['js'];
-    this.updateContext(context);
+    this.updateContext(['js']);
   };
 }
 

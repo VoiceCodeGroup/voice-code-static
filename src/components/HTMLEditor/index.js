@@ -4,14 +4,18 @@ import CreateElementDialog from './CreateElementDialog';
 
 class HTMLEditor extends Component {
   handleClose = () => {
-    this.state.open = false;
+    this.props.updateContext(['html']);
   };
 
   render() {
     return (
       <React.Fragment>
         <CodeEditor mode="html" val={this.props.val} inFocus={this.props.inFocus} />
-        <CreateElementDialog />
+        <CreateElementDialog
+          isOpen={this.props.context[1] === 'createElement'}
+          handleClose={this.handleClose}
+          context={'Create Element Steve'}
+        />
       </React.Fragment>
     );
   }

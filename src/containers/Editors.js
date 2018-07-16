@@ -95,7 +95,11 @@ export default class extends Component {
           spokenText={this.state.spokenText}
           startSpeechRecognition={this.startSpeechRecognition}
         />
-        <EditorGroup vals={this.EditorModel.getVals()} context={this.state.context} />
+        <EditorGroup
+          vals={this.EditorModel.getVals()}
+          context={this.state.context}
+          updateContext={this.updateContext}
+        />
         <PreviewButton onClick={this.handlePreviewOpen} />
 
         <PreviewModal

@@ -22,9 +22,24 @@ export default class EditorGroup extends Component {
     const context = this.props.context;
     return (
       <Wrapper>
-        <HTMLEditor val={html} inFocus={context[0] === 'html'} context={context} />
-        <CSSEditor val={css} inFocus={context[0] === 'css'} context={context} />
-        <JSEditor val={js} inFocus={context[0] === 'js'} context={context} />
+        <HTMLEditor
+          val={html}
+          inFocus={context[0] === 'html'}
+          context={context}
+          updateContext={this.props.updateContext}
+        />
+        <CSSEditor
+          val={css}
+          inFocus={context[0] === 'css'}
+          context={context}
+          updateContext={this.props.updateContext}
+        />
+        <JSEditor
+          val={js}
+          inFocus={context[0] === 'js'}
+          context={context}
+          updateContext={this.props.updateContext}
+        />
       </Wrapper>
     );
   }

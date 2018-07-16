@@ -1,4 +1,5 @@
 import codeFormatter from '../util/codeFormatter';
+import ElementModel from './ElementModel';
 
 class HtmlModel {
   constructor() {
@@ -64,10 +65,12 @@ class HtmlModel {
   //----------------------------------------------------------Actions-------------------------------------------//
 
   // add an element to the 'dom' by pushing the created element
-  createElement = ({ tag }, openContext) => {
-    openContext('createElement');
-    const id = this.ids.pop();
-    this.html.children[0].children.push(this.h(tag, { id }, this.h('text', null, 'oh hello1')));
+  createElement = ({ tag }, updateContext) => {
+    this.currentElement = new ElementModel(tag);
+    updateContext(['html', 'createElement']);
+
+    // const id = this.ids.pop();
+    // this.html.children[0].children.push(this.h(tag, { id }, this.h('text', null, 'oh hello1')));
   };
 }
 
