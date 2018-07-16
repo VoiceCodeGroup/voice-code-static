@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import CodeEditor from '../components/CodeEditor';
+import CodeEditor from './CodeEditor';
+import HTMLEditor from './HTMLEditor';
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,7 +19,7 @@ export default class EditorGroup extends Component {
     const { html, css, js } = this.props.vals;
     return (
       <Wrapper>
-        <CodeEditor val={html} mode={'html'} inFocus={this.props.mode === 'html'} />
+        <HTMLEditor inFocus={this.props.mode === 'html'} />
         <CodeEditor val={css} mode={'css'} inFocus={this.props.mode === 'css'} />
         <CodeEditor val={js} mode={'javascript'} inFocus={this.props.mode === 'js'} />
       </Wrapper>
