@@ -3,7 +3,9 @@ import CSSModel from './CSSModel';
 import JSModel from './JSModel';
 
 class Model {
-  constructor() {
+  constructor(updateContext) {
+    this.updateContext = updateContext;
+
     this.state = {
       currentMode: 'html',
       html: { model: new HtmlModel(), val: '' },
@@ -42,15 +44,18 @@ class Model {
   // --------------------------------general actions-------------------------------//
 
   switchEditorToHTML = () => {
-    this.state.currentMode = 'html';
+    const context = ['html'];
+    this.updateContext(context);
   };
 
   switchEditorToCSS = () => {
-    this.state.currentMode = 'css';
+    const context = ['css'];
+    this.updateContext(context);
   };
 
   switchEditorToJS = () => {
-    this.state.currentMode = 'js';
+    const context = ['js'];
+    this.updateContext(context);
   };
 }
 

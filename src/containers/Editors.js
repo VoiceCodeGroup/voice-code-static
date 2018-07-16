@@ -9,7 +9,6 @@ import EditorGroup from '../components/EditorGroup';
 import PreviewButton from '../components/PreviewButton';
 import PreviewModal from '../components/PreviewModal';
 import EditorModel from '../model/EditorModel';
-import ContextDialogGroup from '../components/ContextDialogGroup';
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -22,13 +21,16 @@ const PageWrapper = styled.div`
 `;
 
 export default class extends Component {
-  EditorModel = new EditorModel();
+  constructor(props) {
+    super(props);
+    this.EditorModel = new EditorModel(this.updateContext);
+  }
 
   state = {
     compiledCode: '',
     spokenText: 'create element div',
     defaultText: 'create element div',
-    context: '',
+    context: ['html'],
     preview: false
   };
 
@@ -75,6 +77,11 @@ export default class extends Component {
     this.setState({ context });
   };
 
+  updateContext = context => {
+    console.log('Updating context', context);
+    this.setState({ context });
+  };
+
   closeContext = () => {
     this.setState({ context: '' });
   };
@@ -88,10 +95,9 @@ export default class extends Component {
           spokenText={this.state.spokenText}
           startSpeechRecognition={this.startSpeechRecognition}
         />
-        <EditorGroup vals={this.EditorModel.getVals()} mode={this.EditorModel.getMode()} />
+        <EditorGroup vals={this.EditorModel.getVals()} context={this.state.context} />
         <PreviewButton onClick={this.handlePreviewOpen} />
 
-        <ContextDialogGroup context={this.state.context} handleClose={this.closeContext} />
         <PreviewModal
           isOpen={this.state.preview}
           handleClose={this.handlePreviewClose}
