@@ -32,16 +32,57 @@ class HtmlModel {
     return htmlString;
   };
 
+  // Create an element
+  h = (tag, props, ...children) => {
+    // Text is a special case as it has no enclosing tags and no children
+    if (tag === 'text') {
+      return { tag: 'text', text: children[0] };
+    }
+    const tagStrings = this.constructTagStrings(tag, props);
+
+    return { tag, props, ...tagStrings, children };
+  };
+
+  // Construct <div> and </div> strings
+  constructTagStrings = (tag, props) => {
+    const selfEnding = tag === 'input';
+    let startString = `<${tag} `;
+    Object.entries(props).map(prop => {
+      startString += `${prop[0]}="${prop[1]}"`;
+    });
+
+    startString += selfEnding ? '/>' : '>';
+    const endString = selfEnding ? ':' : `</${tag}>`;
+    return { startString, endString };
+  };
+
   toString = async () => {
     const htmlString = this.processElement(this.html);
     const formattedHTML = await codeFormatter(htmlString, 'html');
     return formattedHTML;
   };
 
+  performAction = async ({ intent, params }, updateContext, context) => {
+    console.log('HTML action');
+    console.log(context);
+    if (!context[1]) {
+      if (this[intent]) {
+        //
+        console.log(`Perform HTML ${intent} intent, params:`, params);
+        await this[intent](params, updateContext);
+      }
+    } else {
+      if (context[1] === 'createElement') {
+        await this.currentElement.performAction({ intent, params }, updateContext, context);
+      }
+    }
+  };
+
   //----------------------------------------------------------Actions-------------------------------------------//
 
   // add an element to the 'dom' by pushing the created element
   createElement = ({ tag }, updateContext) => {
+    console.log(`Create Element`);
     this.currentElement = new ElementModel(tag);
     updateContext(['html', 'createElement']);
 
@@ -57,27 +98,3 @@ export default HtmlModel;
 //   { id: 'second' },
 //   this.h('button', { id: 'button' }, this.h('text', { id: 'text' }, 'oh hello1'))
 // )
-
-// // Create an element
-// h = (tag, props, ...children) => {
-//   // Text is a special case as it has no enclosing tags and no children
-//   if (tag === 'text') {
-//     return { tag: 'text', text: children[0] };
-//   }
-//   const tagStrings = this.constructTagStrings(tag, props);
-
-//   return { tag, props, ...tagStrings, children };
-// };
-
-// // Construct <div> and </div> strings
-// constructTagStrings = (tag, props) => {
-//   const selfEnding = tag === 'input';
-//   let startString = `<${tag} `;
-//   Object.entries(props).map(prop => {
-//     startString += `${prop[0]}="${prop[1]}"`;
-//   });
-
-//   startString += selfEnding ? '/>' : '>';
-//   const endString = selfEnding ? ':' : `</${tag}>`;
-//   return { startString, endString };
-// };

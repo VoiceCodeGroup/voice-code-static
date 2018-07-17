@@ -24,17 +24,19 @@ class Model {
 
   getMode = () => this.state.currentMode;
 
-  performAction = async ({ intent, params }) => {
-    if (this[intent]) {
-      // GENERAL ACTION
-      console.log(`Perform General ${intent} intent, params:`, params);
-      await this[intent](params);
+  performAction = async ({ intent, params }, context) => {
+    if (context[0] === '') {
+      if (this[intent]) {
+        // GENERAL ACTION
+        console.log(`Perform General ${intent} intent, params:`, params);
+        await this[intent](params);
+      }
     } else {
       // html, css or js action
       console.log(`Perform ${this.state.currentMode} ${intent} intent, params:`, params);
       const mode = this.state.currentMode;
       const model = this.state[mode].model;
-      await model[intent](params, this.updateContext);
+      await model.performAction({ intent, params }, this.updateContext, context);
       this.state[mode].val = await model.toString();
     }
 

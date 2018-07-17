@@ -48,7 +48,7 @@ export default class extends Component {
 
   sendQuery = async () => {
     const dialogflowResult = await dialogflowAPI(this.state.spokenText, this.EditorModel.getMode());
-    await this.EditorModel.performAction(dialogflowResult);
+    await this.EditorModel.performAction(dialogflowResult, this.state.context);
     await this.compile();
   };
 

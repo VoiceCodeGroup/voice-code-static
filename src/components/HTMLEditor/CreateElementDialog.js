@@ -5,6 +5,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import QuerySection from '../AppBar/QueryItem';
+import PropertiesSection from '../PropertiesSection';
 
 const styles = {
   dialogPaper: {}
@@ -34,7 +35,7 @@ const PreviewModal = ({
       <DialogContent>
         <DialogContentText>{context}</DialogContentText>
         <DialogContentText>Properties</DialogContentText>
-        <Typography>Hello</Typography>
+        <PropertiesSection properties={properties} />
         <QuerySection
           onInputChange={onInputChange}
           sendQuery={sendQuery}

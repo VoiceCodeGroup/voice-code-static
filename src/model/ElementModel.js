@@ -57,8 +57,19 @@ class ElementModel {
     return formattedHTML;
   };
 
+  performAction = async ({ intent, params }, updateContext, context) => {
+    console.log('ELEMENT action');
+    if (this[intent]) {
+      //
+      console.log(`Perform General ${intent} intent, params:`, params);
+      await this[intent](params, updateContext);
+    }
+  };
+
   //----------------------------------------------------------Actions-------------------------------------------//
-  setProperty = () => {};
+  setElementProperty = ({ property, value }) => {
+    this.element.props[property] = value;
+  };
 }
 
 export default ElementModel;
