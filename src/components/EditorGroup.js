@@ -20,13 +20,20 @@ export default class EditorGroup extends Component {
   render() {
     const { html, css, js } = this.props.vals;
     const context = this.props.context;
+    const EditorModel = this.props.model;
+    const HTMLModel = EditorModel.state.html.model;
     return (
       <Wrapper>
         <HTMLEditor
           val={html}
+          model={HTMLModel}
           inFocus={context[0] === 'html'}
           context={context}
           updateContext={this.props.updateContext}
+          onInputChange={this.props.onInputChange}
+          sendQuery={this.props.sendQuery}
+          spokenText={this.props.spokenText}
+          startSpeechRecognition={this.props.startSpeechRecognition}
         />
         <CSSEditor
           val={css}

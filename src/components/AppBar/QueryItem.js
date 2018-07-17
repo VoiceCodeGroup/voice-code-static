@@ -1,18 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import TextInput from '../TextInput';
-import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/PlayCircleFilled';
 import Input from '@material-ui/core/Input';
+import IconButton from '@material-ui/core/IconButton';
+import VoiceRecordIcon from '@material-ui/icons/SettingsVoice';
 
 const StyledInput = styled(Input)`
   && {
-    color: white;
   }
 `;
 
 export default props => (
   <div>
+    <IconButton onClick={props.startSpeechRecognition} color="inherit" aria-label="Menu">
+      <VoiceRecordIcon />
+    </IconButton>
     <StyledInput
       color="secondary"
       id="query"

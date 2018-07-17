@@ -24,7 +24,7 @@ class Model {
 
   getMode = () => this.state.currentMode;
 
-  performAction = async ({ intent, params }, openContext) => {
+  performAction = async ({ intent, params }) => {
     if (this[intent]) {
       // GENERAL ACTION
       console.log(`Perform General ${intent} intent, params:`, params);

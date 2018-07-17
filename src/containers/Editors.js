@@ -48,7 +48,7 @@ export default class extends Component {
 
   sendQuery = async () => {
     const dialogflowResult = await dialogflowAPI(this.state.spokenText, this.EditorModel.getMode());
-    await this.EditorModel.performAction(dialogflowResult, this.openContext);
+    await this.EditorModel.performAction(dialogflowResult);
     await this.compile();
   };
 
@@ -73,17 +73,9 @@ export default class extends Component {
 
   handlePreviewClose = () => this.setState({ preview: false });
 
-  openContext = context => {
-    this.setState({ context });
-  };
-
   updateContext = context => {
     console.log('Updating context', context);
     this.setState({ context });
-  };
-
-  closeContext = () => {
-    this.setState({ context: '' });
   };
 
   render() {
@@ -99,6 +91,11 @@ export default class extends Component {
           vals={this.EditorModel.getVals()}
           context={this.state.context}
           updateContext={this.updateContext}
+          onInputChange={this.onChange}
+          sendQuery={this.sendQuery}
+          spokenText={this.state.spokenText}
+          startSpeechRecognition={this.startSpeechRecognition}
+          model={this.EditorModel}
         />
         <PreviewButton onClick={this.handlePreviewOpen} />
 

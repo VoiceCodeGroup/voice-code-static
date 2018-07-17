@@ -8,14 +8,22 @@ class HTMLEditor extends Component {
   };
 
   render() {
+    const HTMLModel = this.props.model;
     return (
       <React.Fragment>
         <CodeEditor mode="html" val={this.props.val} inFocus={this.props.inFocus} />
-        <CreateElementDialog
-          isOpen={this.props.context[1] === 'createElement'}
-          handleClose={this.handleClose}
-          context={'Create Element Steve'}
-        />
+        {HTMLModel.currentElement && (
+          <CreateElementDialog
+            model={HTMLModel.currentElement}
+            isOpen={this.props.context[1] === 'createElement'}
+            handleClose={this.handleClose}
+            context={'Create Element Steve'}
+            onInputChange={this.props.onInputChange}
+            sendQuery={this.props.sendQuery}
+            spokenText={this.props.spokenText}
+            startSpeechRecognition={this.props.startSpeechRecognition}
+          />
+        )}
       </React.Fragment>
     );
   }

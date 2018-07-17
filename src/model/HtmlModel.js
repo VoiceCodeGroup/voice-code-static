@@ -10,30 +10,6 @@ class HtmlModel {
     this.ids = ['one', 'two', 'three', 'four', 'five'];
   }
 
-  // Create an element
-  h = (tag, props, ...children) => {
-    // Text is a special case as it has no enclosing tags and no children
-    if (tag === 'text') {
-      return { tag: 'text', text: children[0] };
-    }
-    const tagStrings = this.constructTagStrings(tag, props);
-
-    return { tag, props, ...tagStrings, children };
-  };
-
-  // Construct <div> and </div> strings
-  constructTagStrings = (tag, props) => {
-    const selfEnding = tag === 'input';
-    let startString = `<${tag} `;
-    Object.entries(props).map(prop => {
-      startString += `${prop[0]}="${prop[1]}"`;
-    });
-
-    startString += selfEnding ? '/>' : '>';
-    const endString = selfEnding ? ':' : `</${tag}>`;
-    return { startString, endString };
-  };
-
   // turn a dom element into a string
   // first element is an empty dom node
   processElement = element => {
@@ -81,3 +57,27 @@ export default HtmlModel;
 //   { id: 'second' },
 //   this.h('button', { id: 'button' }, this.h('text', { id: 'text' }, 'oh hello1'))
 // )
+
+// // Create an element
+// h = (tag, props, ...children) => {
+//   // Text is a special case as it has no enclosing tags and no children
+//   if (tag === 'text') {
+//     return { tag: 'text', text: children[0] };
+//   }
+//   const tagStrings = this.constructTagStrings(tag, props);
+
+//   return { tag, props, ...tagStrings, children };
+// };
+
+// // Construct <div> and </div> strings
+// constructTagStrings = (tag, props) => {
+//   const selfEnding = tag === 'input';
+//   let startString = `<${tag} `;
+//   Object.entries(props).map(prop => {
+//     startString += `${prop[0]}="${prop[1]}"`;
+//   });
+
+//   startString += selfEnding ? '/>' : '>';
+//   const endString = selfEnding ? ':' : `</${tag}>`;
+//   return { startString, endString };
+// };
