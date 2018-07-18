@@ -1,17 +1,18 @@
 import codeFormatter from '../util/codeFormatter';
 
 class ElementModel {
-  constructor(tag) {
-    this.element = this.h(tag);
+  constructor(tag, updateHTML) {
+    this.model = this.h(tag);
   }
 
   // Create an element
-  h = (tag, props, ...children) => {
+  h = (tag, props = {}, children = []) => {
     // Text is a special case as it has no enclosing tags and no children
     if (tag === 'text') {
       return { tag: 'text', text: children[0] };
     }
     const tagStrings = this.constructTagStrings(tag, props);
+    console.log('ELEMENT', children);
 
     return { tag, props, ...tagStrings, children };
   };
@@ -68,8 +69,14 @@ class ElementModel {
 
   //----------------------------------------------------------Actions-------------------------------------------//
   setElementProperty = ({ property, value }) => {
-    this.element.props[property] = value;
+    this.model.props[property] = value;
   };
+
+  addChildElement = element => {
+    this.model.children.push(element);
+  };
+
+  finishCreateElement = () => {};
 }
 
 export default ElementModel;

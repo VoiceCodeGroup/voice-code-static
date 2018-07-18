@@ -2,9 +2,9 @@ import codeFormatter from '../util/codeFormatter';
 import ElementModel from './ElementModel';
 
 class HtmlModel {
-  constructor() {
+  constructor(update) {
     this.html = {
-      children: [this.h('div', { id: 'root' })]
+      children: [new ElementModel('div')]
     };
 
     this.ids = ['one', 'two', 'three', 'four', 'five'];
@@ -17,14 +17,14 @@ class HtmlModel {
     let children = element.children;
     if (children) {
       children.forEach(child => {
-        if (child.text) {
-          htmlString += child.text;
+        if (child.model.text) {
+          htmlString += child.model.text;
         } else {
-          htmlString += child.startString;
+          htmlString += child.model.startString;
           if (child.children) {
             htmlString += this.processElement(child);
           }
-          htmlString += child.endString;
+          htmlString += child.model.endString;
         }
       });
     }
@@ -32,35 +32,15 @@ class HtmlModel {
     return htmlString;
   };
 
-  // Create an element
-  h = (tag, props, ...children) => {
-    // Text is a special case as it has no enclosing tags and no children
-    if (tag === 'text') {
-      return { tag: 'text', text: children[0] };
-    }
-    const tagStrings = this.constructTagStrings(tag, props);
-
-    return { tag, props, ...tagStrings, children };
-  };
-
-  // Construct <div> and </div> strings
-  constructTagStrings = (tag, props) => {
-    const selfEnding = tag === 'input';
-    let startString = `<${tag} `;
-    Object.entries(props).map(prop => {
-      startString += `${prop[0]}="${prop[1]}"`;
-    });
-
-    startString += selfEnding ? '/>' : '>';
-    const endString = selfEnding ? ':' : `</${tag}>`;
-    return { startString, endString };
-  };
-
   toString = async () => {
     const htmlString = this.processElement(this.html);
+    console.log(htmlString);
     const formattedHTML = await codeFormatter(htmlString, 'html');
     return formattedHTML;
   };
+
+  // Callback to complete an element create/update
+  updateHTML = () => {};
 
   performAction = async ({ intent, params }, updateContext, context) => {
     console.log('HTML action');
@@ -84,10 +64,10 @@ class HtmlModel {
   createElement = ({ tag }, updateContext) => {
     console.log(`Create Element`);
     this.currentElement = new ElementModel(tag);
+    console.log(this.html.children[0]);
+    this.html.children[0].addChildElement(this.currentElement);
+    console.log(this.html.children[0]);
     updateContext(['html', 'createElement']);
-
-    // const id = this.ids.pop();
-    // this.html.children[0].children.push(this.h(tag, { id }, this.h('text', null, 'oh hello1')));
   };
 }
 

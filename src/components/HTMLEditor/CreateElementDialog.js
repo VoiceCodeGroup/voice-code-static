@@ -22,7 +22,7 @@ const PreviewModal = ({
   startSpeechRecognition,
   model
 }) => {
-  const properties = model.element.props;
+  const properties = model.model.props;
   console.log('properties', properties);
   return (
     <Dialog

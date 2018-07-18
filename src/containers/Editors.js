@@ -46,12 +46,6 @@ export default class extends Component {
     });
   };
 
-  sendQuery = async () => {
-    const dialogflowResult = await dialogflowAPI(this.state.spokenText, this.EditorModel.getMode());
-    await this.EditorModel.performAction(dialogflowResult, this.state.context);
-    await this.compile();
-  };
-
   onChange = event => {
     this.setState({ spokenText: event.target.value });
   };
@@ -67,6 +61,12 @@ export default class extends Component {
     tts(spokenText);
     await this.setState({ spokenText });
     this.sendQuery();
+  };
+
+  sendQuery = async () => {
+    const dialogflowResult = await dialogflowAPI(this.state.spokenText, this.EditorModel.getMode());
+    await this.EditorModel.performAction(dialogflowResult, this.state.context);
+    await this.compile();
   };
 
   handlePreviewOpen = () => this.setState({ preview: true });

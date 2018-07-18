@@ -1,7 +1,7 @@
 import React from 'react';
 import Property from './Property';
 
-const PropertiesSection = ({ properties }) => {
+const PropertiesSection = ({ properties = {} }) => {
   return (
     <React.Fragment>
       {Object.entries(properties).map(([key, value]) => {
