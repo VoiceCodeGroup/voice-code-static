@@ -10,20 +10,31 @@ const StyledInput = styled(Input)`
   }
 `;
 
-export default props => (
-  <div>
-    <IconButton onClick={props.startSpeechRecognition} color="inherit" aria-label="Menu">
-      <VoiceRecordIcon />
-    </IconButton>
-    <StyledInput
-      color="secondary"
-      id="query"
-      label="Query"
-      value={props.spokenText}
-      onChange={props.onInputChange}
-    />
-    <IconButton onClick={props.sendQuery} color="inherit" aria-label="Menu">
-      <SendIcon />
-    </IconButton>
-  </div>
-);
+export default ({ startSpeechRecognition, spokenText, onInputChange, sendQuery }) => {
+  const onKeyPress = event => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      sendQuery();
+    }
+  };
+
+  return (
+    <div>
+      <IconButton onClick={startSpeechRecognition} color="inherit" aria-label="Menu">
+        <VoiceRecordIcon />
+      </IconButton>
+      <StyledInput
+        color="secondary"
+        id="query"
+        label="Query"
+        value={spokenText}
+        onChange={onInputChange}
+        onKeyPress={onKeyPress}
+        autoFocus
+      />
+      <IconButton onClick={sendQuery} color="inherit" aria-label="Menu">
+        <SendIcon />
+      </IconButton>
+    </div>
+  );
+};

@@ -8,7 +8,7 @@ class Model {
 
     this.state = {
       currentMode: 'html',
-      html: { model: new HtmlModel(), val: '' },
+      html: { model: new HtmlModel(updateContext), val: '' },
       css: { model: new CSSModel(), val: '' },
       js: { model: new JSModel(), val: '' }
     };
@@ -36,7 +36,7 @@ class Model {
       console.log(`Perform ${this.state.currentMode} ${intent} intent, params:`, params);
       const mode = this.state.currentMode;
       const model = this.state[mode].model;
-      await model.performAction({ intent, params }, this.updateContext, context);
+      await model.performAction({ intent, params }, context);
       this.state[mode].val = await model.toString();
     }
 

@@ -23,7 +23,7 @@ const PreviewModal = ({
   model
 }) => {
   const properties = model.model.props;
-  console.log('properties', properties);
+
   return (
     <Dialog
       classes={{ paper: classes.dialogPaper }}

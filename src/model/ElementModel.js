@@ -1,8 +1,9 @@
 import codeFormatter from '../util/codeFormatter';
 
 class ElementModel {
-  constructor(tag, updateHTML) {
-    this.model = this.h(tag);
+  constructor(updateContext, tag, props = {}, children = []) {
+    this.model = this.h(tag, props, children);
+    this.updateContext = updateContext;
   }
 
   // Create an element
@@ -12,7 +13,6 @@ class ElementModel {
       return { tag: 'text', text: children[0] };
     }
     const tagStrings = this.constructTagStrings(tag, props);
-    console.log('ELEMENT', children);
 
     return { tag, props, ...tagStrings, children };
   };
@@ -30,53 +30,71 @@ class ElementModel {
     return { startString, endString };
   };
 
-  // turn a dom element into a string
-  // first element is an empty dom node
-  processElement = element => {
-    let htmlString = '';
-    let children = element.children;
-    if (children) {
-      children.forEach(child => {
-        if (child.text) {
-          htmlString += child.text;
-        } else {
-          htmlString += child.startString;
-          if (child.children) {
-            htmlString += this.processElement(child);
-          }
-          htmlString += child.endString;
-        }
-      });
-    }
-
-    return htmlString;
+  getProps = () => {
+    return this.model.props;
   };
 
-  toString = async () => {
-    const htmlString = this.processElement(this.html);
-    const formattedHTML = await codeFormatter(htmlString, 'html');
-    return formattedHTML;
+  getTag = () => {
+    return this.model.tag;
   };
 
-  performAction = async ({ intent, params }, updateContext, context) => {
+  getStartString = () => {
+    return this.model.startString;
+  };
+
+  getEndString = () => {
+    return this.model.endString;
+  };
+
+  getChildren = () => {
+    return this.model.children;
+  };
+
+  isText = () => {
+    return this.model.text && true;
+  };
+
+  getText = () => {
+    return this.model.text;
+  };
+
+  updateModel = (tag, props = {}, children = []) => {
+    this.model = this.h(tag, props, children);
+  };
+
+  performAction = async ({ intent, params }, context) => {
     console.log('ELEMENT action');
     if (this[intent]) {
       //
       console.log(`Perform General ${intent} intent, params:`, params);
-      await this[intent](params, updateContext);
+      await this[intent](params, context);
     }
   };
 
   //----------------------------------------------------------Actions-------------------------------------------//
   setElementProperty = ({ property, value }) => {
-    this.model.props[property] = value;
+    const currentProps = this.model.props;
+    const newProps = { ...currentProps, [property]: value };
+    this.updateModel(this.getTag(), newProps, this.getChildren());
   };
 
   addChildElement = element => {
     this.model.children.push(element);
   };
 
-  finishCreateElement = () => {};
+  removeChildElement = childID => {
+    console.log('Removing', childID, this.model.children);
+    const newChildren = this.model.children.filter(child => {
+      const id = child.getProps().id;
+      return id !== childID;
+    });
+
+    this.updateModel(this.getTag(), this.getProps()), newChildren;
+  };
+
+  finishCreateElement = () => {
+    this.updateContext(['html']);
+  };
 }
 
 export default ElementModel;

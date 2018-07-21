@@ -2,58 +2,101 @@ import codeFormatter from '../util/codeFormatter';
 import ElementModel from './ElementModel';
 
 class HtmlModel {
-  constructor(update) {
+  constructor(updateContext) {
     this.html = {
-      children: [new ElementModel('div')]
+      root: new ElementModel(updateContext, 'div', { id: 'root' })
     };
-
-    this.ids = ['one', 'two', 'three', 'four', 'five'];
+    this.updateContext = updateContext;
   }
 
   // turn a dom element into a string
   // first element is an empty dom node
   processElement = element => {
     let htmlString = '';
-    let children = element.children;
-    if (children) {
-      children.forEach(child => {
-        if (child.model.text) {
-          htmlString += child.model.text;
-        } else {
-          htmlString += child.model.startString;
-          if (child.children) {
-            htmlString += this.processElement(child);
-          }
-          htmlString += child.model.endString;
-        }
-      });
+    if (element.isText()) {
+      htmlString += element.getText();
+    } else {
+      htmlString += element.getStartString();
+
+      if (element.getChildren()) {
+        element.getChildren().forEach(child => {
+          htmlString += this.processElement(child);
+        });
+      }
+
+      htmlString += element.getEndString();
     }
 
     return htmlString;
   };
 
   toString = async () => {
-    const htmlString = this.processElement(this.html);
-    console.log(htmlString);
+    const htmlString = this.processElement(this.html.root);
+
     const formattedHTML = await codeFormatter(htmlString, 'html');
     return formattedHTML;
   };
 
-  // Callback to complete an element create/update
-  updateHTML = () => {};
+  getElementByID = id => {
+    const stack = [this.html.root];
+    const found = [];
+    while (stack.length > 0) {
+      let v = stack.pop();
+      let currentID = v.getProps().id;
+      if (currentID === id) {
+        return v;
+      }
 
-  performAction = async ({ intent, params }, updateContext, context) => {
+      if (!found.includes(currentID)) {
+        found.push(currentID);
+        v.getChildren().forEach(child => {
+          stack.push(child);
+        });
+      }
+    }
+
+    return false;
+  };
+
+  removeElementByID = id => {
+    const stack = [this.html.root];
+    const found = [];
+    let element;
+    while (stack.length > 0) {
+      let currentElement = stack.pop();
+      let currentID = currentElement.getProps().id;
+      console.log('Current Element', currentElement);
+
+      if (!found.includes(currentID)) {
+        found.push(currentID);
+        currentElement.getChildren().forEach(child => {
+          let childID = child.getProps().id;
+          if (childID === id) {
+            console.log('Parent before removing child', currentElement);
+            currentElement.removeChildElement(child);
+            console.log('Parent after removing child', currentElement);
+            element = child;
+          }
+          stack.push(child);
+        });
+      }
+    }
+
+    console.log('ELEMENT', element);
+    return element;
+  };
+
+  performAction = async ({ intent, params }, context) => {
     console.log('HTML action');
-    console.log(context);
     if (!context[1]) {
       if (this[intent]) {
         //
         console.log(`Perform HTML ${intent} intent, params:`, params);
-        await this[intent](params, updateContext);
+        await this[intent](params);
       }
     } else {
       if (context[1] === 'createElement') {
-        await this.currentElement.performAction({ intent, params }, updateContext, context);
+        await this.currentElement.performAction({ intent, params }, context);
       }
     }
   };
@@ -61,13 +104,20 @@ class HtmlModel {
   //----------------------------------------------------------Actions-------------------------------------------//
 
   // add an element to the 'dom' by pushing the created element
-  createElement = ({ tag }, updateContext) => {
+  createElement = ({ tag }) => {
     console.log(`Create Element`);
-    this.currentElement = new ElementModel(tag);
-    console.log(this.html.children[0]);
-    this.html.children[0].addChildElement(this.currentElement);
-    console.log(this.html.children[0]);
-    updateContext(['html', 'createElement']);
+    this.currentElement = new ElementModel(this.updateContext, tag);
+    this.html.root.addChildElement(this.currentElement);
+    console.log('ADDED CHILD', this.html.root);
+    this.updateContext(['html', 'createElement']);
+  };
+
+  // id, id = child, parent to be nested under
+  nestElement = ({ childID, parentID }) => {
+    console.log(`Nest element ${childID} under ${parentID}`);
+    console.log('ADDED CHILD', this.html.root);
+    const child = this.removeElementByID(childID);
+    this.getElementByID(parentID).addChildElement(child);
   };
 }
 
