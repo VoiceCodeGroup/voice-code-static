@@ -3,8 +3,9 @@ import CodeEditor from '../CodeEditor';
 import CreateElementDialog from './CreateElementDialog';
 
 class HTMLEditor extends Component {
-  handleClose = () => {
-    this.props.updateContext(['html']);
+  handleClose = async () => {
+    // because sendQuery is also used on click, the first argument would be 'event'
+    await this.props.sendQuery(null, 'close window');
   };
 
   render() {

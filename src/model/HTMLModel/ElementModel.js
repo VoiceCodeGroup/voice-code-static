@@ -1,5 +1,3 @@
-import codeFormatter from '../util/codeFormatter';
-
 class ElementModel {
   constructor(updateContext, tag, props = {}, children = []) {
     this.model = this.h(tag, props, children);
@@ -65,8 +63,7 @@ class ElementModel {
   performAction = async ({ intent, params }, context) => {
     console.log('ELEMENT action');
     if (this[intent]) {
-      //
-      console.log(`Perform General ${intent} intent, params:`, params);
+      //      console.log(`Perform General ${intent} intent, params:`, params);
       await this[intent](params, context);
     }
   };

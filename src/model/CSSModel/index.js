@@ -1,4 +1,4 @@
-import codeFormatter from '../util/codeFormatter';
+import codeFormatter from '../../util/codeFormatter';
 
 class CSSModel {
   constructor() {

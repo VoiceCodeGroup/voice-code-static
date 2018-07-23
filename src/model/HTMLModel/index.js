@@ -1,7 +1,7 @@
-import codeFormatter from '../util/codeFormatter';
+import codeFormatter from '../../util/codeFormatter';
 import ElementModel from './ElementModel';
 
-class HtmlModel {
+class HTMLModel {
   constructor(updateContext) {
     this.html = {
       root: new ElementModel(updateContext, 'div', { id: 'root' })
@@ -121,7 +121,7 @@ class HtmlModel {
   };
 }
 
-export default HtmlModel;
+export default HTMLModel;
 
 // this.h(
 //   'div',

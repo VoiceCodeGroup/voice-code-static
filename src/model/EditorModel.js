@@ -1,4 +1,4 @@
-import HtmlModel from './HtmlModel';
+import HTMLModel from './HTMLModel';
 import CSSModel from './CSSModel';
 import JSModel from './JSModel';
 
@@ -8,7 +8,7 @@ class Model {
 
     this.state = {
       currentMode: 'html',
-      html: { model: new HtmlModel(updateContext), val: '' },
+      html: { model: new HTMLModel(updateContext), val: '' },
       css: { model: new CSSModel(), val: '' },
       js: { model: new JSModel(), val: '' }
     };
