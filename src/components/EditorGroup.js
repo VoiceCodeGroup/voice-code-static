@@ -21,7 +21,8 @@ export default class EditorGroup extends Component {
     const { html, css, js } = this.props.vals;
     const context = this.props.context;
     const EditorModel = this.props.model;
-    const HTMLModel = EditorModel.state.html.model;
+    const HTMLModel = EditorModel.getHTMLModel();
+    const CSSModel = EditorModel.getCSSModel();
     return (
       <Wrapper>
         <HTMLEditor
@@ -37,6 +38,7 @@ export default class EditorGroup extends Component {
         />
         <CSSEditor
           val={css}
+          model={CSSModel}
           inFocus={context[0] === 'css'}
           context={context}
           updateContext={this.props.updateContext}

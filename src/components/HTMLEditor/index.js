@@ -18,7 +18,7 @@ class HTMLEditor extends Component {
             model={HTMLModel.currentElement}
             isOpen={this.props.context[1] === 'createElement'}
             handleClose={this.handleClose}
-            context={'Create Element Steve'}
+            context={'Create Element'}
             onInputChange={this.props.onInputChange}
             sendQuery={this.props.sendQuery}
             spokenText={this.props.spokenText}

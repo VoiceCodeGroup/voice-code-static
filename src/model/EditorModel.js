@@ -9,32 +9,38 @@ class Model {
     this.state = {
       currentMode: 'html',
       html: { model: new HTMLModel(updateContext), val: '' },
-      css: { model: new CSSModel(), val: '' },
-      js: { model: new JSModel(), val: '' }
+      css: { model: new CSSModel(updateContext), val: '' },
+      js: { model: new JSModel(updateContext), val: '' }
     };
   }
 
-  getVals = () => {
-    return {
-      html: this.state.html.val,
-      css: this.state.css.val,
-      js: this.state.js.val
-    };
-  };
+  getVals = () => ({
+    html: this.state.html.val,
+    css: this.state.css.val,
+    js: this.state.js.val
+  });
+
+  getHTMLModel = () => this.state.html.model;
+
+  getCSSModel = () => this.state.css.model;
+
+  getJSModel = () => this.state.js.model;
 
   getMode = () => this.state.currentMode;
 
   performAction = async ({ intent, params }, context) => {
-    if (context[0] === '') {
+    console.log('CONTEXT', context);
+    if (!context[1] && this[intent]) {
       if (this[intent]) {
         // GENERAL ACTION
         console.log(`Perform General ${intent} intent, params:`, params);
         await this[intent](params);
       }
     } else {
+      const mode = context[0];
       // html, css or js action
-      console.log(`Perform ${this.state.currentMode} ${intent} intent, params:`, params);
-      const mode = this.state.currentMode;
+      console.log(`Perform ${mode} ${intent} intent, params:`, params);
+
       const model = this.state[mode].model;
       await model.performAction({ intent, params }, context);
       this.state[mode].val = await model.toString();

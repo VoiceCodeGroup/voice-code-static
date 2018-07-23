@@ -1,8 +1,10 @@
 import codeFormatter from '../../util/codeFormatter';
+import StyleModel from './StyleModel';
 
 class CSSModel {
-  constructor() {
+  constructor(updateContext) {
     this.styles = [];
+    this.updateContext = updateContext;
   }
 
   toString = async () => {
@@ -25,20 +27,36 @@ class CSSModel {
     return formattedCSS;
   };
 
+  performAction = async ({ intent, params }, context) => {
+    console.log('CSS action');
+    if (!context[1]) {
+      if (this[intent]) {
+        //
+        console.log(`Perform CSS ${intent} intent, params:`, params);
+        await this[intent](params);
+      }
+    } else {
+      if (context[1] === 'createStyle') {
+        await this.currentStyle.performAction({ intent, params }, context);
+      }
+    }
+  };
+
   //----------------------------------------------------------Actions-------------------------------------------//
 
   createStyle = ({ id }) => {
-    // TODO
-    const selectorType = 'id';
-    const selectorTag = id;
-    console.log(`Creating an ${selectorType} style for ${selectorTag}`);
-    // #id, or .class
-    const selector = `${selectorType === 'id' ? '#' : '.'}${selectorTag}`;
-    this.styles.push({
-      name: selectorTag,
-      selector,
-      props: {}
-    });
+    this.currentStyle = new StyleModel(this.updateContext, id);
+    this.updateContext(['css', 'createStyle']);
+    // const selectorType = 'id';
+    // const selectorTag = id;
+    // console.log(`Creating an ${selectorType} style for ${selectorTag}`);
+    // // #id, or .class
+    // const selector = `${selectorType === 'id' ? '#' : '.'}${selectorTag}`;
+    // this.styles.push({
+    //   name: selectorTag,
+    //   selector,
+    //   props: {}
+    // });
   };
 
   addProperty = ({ property, value }) => {

@@ -11,7 +11,7 @@ const styles = {
   dialogPaper: {}
 };
 
-const PreviewModal = ({
+const StyleDialog = ({
   classes,
   isOpen,
   handleClose,
@@ -22,7 +22,7 @@ const PreviewModal = ({
   startSpeechRecognition,
   model
 }) => {
-  const properties = model.getProps();
+  const properties = model.props || {};
 
   return (
     <Dialog
@@ -47,4 +47,4 @@ const PreviewModal = ({
   );
 };
 
-export default withStyles(styles)(PreviewModal);
+export default withStyles(styles)(StyleDialog);

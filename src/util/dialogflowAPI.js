@@ -1,4 +1,4 @@
-const dialogRequest = async (spokenText, mode) => {
+const dialogRequest = async spokenText => {
   console.log('Request to dialogflow', JSON.stringify({ text: `${spokenText}` }));
   const dialogflowResponse = await fetch('https://voice-code.herokuapp.com/', {
     method: 'POST',
