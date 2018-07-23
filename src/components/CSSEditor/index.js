@@ -9,7 +9,7 @@ class CSSEditor extends Component {
   render() {
     return (
       <React.Fragment>
-        <CodeEditor mode="css" val={this.props.val} inFocus={this.props.inFocus} />
+        <CodeEditor mode="css" label="CSS" val={this.props.val} inFocus={this.props.inFocus} />
       </React.Fragment>
     );
   }

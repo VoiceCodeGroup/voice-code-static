@@ -10,6 +10,20 @@ import 'brace/mode/html';
 import 'brace/mode/css';
 import 'brace/theme/tomorrow';
 
+const Wrapper = styled(Paper)`
+  width: 31%;
+  height: 80vh;
+  margin: 12px;
+  border: ${props => (props.inFocus ? '2px solid #33dddd' : '')};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Label = styled.p`
+  margin: 7px;
+`;
+
 class CodeEditor extends Component {
   componentDidMount() {
     this.updateEditor();
@@ -28,10 +42,11 @@ class CodeEditor extends Component {
   }
 
   render() {
-    const { mode, val } = this.props;
+    const { mode, val, label } = this.props;
     const height = this.props.inFocus ? 15 : 2;
     return (
       <Wrapper elevation={height} inFocus={this.props.inFocus}>
+        <Label>{label}</Label>
         <AceEditor
           ref={`${mode}Editor`}
           mode={mode}
@@ -46,12 +61,5 @@ class CodeEditor extends Component {
     );
   }
 }
-
-const Wrapper = styled(Paper)`
-  width: 31%;
-  height: 80vh;
-  margin: 12px;
-  border: ${props => (props.inFocus ? '2px solid #33dddd' : '')};
-`;
 
 export default CodeEditor;

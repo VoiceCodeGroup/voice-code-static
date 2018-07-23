@@ -9,7 +9,12 @@ class JSEditor extends Component {
   render() {
     return (
       <React.Fragment>
-        <CodeEditor mode="js" val={this.props.val} inFocus={this.props.inFocus} />
+        <CodeEditor
+          mode="js"
+          label="JavaScript"
+          val={this.props.val}
+          inFocus={this.props.inFocus}
+        />
       </React.Fragment>
     );
   }
