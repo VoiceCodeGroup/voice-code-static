@@ -1,3 +1,5 @@
+import codeFormatter from '../../util/codeFormatter';
+
 class ElementModel {
   constructor(updateContext, tag, props = {}, children = []) {
     this.model = this.h(tag, props, children);
@@ -54,6 +56,34 @@ class ElementModel {
 
   getText = () => {
     return this.model.text;
+  };
+
+  // turn a dom element into a string
+  // first element is an empty dom node
+  processElement = element => {
+    let htmlString = '';
+    if (element.isText()) {
+      htmlString += element.getText();
+    } else {
+      htmlString += element.getStartString();
+
+      if (element.getChildren()) {
+        element.getChildren().forEach(child => {
+          htmlString += this.processElement(child);
+        });
+      }
+
+      htmlString += element.getEndString();
+    }
+
+    return htmlString;
+  };
+
+  toString = async () => {
+    const htmlString = this.processElement(this);
+
+    const formattedHTML = await codeFormatter(htmlString, 'html');
+    return formattedHTML;
   };
 
   updateModel = (tag, props = {}, children = []) => {

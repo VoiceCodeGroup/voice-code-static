@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CodeEditor from '../CodeEditor';
+import EditorPanel from '../EditorPanel';
 import CreateElementDialog from './CreateElementDialog';
 
 class HTMLEditor extends Component {
@@ -12,7 +12,13 @@ class HTMLEditor extends Component {
     const HTMLModel = this.props.model;
     return (
       <React.Fragment>
-        <CodeEditor mode="html" label="HTML" val={this.props.val} inFocus={this.props.inFocus} />
+        <EditorPanel
+          mode="html"
+          id="html"
+          label="HTML"
+          val={this.props.val}
+          inFocus={this.props.inFocus}
+        />
         {HTMLModel.currentElement && (
           <CreateElementDialog
             model={HTMLModel.currentElement}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CodeEditor from '../CodeEditor';
+import EditorPanel from '../EditorPanel';
 
 class JSEditor extends Component {
   handleClose = () => {
@@ -9,8 +9,9 @@ class JSEditor extends Component {
   render() {
     return (
       <React.Fragment>
-        <CodeEditor
+        <EditorPanel
           mode="js"
+          id="js"
           label="JavaScript"
           val={this.props.val}
           inFocus={this.props.inFocus}

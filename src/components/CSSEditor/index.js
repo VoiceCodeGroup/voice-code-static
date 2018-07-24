@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CodeEditor from '../CodeEditor';
+import EditorPanel from '../EditorPanel';
 import StyleDialog from './StyleDialog';
 
 class CSSEditor extends Component {
@@ -11,7 +11,13 @@ class CSSEditor extends Component {
     const CSSModel = this.props.model;
     return (
       <React.Fragment>
-        <CodeEditor mode="css" label="CSS" val={this.props.val} inFocus={this.props.inFocus} />
+        <EditorPanel
+          mode="css"
+          id="css"
+          label="CSS"
+          val={this.props.val}
+          inFocus={this.props.inFocus}
+        />
         {CSSModel.currentStyle && (
           <StyleDialog
             model={CSSModel.currentStyle}

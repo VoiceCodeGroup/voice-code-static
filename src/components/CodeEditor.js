@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-import Paper from '@material-ui/core/Paper';
 
 import brace from 'brace';
 import AceEditor from 'react-ace';
@@ -9,20 +7,6 @@ import 'brace/mode/javascript';
 import 'brace/mode/html';
 import 'brace/mode/css';
 import 'brace/theme/tomorrow';
-
-const Wrapper = styled(Paper)`
-  width: 31%;
-  height: 80vh;
-  margin: 12px;
-  border: ${props => (props.inFocus ? '2px solid #33dddd' : '')};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Label = styled.p`
-  margin: 7px;
-`;
 
 class CodeEditor extends Component {
   componentDidMount() {
@@ -34,29 +18,25 @@ class CodeEditor extends Component {
   }
 
   updateEditor() {
-    const editor = this.refs[`${this.props.mode}Editor`].editor;
+    const editor = this.refs[`${this.props.id}Editor`].editor;
     editor.session.setUseWorker(false);
     // editor.focus();
     // editor.moveCursorTo(1, 5);
   }
 
   render() {
-    const { mode, val, label } = this.props;
-    const height = this.props.inFocus ? 15 : 2;
+    const { mode, val, id } = this.props;
     return (
-      <Wrapper elevation={height} inFocus={this.props.inFocus}>
-        <Label>{label}</Label>
-        <AceEditor
-          ref={`${mode}Editor`}
-          mode={mode}
-          theme="tomorrow"
-          onChange={() => 'he'}
-          value={val}
-          name="CodeEditor"
-          height="100%"
-          width="100%"
-        />
-      </Wrapper>
+      <AceEditor
+        ref={`${id}Editor`}
+        mode={mode}
+        theme="tomorrow"
+        onChange={() => 'he'}
+        value={val}
+        name="CodeEditor"
+        height="100%"
+        width="100%"
+      />
     );
   }
 }
