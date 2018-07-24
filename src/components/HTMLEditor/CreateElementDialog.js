@@ -2,12 +2,22 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import QuerySection from '../AppBar/QueryItem';
 import PropertiesSection from '../PropertiesSection';
 import CodeSnippet from '../CodeSnippet';
+
+const Title = styled.h2``;
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const styles = {
   dialogPaper: {}
@@ -40,7 +50,7 @@ class ElementModal extends Component {
       classes,
       isOpen,
       handleClose,
-      context,
+      title,
       onInputChange,
       sendQuery,
       spokenText,
@@ -53,22 +63,23 @@ class ElementModal extends Component {
     return (
       <Dialog
         classes={{ paper: classes.dialogPaper }}
-        maxWidth="false"
         open={isOpen}
         onClose={handleClose}
         aria-labelledby="simple-dialog-title"
       >
         <DialogContent>
-          <DialogContentText>{context}</DialogContentText>
-          <DialogContentText>Properties</DialogContentText>
-          <PropertiesSection properties={properties} />
-          <CodeSnippet mode="html" label="Element" val={this.state.codeVal} />
-          <QuerySection
-            onInputChange={onInputChange}
-            sendQuery={sendQuery}
-            spokenText={spokenText}
-            startSpeechRecognition={startSpeechRecognition}
-          />
+          <ContentWrapper>
+            <Title>{title}</Title>
+            <DialogContentText>Properties</DialogContentText>
+            <PropertiesSection properties={properties} />
+            <CodeSnippet mode="html" id="element" label="Element" val={this.state.codeVal} />
+            <QuerySection
+              onInputChange={onInputChange}
+              sendQuery={sendQuery}
+              spokenText={spokenText}
+              startSpeechRecognition={startSpeechRecognition}
+            />
+          </ContentWrapper>
         </DialogContent>
       </Dialog>
     );

@@ -10,7 +10,6 @@ const styles = {
 const PreviewModal = ({ classes, isOpen, handleClose, codeVals }) => (
   <Dialog
     classes={{ paper: classes.dialogPaper }}
-    maxWidth="false"
     open={isOpen}
     onClose={handleClose}
     aria-labelledby="simple-dialog-title"

@@ -23,7 +23,7 @@ class CSSEditor extends Component {
             model={CSSModel.currentStyle}
             isOpen={this.props.context[1] === 'createStyle'}
             handleClose={this.handleClose}
-            context={'Create Style'}
+            title="Create Style"
             onInputChange={this.props.onInputChange}
             sendQuery={this.props.sendQuery}
             spokenText={this.props.spokenText}
