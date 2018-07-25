@@ -66,9 +66,13 @@ export default class extends Component {
   };
 
   sendQuery = async (e, query) => {
-    const dialogflowResult = await dialogflowAPI(query || this.state.spokenText);
-    this.setState({ spokenText: '' });
-    await this.EditorModel.performAction(dialogflowResult, this.state.context);
+    try {
+      const dialogflowResult = await dialogflowAPI(query || this.state.spokenText);
+      this.setState({ spokenText: '' });
+      await this.EditorModel.performAction(dialogflowResult, this.state.context);
+    } catch (e) {
+      this.handleError('Problem performing action');
+    }
     await this.compile();
   };
 
@@ -112,7 +116,11 @@ export default class extends Component {
           codeVals={this.state.compiledCode}
         />
 
-        <ErrorPopup open={this.state.errorText !== null} closePopup={this.handleErrorClose} />
+        <ErrorPopup
+          message={this.state.errorText}
+          open={this.state.errorText !== null}
+          closePopup={this.handleErrorClose}
+        />
       </PageWrapper>
     );
   }
