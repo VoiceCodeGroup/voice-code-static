@@ -9,6 +9,7 @@ import EditorGroup from '../components/EditorGroup';
 import PreviewButton from '../components/PreviewButton';
 import PreviewModal from '../components/PreviewModal';
 import EditorModel from '../model/EditorModel';
+import ErrorPopup from '../components/ErrorPopup';
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -31,7 +32,8 @@ export default class extends Component {
     spokenText: 'create element div',
     defaultText: 'create element div',
     context: ['html'],
-    preview: false
+    preview: false,
+    errorText: null
   };
 
   componentDidMount() {
@@ -74,6 +76,10 @@ export default class extends Component {
 
   handlePreviewClose = () => this.setState({ preview: false });
 
+  handleError = errorText => this.setState({ errorText });
+
+  handleErrorClose = () => this.setState({ errorText: null });
+
   updateContext = context => {
     console.log('Updating context', context);
     this.setState({ context });
@@ -105,6 +111,8 @@ export default class extends Component {
           handleClose={this.handlePreviewClose}
           codeVals={this.state.compiledCode}
         />
+
+        <ErrorPopup open={this.state.errorText !== null} closePopup={this.handleErrorClose} />
       </PageWrapper>
     );
   }
