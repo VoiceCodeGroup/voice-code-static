@@ -9,8 +9,9 @@ const StyledInput = styled(Input)`
   && {
   }
 `;
+// ${props => (props.light ? 'color: white;' : '')};
 
-export default ({ startSpeechRecognition, spokenText, onInputChange, sendQuery }) => {
+export default ({ startSpeechRecognition, spokenText, onInputChange, sendQuery, light }) => {
   const onKeyPress = event => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -24,6 +25,7 @@ export default ({ startSpeechRecognition, spokenText, onInputChange, sendQuery }
         <VoiceRecordIcon />
       </IconButton>
       <StyledInput
+        light
         color="secondary"
         id="query"
         label="Query"

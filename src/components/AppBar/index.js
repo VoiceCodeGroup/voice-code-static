@@ -33,6 +33,7 @@ function ButtonAppBar(props) {
         </Typography>
 
         <QueryItem
+          light
           sendQuery={props.sendQuery}
           spokenText={props.spokenText}
           onInputChange={props.onInputChange}

@@ -10,6 +10,7 @@ import PreviewButton from '../components/PreviewButton';
 import PreviewModal from '../components/PreviewModal';
 import EditorModel from '../model/EditorModel';
 import ErrorPopup from '../components/ErrorPopup';
+import ConfirmModal from '../components/ConfirmModal';
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -33,7 +34,8 @@ export default class extends Component {
     defaultText: 'create element div',
     context: ['html'],
     preview: false,
-    errorText: null
+    errorText: null,
+    speechConfirmation: false
   };
 
   componentDidMount() {
@@ -60,9 +62,18 @@ export default class extends Component {
   onSpeechResult = async event => {
     const last = event.results.length - 1;
     const spokenText = event.results[last][0].transcript;
-    tts(spokenText);
-    await this.setState({ spokenText });
-    this.sendQuery();
+    const confidence = event.results[0][0].confidence;
+    console.log('Speech:' + spokenText);
+    console.log('Confidence: ' + event.results[0][0].confidence);
+    if (confidence < 0.9) {
+      console.log('Await confirmation');
+      // this.handleError('Speech unclear. Please try again.');
+      this.setState({ speechConfirmation: true, spokenText });
+    } else {
+      // tts(spokenText);
+      await this.setState({ spokenText });
+      this.sendQuery();
+    }
   };
 
   sendQuery = async (e, query) => {
@@ -79,6 +90,8 @@ export default class extends Component {
   handlePreviewOpen = () => this.setState({ preview: true });
 
   handlePreviewClose = () => this.setState({ preview: false });
+
+  handleConfirmationClose = () => this.setState({ speechConfirmation: false, spokenText: '' });
 
   handleError = errorText => this.setState({ errorText });
 
@@ -114,6 +127,17 @@ export default class extends Component {
           isOpen={this.state.preview}
           handleClose={this.handlePreviewClose}
           codeVals={this.state.compiledCode}
+        />
+
+        <ConfirmModal
+          isOpen={this.state.speechConfirmation}
+          handleClose={this.handleConfirmationClose}
+          title="Is this what you meant to say?"
+          spokentText={this.state.spokenText}
+          onInputChange={this.onChange}
+          sendQuery={this.sendQuery}
+          spokenText={this.state.spokenText}
+          startSpeechRecognition={this.startSpeechRecognition}
         />
 
         <ErrorPopup
