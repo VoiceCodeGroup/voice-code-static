@@ -11,6 +11,7 @@ import PreviewModal from '../components/PreviewModal';
 import EditorModel from '../model/EditorModel';
 import ErrorPopup from '../components/ErrorPopup';
 import ConfirmModal from '../components/ConfirmModal';
+import HelpButton from '../components/HelpButton';
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -35,7 +36,8 @@ export default class extends Component {
     context: ['html'],
     preview: false,
     errorText: null,
-    speechConfirmation: false
+    speechConfirmation: false,
+    help: false
   };
 
   componentDidMount() {
@@ -91,6 +93,11 @@ export default class extends Component {
 
   handlePreviewClose = () => this.setState({ preview: false });
 
+  handleHelpToggle = () => {
+    this.setState({help : !this.state.help});
+    console.log('Help toggled to ' + this.state.help);
+  }
+
   handleConfirmationClose = () => this.setState({ speechConfirmation: false, spokenText: '' });
 
   handleError = errorText => this.setState({ errorText });
@@ -120,14 +127,17 @@ export default class extends Component {
           spokenText={this.state.spokenText}
           startSpeechRecognition={this.startSpeechRecognition}
           model={this.EditorModel}
+          help={this.state.help}
         />
         <PreviewButton onClick={this.handlePreviewOpen} />
-
+        
         <PreviewModal
           isOpen={this.state.preview}
           handleClose={this.handlePreviewClose}
           codeVals={this.state.compiledCode}
         />
+
+        <HelpButton onClick={this.handleHelpToggle} />
 
         <ConfirmModal
           isOpen={this.state.speechConfirmation}

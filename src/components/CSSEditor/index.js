@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EditorPanel from '../EditorPanel';
+import HelpPanel from '../HelpPanel';
 import StyleDialog from './StyleDialog';
 
 class CSSEditor extends Component {
@@ -9,6 +10,15 @@ class CSSEditor extends Component {
 
   render() {
     const CSSModel = this.props.model;
+    if(this.props.help){
+      return(
+        <HelpPanel
+        mode="css"
+        label="CSS"
+        inFocus={this.props.inFocus}
+        />
+      );
+    }else{
     return (
       <React.Fragment>
         <EditorPanel
@@ -33,6 +43,7 @@ class CSSEditor extends Component {
       </React.Fragment>
     );
   }
+}
 }
 
 export default CSSEditor;

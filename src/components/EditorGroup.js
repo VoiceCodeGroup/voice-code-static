@@ -23,6 +23,7 @@ export default class EditorGroup extends Component {
     const EditorModel = this.props.model;
     const HTMLModel = EditorModel.getHTMLModel();
     const CSSModel = EditorModel.getCSSModel();
+    const help = this.props.help;
     return (
       <Wrapper>
         <HTMLEditor
@@ -35,6 +36,7 @@ export default class EditorGroup extends Component {
           sendQuery={this.props.sendQuery}
           spokenText={this.props.spokenText}
           startSpeechRecognition={this.props.startSpeechRecognition}
+          help={this.props.help}
         />
         <CSSEditor
           val={css}
@@ -42,12 +44,14 @@ export default class EditorGroup extends Component {
           inFocus={context[0] === 'css'}
           context={context}
           updateContext={this.props.updateContext}
+          help={this.props.help}
         />
         <JSEditor
           val={js}
           inFocus={context[0] === 'js'}
           context={context}
           updateContext={this.props.updateContext}
+          help={this.props.help}
         />
       </Wrapper>
     );
