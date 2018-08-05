@@ -58,7 +58,12 @@ class StyleDialog extends Component {
       model
     } = this.props;
 
-    const properties = {};
+    const selectorSection = {
+      'Selector Type': model.getSelectorType(),
+      'Selector Value': model.getSelectorValue()
+    };
+
+    const properties = model.getProperties();
 
     return (
       <Dialog
@@ -70,9 +75,15 @@ class StyleDialog extends Component {
         <DialogContent>
           <ContentWrapper>
             <Title>{title}</Title>
+
+            <DialogContentText>Selector info</DialogContentText>
+            <PropertiesSection properties={selectorSection} />
+
             <DialogContentText>Properties</DialogContentText>
             <PropertiesSection properties={properties} />
+
             <CodeSnippet mode="css" id="style" label="Style" val={this.state.codeVal} />
+
             <QuerySection
               onInputChange={onInputChange}
               sendQuery={sendQuery}

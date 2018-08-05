@@ -93,9 +93,9 @@ export default class extends Component {
   handlePreviewClose = () => this.setState({ preview: false });
 
   handleHelpToggle = () => {
-    this.setState({help : !this.state.help});
+    this.setState({ help: !this.state.help });
     console.log('Help toggled to ' + this.state.help);
-  }
+  };
 
   handleConfirmationClose = () => this.setState({ speechConfirmation: false, spokenText: '' });
 
@@ -129,7 +129,7 @@ export default class extends Component {
           help={this.state.help}
         />
         <PreviewButton onClick={this.handlePreviewOpen} />
-        
+
         <PreviewModal
           isOpen={this.state.preview}
           handleClose={this.handlePreviewClose}

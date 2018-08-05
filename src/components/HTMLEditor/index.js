@@ -11,40 +11,35 @@ class HTMLEditor extends Component {
 
   render() {
     const HTMLModel = this.props.model;
-    if(this.props.help){
-      return(
-        <HelpPanel
-        mode="html"
-        label="HTML"
-        inFocus={this.props.inFocus}
-        />
-      );
-    }else{
-    return (
-      <React.Fragment>
-        <EditorPanel
-          mode="html"
-          id="html"
-          label="HTML"
-          val={this.props.val}
-          inFocus={this.props.inFocus}
-        />
-        {HTMLModel.currentElement && (
-          <CreateElementDialog
-            model={HTMLModel.currentElement}
-            isOpen={this.props.context[1] === 'createElement'}
-            handleClose={this.handleClose}
-            context={'Create Element'}
-            onInputChange={this.props.onInputChange}
-            sendQuery={this.props.sendQuery}
-            spokenText={this.props.spokenText}
-            startSpeechRecognition={this.props.startSpeechRecognition}
+    if (this.props.help) {
+      return <HelpPanel mode="html" label="HTML" inFocus={this.props.inFocus} />;
+    } else {
+      return (
+        <React.Fragment>
+          <EditorPanel
+            mode="html"
+            id="html"
+            label="HTML"
+            val={this.props.val}
+            inFocus={this.props.inFocus}
           />
-        )}
-      </React.Fragment>
-    );
+          {HTMLModel.currentElement && (
+            <CreateElementDialog
+              title="Create Element"
+              model={HTMLModel.currentElement}
+              isOpen={this.props.context[1] === 'createElement'}
+              handleClose={this.handleClose}
+              context={'Create Element'}
+              onInputChange={this.props.onInputChange}
+              sendQuery={this.props.sendQuery}
+              spokenText={this.props.spokenText}
+              startSpeechRecognition={this.props.startSpeechRecognition}
+            />
+          )}
+        </React.Fragment>
+      );
+    }
   }
-}
 }
 
 export default HTMLEditor;

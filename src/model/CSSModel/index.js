@@ -9,14 +9,15 @@ class CSSModel {
 
   toString = async () => {
     let cssString = '';
+    console.log('css TO STRING');
 
     // Create each style
     // #id {}
     this.styles.forEach(style => {
-      cssString = `${cssString}${style.selector} {`;
+      cssString = `${style.getSelectorString()} {`;
 
       // add each property e.g. width: 100px
-      Object.entries(style.props).map(([key, value]) => {
+      Object.entries(style.getProperties()).map(([key, value]) => {
         cssString += `${key}: ${value};`;
       });
 
@@ -44,24 +45,10 @@ class CSSModel {
 
   //----------------------------------------------------------Actions-------------------------------------------//
 
-  createStyle = ({ id }) => {
-    this.currentStyle = new StyleModel(this.updateContext, id);
+  createStyle = () => {
+    this.currentStyle = new StyleModel(this.updateContext);
+    this.styles.push(this.currentStyle);
     this.updateContext(['css', 'createStyle']);
-    // const selectorType = 'id';
-    // const selectorTag = id;
-    // console.log(`Creating an ${selectorType} style for ${selectorTag}`);
-    // // #id, or .class
-    // const selector = `${selectorType === 'id' ? '#' : '.'}${selectorTag}`;
-    // this.styles.push({
-    //   name: selectorTag,
-    //   selector,
-    //   props: {}
-    // });
-  };
-
-  addProperty = ({ property, value }) => {
-    // TODO: currently just adds to the first style
-    this.styles[0].props[property] = value;
   };
 }
 
