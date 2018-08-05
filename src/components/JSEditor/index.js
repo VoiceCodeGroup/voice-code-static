@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EditorPanel from '../EditorPanel';
+import HelpPanel from '../HelpPanel';
 
 class JSEditor extends Component {
   handleClose = () => {
@@ -7,6 +8,15 @@ class JSEditor extends Component {
   };
 
   render() {
+    if(this.props.help){
+      return(
+        <HelpPanel
+        mode="js"
+        label="JavaScript"
+        inFocus={this.props.inFocus}
+        />
+      );
+    }else{
     return (
       <React.Fragment>
         <EditorPanel
@@ -19,6 +29,7 @@ class JSEditor extends Component {
       </React.Fragment>
     );
   }
+}
 }
 
 export default JSEditor;

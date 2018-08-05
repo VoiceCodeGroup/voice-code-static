@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EditorPanel from '../EditorPanel';
+import HelpPanel from '../HelpPanel';
 import CreateElementDialog from './CreateElementDialog';
 
 class HTMLEditor extends Component {
@@ -10,6 +11,15 @@ class HTMLEditor extends Component {
 
   render() {
     const HTMLModel = this.props.model;
+    if(this.props.help){
+      return(
+        <HelpPanel
+        mode="html"
+        label="HTML"
+        inFocus={this.props.inFocus}
+        />
+      );
+    }else{
     return (
       <React.Fragment>
         <EditorPanel
@@ -34,6 +44,7 @@ class HTMLEditor extends Component {
       </React.Fragment>
     );
   }
+}
 }
 
 export default HTMLEditor;
