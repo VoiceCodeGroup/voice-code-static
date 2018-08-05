@@ -67,7 +67,6 @@ export default class extends Component {
     console.log('Confidence: ' + event.results[0][0].confidence);
     if (confidence < 0.9) {
       console.log('Await confirmation');
-      // this.handleError('Speech unclear. Please try again.');
       this.setState({ speechConfirmation: true, spokenText });
     } else {
       // tts(spokenText);
@@ -77,13 +76,13 @@ export default class extends Component {
   };
 
   sendQuery = async (e, query) => {
-    try {
-      const dialogflowResult = await dialogflowAPI(query || this.state.spokenText);
-      this.setState({ spokenText: '' });
-      await this.EditorModel.performAction(dialogflowResult, this.state.context);
-    } catch (e) {
-      this.handleError('Problem performing action');
-    }
+    const dialogflowResult = await dialogflowAPI(query || this.state.spokenText);
+    this.setState({ spokenText: '' });
+    await this.EditorModel.performAction(dialogflowResult, this.state.context);
+    // } catch (e) {
+    //   console.log(e.stack);
+    //   this.handleError('Problem performing action');
+    // }
     await this.compile();
   };
 
