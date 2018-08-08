@@ -1,35 +1,45 @@
 import React, { Component } from 'react';
 import EditorPanel from '../EditorPanel';
 import HelpPanel from '../HelpPanel';
+import EventListenerDialog from './EventListenerDialog';
 
 class JSEditor extends Component {
-  handleClose = () => {
-    this.state.open = false;
+  handleClose = async () => {
+    // because sendQuery is also used on click, the first argument would be 'event'
+    await this.props.sendQuery(null, 'close window');
   };
 
   render() {
-    if(this.props.help){
-      return(
-        <HelpPanel
-        mode="js"
-        label="JavaScript"
-        inFocus={this.props.inFocus}
-        />
+    const jsModel = this.props.jsModel;
+    if (this.props.help) {
+      return <HelpPanel mode="js" label="JavaScript" inFocus={this.props.inFocus} />;
+    } else {
+      return (
+        <React.Fragment>
+          <EditorPanel
+            mode="js"
+            id="js"
+            label="JavaScript"
+            val={this.props.val}
+            inFocus={this.props.inFocus}
+          />
+          {jsModel.currentSection && (
+            <EventListenerDialog
+              title="Event Listener"
+              model={jsModel.currentSection}
+              isOpen={this.props.context[1] === 'createEventListener'}
+              handleClose={this.handleClose}
+              context={'Create Event Listener'}
+              onInputChange={this.props.onInputChange}
+              sendQuery={this.props.sendQuery}
+              spokenText={this.props.spokenText}
+              startSpeechRecognition={this.props.startSpeechRecognition}
+            />
+          )}
+        </React.Fragment>
       );
-    }else{
-    return (
-      <React.Fragment>
-        <EditorPanel
-          mode="js"
-          id="js"
-          label="JavaScript"
-          val={this.props.val}
-          inFocus={this.props.inFocus}
-        />
-      </React.Fragment>
-    );
+    }
   }
-}
 }
 
 export default JSEditor;

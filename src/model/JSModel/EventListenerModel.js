@@ -1,6 +1,6 @@
 import codeFormatter from '../../util/codeFormatter';
 
-class JSModel {
+class EventListenerModel {
   constructor(updateContext, eventType) {
     this.updateContext = updateContext;
     this.eventType = eventType;
@@ -8,22 +8,38 @@ class JSModel {
     this.callback = '';
   }
 
+  getTargetID = () => this.targetID;
+
   setTargetID = targetID => {
     this.targetID = targetID;
   };
-  
+
   toString = () => {
-    let codeString = `document.getElementById("${this.targetID}").addEventListener("${this.eventType}", function(){`;
+    let codeString = `document.getElementById("${this.targetID}").addEventListener("${
+      this.eventType
+    }", function(){`;
     codeString += '})';
 
-    return codeString
-  }
+    return codeString;
+  };
 
-  toFormattedString = () => {
+  toFormattedString = async () => {
     const formattedJS = await codeFormatter(this.toString(), 'js');
     return formattedJS;
-  }
-  
+  };
+
+  performAction = async ({ intent, params }, context) => {
+    console.log('EVENT LISTENER action');
+    if (this[intent]) {
+      //      console.log(`Perform General ${intent} intent, params:`, params);
+      await this[intent](params, context);
+    }
+  };
+
+  js_eventListener_setTargetID = ({ targetID }) => {
+    console.log(`Setting target id to ${targetID}`);
+    this.setTargetID(targetID);
+  };
 }
 
-export default JSModel;
+export default EventListenerModel;

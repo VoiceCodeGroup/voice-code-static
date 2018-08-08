@@ -1,4 +1,5 @@
 import codeFormatter from '../../util/codeFormatter';
+import EventListenerModel from './EventListenerModel';
 
 class JSModel {
   constructor(updateContext) {
@@ -7,26 +8,7 @@ class JSModel {
   }
 
   processSection = section => {
-    let jsString = '';
-    if (section.type === 'BLOCK') {
-      // {
-      jsString += section.startString;
-
-      // {...}
-      const { childSections } = section;
-      if (childSections) {
-        section.childSections.forEach(childSection => {
-          jsString += this.processSection(childSection);
-        });
-      }
-
-      // }
-      jsString += section.endString;
-    } else {
-      jsString += section.string;
-    }
-
-    return jsString;
+    return section.toString();
   };
 
   toString = async () => {
@@ -56,18 +38,13 @@ class JSModel {
     }
   };
 
-  // this.codeSections.push({
-  //   type: 'BLOCK',
-  //   startString: `document.getElementById("${id}").addEventListener("click", function(){`,
-  //   endString: `});`,
-  //   childSections: []
-  // });
   //----------------------------------------------------------Actions-------------------------------------------//
 
   js_createClickListener = () => {
-    const newEvent = new EventListener(updateContext, 'click');
+    const newEvent = new EventListenerModel(this.updateContext, 'click');
     this.currentSection = newEvent;
     this.codeSections.push(newEvent);
+    this.updateContext(['js', 'createEventListener']);
   };
 
   setProperty = ({ id, property, value }) => {

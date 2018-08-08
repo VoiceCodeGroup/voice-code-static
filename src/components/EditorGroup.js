@@ -22,6 +22,7 @@ export default class EditorGroup extends Component {
     const EditorModel = this.props.model;
     const HTMLModel = EditorModel.getHTMLModel();
     const CSSModel = EditorModel.getCSSModel();
+    const JSModel = EditorModel.getJSModel();
     const help = this.props.help;
     return (
       <Wrapper>
@@ -51,9 +52,14 @@ export default class EditorGroup extends Component {
         />
         <JSEditor
           val={js}
+          jsModel={JSModel}
           inFocus={context[0] === 'js'}
           context={context}
           updateContext={this.props.updateContext}
+          onInputChange={this.props.onInputChange}
+          sendQuery={this.props.sendQuery}
+          spokenText={this.props.spokenText}
+          startSpeechRecognition={this.props.startSpeechRecognition}
           help={this.props.help}
         />
       </Wrapper>
