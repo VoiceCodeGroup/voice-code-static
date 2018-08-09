@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const StyledFrame = styled.iframe`
-  width: 1000px;
+  width: 80vw;
   min-height: 80vh;
 `;
 

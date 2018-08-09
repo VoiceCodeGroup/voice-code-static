@@ -8,7 +8,7 @@ class Model {
 
     this.state = {
       currentMode: 'html',
-      html: { model: new HTMLModel(updateContext), val: '' },
+      html: { model: new HTMLModel(updateContext), val: '<div id="root" />' },
       css: { model: new CSSModel(updateContext), val: '' },
       js: { model: new JSModel(updateContext), val: '' }
     };

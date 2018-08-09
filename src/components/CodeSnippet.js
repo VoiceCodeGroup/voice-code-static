@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import CodeEditor from './CodeEditor';
 
 const Wrapper = styled(Paper)`
-  width: 80%;
+  width: 90%;
   height: 100px;
   margin: 12px;
   display: flex;

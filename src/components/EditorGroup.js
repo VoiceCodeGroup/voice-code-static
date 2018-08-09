@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import CodeEditor from '../components/CodeEditor';
 import HTMLEditor from './HTMLEditor';
 import CSSEditor from './CSSEditor';
 import JSEditor from './JSEditor';
@@ -23,6 +22,7 @@ export default class EditorGroup extends Component {
     const EditorModel = this.props.model;
     const HTMLModel = EditorModel.getHTMLModel();
     const CSSModel = EditorModel.getCSSModel();
+    const JSModel = EditorModel.getJSModel();
     const help = this.props.help;
     return (
       <Wrapper>
@@ -44,13 +44,22 @@ export default class EditorGroup extends Component {
           inFocus={context[0] === 'css'}
           context={context}
           updateContext={this.props.updateContext}
+          onInputChange={this.props.onInputChange}
+          sendQuery={this.props.sendQuery}
+          spokenText={this.props.spokenText}
+          startSpeechRecognition={this.props.startSpeechRecognition}
           help={this.props.help}
         />
         <JSEditor
           val={js}
+          jsModel={JSModel}
           inFocus={context[0] === 'js'}
           context={context}
           updateContext={this.props.updateContext}
+          onInputChange={this.props.onInputChange}
+          sendQuery={this.props.sendQuery}
+          spokenText={this.props.spokenText}
+          startSpeechRecognition={this.props.startSpeechRecognition}
           help={this.props.help}
         />
       </Wrapper>

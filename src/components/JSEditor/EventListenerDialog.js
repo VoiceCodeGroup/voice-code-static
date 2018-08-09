@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import QuerySection from '../AppBar/QueryItem';
 import PropertiesSection from '../PropertiesSection';
 import CodeSnippet from '../CodeSnippet';
+import { Target } from 'react-popper';
 
 const Title = styled.h2``;
 
@@ -23,7 +24,7 @@ const styles = {
   dialogPaper: {}
 };
 
-class StyleDialog extends Component {
+class EventListenerModal extends Component {
   state = {
     codeVal: ''
   };
@@ -41,7 +42,7 @@ class StyleDialog extends Component {
   };
 
   updateCode = async () => {
-    const codeVal = await this.props.model.toString();
+    const codeVal = await this.props.model.toFormattedString();
     this.setState({ codeVal });
   };
 
@@ -58,12 +59,9 @@ class StyleDialog extends Component {
       model
     } = this.props;
 
-    const selectorSection = {
-      'Selector Type': model.getSelectorType(),
-      'Selector Value': model.getSelectorValue()
+    const targetIDSection = {
+      'Target ID': model.getTargetID()
     };
-
-    const properties = model.getProperties();
 
     return (
       <Dialog
@@ -75,15 +73,13 @@ class StyleDialog extends Component {
         <DialogContent>
           <ContentWrapper>
             <Title>{title}</Title>
-
-            <DialogContentText>Selector info</DialogContentText>
-            <PropertiesSection properties={selectorSection} />
-
-            <DialogContentText>Properties</DialogContentText>
-            <PropertiesSection properties={properties} />
-
-            <CodeSnippet mode="css" id="style" label="Style" val={this.state.codeVal} />
-
+            <PropertiesSection properties={targetIDSection} />
+            <CodeSnippet
+              mode="js"
+              id="eventListener"
+              label="Event Listener"
+              val={this.state.codeVal}
+            />
             <QuerySection
               onInputChange={onInputChange}
               sendQuery={sendQuery}
@@ -97,4 +93,4 @@ class StyleDialog extends Component {
   }
 }
 
-export default withStyles(styles)(StyleDialog);
+export default withStyles(styles)(EventListenerModal);
