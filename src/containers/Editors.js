@@ -137,7 +137,7 @@ export default class extends Component {
           codeVals={this.state.compiledCode}
         />
 
-        <HelpButton onClick={this.handleHelpToggle} />
+        <HelpButton onClick={this.handleHelpToggle} help={this.state.help}/>
 
         <ConfirmModal
           isOpen={this.state.speechConfirmation}
