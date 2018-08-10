@@ -2,15 +2,15 @@ export default async (code, mode) => {
   // rules for prettier formatting
   const options = {
     html: {
-      printWidth: 100,
+      printWidth: 80,
       semi: false
     },
     css: {
-      printWidth: 100,
+      printWidth: 80,
       parser: 'css'
     },
     js: {
-      printWidth: 100
+      printWidth: 80
     }
   };
 

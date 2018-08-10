@@ -10,7 +10,6 @@ import QuerySection from '../AppBar/QueryItem';
 import PropertiesSection from '../PropertiesSection';
 import CodeSnippet from '../CodeSnippet';
 import { Target } from 'react-popper';
-import SetStyleDialog from './SetStyleDialog';
 
 const Title = styled.h2``;
 
@@ -58,8 +57,7 @@ class EventListenerModal extends Component {
       sendQuery,
       spokenText,
       startSpeechRecognition,
-      model,
-      context
+      model
     } = this.props;
 
     const targetIDSection = {
@@ -67,46 +65,31 @@ class EventListenerModal extends Component {
     };
 
     return (
-      <React.Fragment>
-        <Dialog
-          classes={{ paper: classes.dialogPaper }}
-          open={isOpen}
-          onClose={handleClose}
-          aria-labelledby="simple-dialog-title"
-        >
-          <DialogContent>
-            <ContentWrapper>
-              <Title>{title}</Title>
-              <PropertiesSection properties={targetIDSection} />
-              <CodeSnippet
-                mode="js"
-                id="eventListener"
-                label="Event Listener"
-                val={this.state.codeVal}
-              />
-              <QuerySection
-                onInputChange={onInputChange}
-                sendQuery={sendQuery}
-                spokenText={spokenText}
-                startSpeechRecognition={startSpeechRecognition}
-              />
-            </ContentWrapper>
-          </DialogContent>
-        </Dialog>
-        {model.currentSection && (
-          <SetStyleDialog
-            title="Style Something"
-            model={model.currentSection}
-            isOpen={context[2] === 'codeSection'}
-            handleClose={handleClose}
-            context={context}
-            onInputChange={onInputChange}
-            sendQuery={sendQuery}
-            spokenText={spokenText}
-            startSpeechRecognition={startSpeechRecognition}
-          />
-        )}
-      </React.Fragment>
+      <Dialog
+        classes={{ paper: classes.dialogPaper }}
+        open={isOpen}
+        onClose={handleClose}
+        aria-labelledby="simple-dialog-title"
+      >
+        <DialogContent>
+          <ContentWrapper>
+            <Title>{title}</Title>
+            <PropertiesSection properties={targetIDSection} />
+            <CodeSnippet
+              mode="js"
+              id="eventListener"
+              label="Event Listener"
+              val={this.state.codeVal}
+            />
+            <QuerySection
+              onInputChange={onInputChange}
+              sendQuery={sendQuery}
+              spokenText={spokenText}
+              startSpeechRecognition={startSpeechRecognition}
+            />
+          </ContentWrapper>
+        </DialogContent>
+      </Dialog>
     );
   }
 }

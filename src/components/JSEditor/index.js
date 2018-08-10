@@ -27,9 +27,9 @@ class JSEditor extends Component {
             <EventListenerDialog
               title="Event Listener"
               model={jsModel.currentSection}
+              context={this.props.context}
               isOpen={this.props.context[1] === 'createEventListener'}
               handleClose={this.handleClose}
-              context={'Create Event Listener'}
               onInputChange={this.props.onInputChange}
               sendQuery={this.props.sendQuery}
               spokenText={this.props.spokenText}

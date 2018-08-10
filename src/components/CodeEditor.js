@@ -36,6 +36,7 @@ class CodeEditor extends Component {
         name="CodeEditor"
         height="100%"
         width="100%"
+        fontSize="11px"
       />
     );
   }

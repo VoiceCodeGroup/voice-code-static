@@ -1,4 +1,6 @@
 import codeFormatter from '../../util/codeFormatter';
+import FunctionModel from './FunctionModel';
+import SetStyleModel from './CodeSections/SetStyleModel';
 
 class EventListenerModel {
   constructor(updateContext, eventType) {
@@ -6,6 +8,8 @@ class EventListenerModel {
     this.eventType = eventType;
     this.targetID = '';
     this.callback = '';
+    this.eventCallback = new FunctionModel();
+    this.currentSection;
   }
 
   getTargetID = () => this.targetID;
@@ -17,8 +21,7 @@ class EventListenerModel {
   toString = () => {
     let codeString = `document.getElementById("${this.targetID}").addEventListener("${
       this.eventType
-    }", function(){`;
-    codeString += '})';
+    }", ${this.eventCallback.toString()})`;
 
     return codeString;
   };
@@ -30,15 +33,31 @@ class EventListenerModel {
 
   performAction = async ({ intent, params }, context) => {
     console.log('EVENT LISTENER action');
-    if (this[intent]) {
+    if (!context[2]) {
       //      console.log(`Perform General ${intent} intent, params:`, params);
       await this[intent](params, context);
+    } else {
+      if (context[2] === 'codeSection') {
+        this.currentSection.performAction({ intent, params }, context);
+      }
     }
   };
 
   js_eventListener_setTargetID = ({ targetID }) => {
     console.log(`Setting target id to ${targetID}`);
     this.setTargetID(targetID);
+  };
+
+  js_eventListener_setStyle = ({ targetID }) => {
+    const setStyleSection = new SetStyleModel(targetID, this.updateContext);
+    this.eventCallback.addCodeSection(setStyleSection);
+    this.currentSection = setStyleSection;
+    this.updateContext(['js', 'createEventListener', 'codeSection']);
+  };
+
+  js_eventListener_finish = () => {
+    console.log('Close event listener window');
+    this.updateContext(['js']);
   };
 }
 
