@@ -40,40 +40,9 @@ class JSModel {
 
   //----------------------------------------------------------Actions-------------------------------------------//
 
-  //to create new event listener
-  //create new function here corresponding to event type
-  //follow template of createClickListener
-  //in dialogflow add new intent for event type
   js_createClickListener = () => {
+    // Update context which opens event listener dialog
     const newEvent = new EventListenerModel(this.updateContext, 'click');
-    this.currentSection = newEvent;
-    this.codeSections.push(newEvent);
-    this.updateContext(['js', 'createEventListener']);
-  };
-
-  js_createMouseOutListener = () => {
-    const newEvent = new EventListenerModel(this.updateContext, 'mouseout');
-    this.currentSection = newEvent;
-    this.codeSections.push(newEvent);
-    this.updateContext(['js', 'createEventListener']);
-  };
-
-  js_createChangeListener = () => {
-    const newEvent = new EventListenerModel(this.updateContext, 'change');
-    this.currentSection = newEvent;
-    this.codeSections.push(newEvent);
-    this.updateContext(['js', 'createEventListener']);
-  };
-
-  js_createKeyPressListener = () => {
-    const newEvent = new EventListenerModel(this.updateContext, 'keypress');
-    this.currentSection = newEvent;
-    this.codeSections.push(newEvent);
-    this.updateContext(['js', 'createEventListener']);
-  };
-
-  js_createMouseOverListener = () => {
-    const newEvent = new EventListenerModel(this.updateContext, 'mouseover');
     this.currentSection = newEvent;
     this.codeSections.push(newEvent);
     this.updateContext(['js', 'createEventListener']);
