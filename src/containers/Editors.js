@@ -31,13 +31,13 @@ export default class extends Component {
 
   state = {
     compiledCode: '',
-    spokenText: 'create element div',
-    defaultText: 'create element div',
+    spokenText: 'new div',
+    defaultText: 'new div',
     context: ['html'],
     preview: false,
     errorText: null,
     speechConfirmation: false,
-    help: false
+    help: false,
   };
 
   componentDidMount() {

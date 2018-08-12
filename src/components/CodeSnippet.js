@@ -4,8 +4,8 @@ import Paper from '@material-ui/core/Paper';
 import CodeEditor from './CodeEditor';
 
 const Wrapper = styled(Paper)`
-  width: 90%;
-  height: 100px;
+  width: 720px;
+  height: 200px;
   margin: 12px;
   display: flex;
   flex-direction: column;

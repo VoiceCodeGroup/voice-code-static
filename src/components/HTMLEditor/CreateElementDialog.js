@@ -9,6 +9,11 @@ import { withStyles } from '@material-ui/core/styles';
 import QuerySection from '../AppBar/QueryItem';
 import PropertiesSection from '../PropertiesSection';
 import CodeSnippet from '../CodeSnippet';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 const Title = styled.h2``;
 
@@ -20,7 +25,13 @@ const ContentWrapper = styled.div`
 `;
 
 const styles = {
-  dialogPaper: {}
+  dialogPaper: {},
+  tabletitle:{
+    fontSize: '16pt'
+  },
+  tablecell:{
+    fontSize:'12pt'
+  }
 };
 
 class ElementModal extends Component {
@@ -58,7 +69,18 @@ class ElementModal extends Component {
       model
     } = this.props;
 
+    let id = 0;
+    function createData(property, value) {
+      id += 1;
+      return { id, property, value};
+    }
+
     const properties = model.getProps();
+    console.log(properties);
+    let data = [];
+    Object.keys(properties).forEach(n =>{
+      data.push(createData(n, properties[n]));
+    });
 
     return (
       <Dialog
@@ -66,12 +88,32 @@ class ElementModal extends Component {
         open={isOpen}
         onClose={handleClose}
         aria-labelledby="simple-dialog-title"
+        maxWidth={false}
       >
         <DialogContent>
           <ContentWrapper>
             <Title>{title}</Title>
-            <DialogContentText>Properties</DialogContentText>
-            <PropertiesSection properties={properties} />
+            <Table >
+              <TableHead>
+                <TableRow>
+                  <TableCell className={classes.tabletitle}>Properties</TableCell>
+                  <TableCell className={classes.tabletitle}>Value</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map(n => {
+                  return (
+                    <TableRow key={n.id} className={classes.tablecell}>
+                      <TableCell component="th" scope="row" className={classes.tablecell}>
+                        {n.property}
+                      </TableCell>
+                      <TableCell className={classes.tablecell}>{n.value}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+            {/* <PropertiesSection properties={properties} /> */}
             <CodeSnippet mode="html" id="element" label="Element" val={this.state.codeVal} />
             <QuerySection
               onInputChange={onInputChange}
