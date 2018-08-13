@@ -11,7 +11,7 @@ const StyledInput = styled(Input)`
 `;
 // ${props => (props.light ? 'color: white;' : '')};
 
-export default ({ startSpeechRecognition, spokenText, onInputChange, sendQuery, light }) => {
+export default ({ toggleListening, spokenText, onInputChange, sendQuery, light, listening }) => {
   const onKeyPress = event => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -19,9 +19,10 @@ export default ({ startSpeechRecognition, spokenText, onInputChange, sendQuery, 
     }
   };
 
+  const colour = listening ? "secondary" : "inherit";
   return (
     <div>
-      <IconButton onClick={startSpeechRecognition} color="inherit" aria-label="Menu">
+      <IconButton onClick={toggleListening} color={colour} aria-label="Menu">
         <VoiceRecordIcon />
       </IconButton>
       <StyledInput

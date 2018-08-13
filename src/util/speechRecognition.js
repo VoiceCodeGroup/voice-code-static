@@ -28,6 +28,10 @@ export default class SpeechRecognition {
     };
   }
 
+  finish = () => {
+    this.recognition.stop();
+  };
+
   start = () => {
     this.recognition.start();
   };

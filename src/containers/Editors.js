@@ -38,7 +38,8 @@ export default class extends Component {
     preview: false,
     errorText: null,
     speechConfirmation: false,
-    help: false
+    help: false,
+    listening: false
   };
 
   componentDidMount() {
@@ -57,9 +58,27 @@ export default class extends Component {
     this.setState({ spokenText: event.target.value });
   };
 
+  toggleListening = () => {
+    console.log("current listening state: "+this.state.listening);
+    this.setState(prevState => ({
+      listening: !prevState.listening
+    }));
+    console.log("next listening state: "+this.state.listening);
+
+    if(this.state.listening){
+      this.startSpeechRecognition();
+    }else{
+      this.stopSpeechRecognition();
+    }
+  };
+
   startSpeechRecognition = () => {
     this.state.SpeechRecognition.start();
     this.setState({ spokenText: '' });
+  };
+
+  stopSpeechRecognition = () => {
+    // this.state.SpeechRecognition.stop();
   };
 
   onSpeechResult = async event => {
@@ -116,7 +135,8 @@ export default class extends Component {
           sendQuery={this.sendQuery}
           onInputChange={this.onChange}
           spokenText={this.state.spokenText}
-          startSpeechRecognition={this.startSpeechRecognition}
+          toggleListening={this.toggleListening}
+          listening={this.state.listening}
         />
         <EditorGroup
           vals={this.EditorModel.getVals()}

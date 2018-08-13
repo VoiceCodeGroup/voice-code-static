@@ -71,6 +71,7 @@ class EventListenerModal extends Component {
         open={isOpen}
         onClose={handleClose}
         aria-labelledby="simple-dialog-title"
+        maxWidth={false}
       >
         <DialogContent>
           <ContentWrapper>
