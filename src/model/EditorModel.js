@@ -3,14 +3,14 @@ import CSSModel from './CSSModel';
 import JSModel from './JSModel';
 
 class Model {
-  constructor(updateContext) {
-    this.updateContext = updateContext;
+  constructor(editorCallbacks) {
+    this.editorCallbacks = editorCallbacks;
 
     this.state = {
       currentMode: 'html',
-      html: { model: new HTMLModel(updateContext), val: '<div id="root" />' },
-      css: { model: new CSSModel(updateContext), val: '' },
-      js: { model: new JSModel(updateContext), val: '' }
+      html: { model: new HTMLModel(this.editorCallbacks), val: '<div id="root" />' },
+      css: { model: new CSSModel(this.editorCallbacks), val: '' },
+      js: { model: new JSModel(this.editorCallbacks), val: '' }
     };
   }
 
@@ -52,15 +52,15 @@ class Model {
   // --------------------------------general actions-------------------------------//
 
   switchEditorToHTML = () => {
-    this.updateContext(['html']);
+    this.editorCallbacks.updateContext(['html']);
   };
 
   switchEditorToCSS = () => {
-    this.updateContext(['css']);
+    this.editorCallbacks.updateContext(['css']);
   };
 
   switchEditorToJS = () => {
-    this.updateContext(['js']);
+    this.editorCallbacks.updateContext(['js']);
   };
 }
 

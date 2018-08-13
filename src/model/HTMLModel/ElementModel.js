@@ -1,9 +1,9 @@
 import codeFormatter from '../../util/codeFormatter';
 
 class ElementModel {
-  constructor(updateContext, tag, props = {}, children = []) {
+  constructor(editorCallbacks, tag, props = {}, children = []) {
     this.model = this.h(tag, props, children);
-    this.updateContext = updateContext;
+    this.editorCallbacks = editorCallbacks;
   }
 
   // Create an element
@@ -33,6 +33,8 @@ class ElementModel {
   getProps = () => {
     return this.model.props;
   };
+
+  getID = () => this.getProps().id;
 
   getTag = () => {
     return this.model.tag;
@@ -109,18 +111,18 @@ class ElementModel {
     this.model.children.push(element);
   };
 
-  removeChildElement = childID => {
-    console.log('Removing', childID, this.model.children);
+  removeChildElement = child => {
+    const childID = child.getID();
     const newChildren = this.model.children.filter(child => {
       const id = child.getProps().id;
       return id !== childID;
     });
 
-    this.updateModel(this.getTag(), this.getProps()), newChildren;
+    this.updateModel(this.getTag(), this.getProps(), newChildren);
   };
 
   finishCreateElement = () => {
-    this.updateContext(['html']);
+    this.editorCallbacks.updateContext(['html']);
   };
 }
 

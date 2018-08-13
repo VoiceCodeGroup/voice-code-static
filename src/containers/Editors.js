@@ -26,7 +26,8 @@ const PageWrapper = styled.div`
 export default class extends Component {
   constructor(props) {
     super(props);
-    this.EditorModel = new EditorModel(this.updateContext);
+    const callbacks = { updateContext: this.updateContext, handleError: this.handleError };
+    this.EditorModel = new EditorModel(callbacks);
   }
 
   state = {
@@ -156,7 +157,7 @@ export default class extends Component {
           codeVals={this.state.compiledCode}
         />
 
-        <HelpButton onClick={this.handleHelpToggle} help={this.state.help}/>
+        <HelpButton onClick={this.handleHelpToggle} help={this.state.help} />
 
         <ConfirmModal
           isOpen={this.state.speechConfirmation}

@@ -2,8 +2,8 @@ import codeFormatter from '../../util/codeFormatter';
 import EventListenerModel from './EventListenerModel';
 
 class JSModel {
-  constructor(updateContext) {
-    this.updateContext = updateContext;
+  constructor(editorCallbacks) {
+    this.editorCallbacks = editorCallbacks;
     this.codeSections = [];
   }
 
@@ -42,10 +42,10 @@ class JSModel {
 
   js_createClickListener = () => {
     // Update context which opens event listener dialog
-    const newEvent = new EventListenerModel(this.updateContext, 'click');
+    const newEvent = new EventListenerModel(this.editorCallbacks, 'click');
     this.currentSection = newEvent;
     this.codeSections.push(newEvent);
-    this.updateContext(['js', 'createEventListener']);
+    this.editorCallbacks.updateContext(['js', 'createEventListener']);
   };
 
   setProperty = ({ id, property, value }) => {
