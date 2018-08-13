@@ -37,7 +37,8 @@ function ButtonAppBar(props) {
           sendQuery={props.sendQuery}
           spokenText={props.spokenText}
           onInputChange={props.onInputChange}
-          startSpeechRecognition={props.startSpeechRecognition}
+          toggleListening={props.toggleListening}
+          listening={props.listening}
         />
       </Toolbar>
     </AppBar>

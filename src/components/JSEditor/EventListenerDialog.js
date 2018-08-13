@@ -11,6 +11,11 @@ import PropertiesSection from '../PropertiesSection';
 import CodeSnippet from '../CodeSnippet';
 import { Target } from 'react-popper';
 import SetStyleDialog from './SetStyleDialog';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 const Title = styled.h2``;
 
@@ -22,7 +27,13 @@ const ContentWrapper = styled.div`
 `;
 
 const styles = {
-  dialogPaper: {}
+  dialogPaper: {},
+  tabletitle:{
+    fontSize: '16pt'
+  },
+  tablecell:{
+    fontSize:'12pt'
+  }
 };
 
 class EventListenerModal extends Component {
@@ -66,6 +77,20 @@ class EventListenerModal extends Component {
       'Target ID': model.getTargetID()
     };
 
+    let id = 0;
+    function createData(property, value) {
+      id += 1;
+      return { id, property, value};
+    }
+
+    // const properties = model.getProps();
+    // console.log(properties);
+    let data = [];
+    data.push(createData("Target ID", targetIDSection["Target ID"]));
+    // Object.keys(properties).forEach(n =>{
+    //   data.push(createData(n, properties[n]));
+    // });
+
     return (
       <React.Fragment>
         <Dialog
@@ -73,11 +98,33 @@ class EventListenerModal extends Component {
           open={isOpen}
           onClose={handleClose}
           aria-labelledby="simple-dialog-title"
+          maxWidth={false}
         >
           <DialogContent>
             <ContentWrapper>
               <Title>{title}</Title>
-              <PropertiesSection properties={targetIDSection} />
+
+              <Table >
+              <TableHead>
+                <TableRow>
+                  <TableCell className={classes.tabletitle}>Target ID</TableCell>
+                  <TableCell className={classes.tabletitle}>Value</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map(n => {
+                  return (
+                    <TableRow key={n.id} className={classes.tablecell}>
+                      <TableCell component="th" scope="row" className={classes.tablecell}>
+                        {n.property}
+                      </TableCell>
+                      <TableCell className={classes.tablecell}>{n.value}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+              {/*<PropertiesSection properties={targetIDSection} /> */}
               <CodeSnippet
                 mode="js"
                 id="eventListener"
