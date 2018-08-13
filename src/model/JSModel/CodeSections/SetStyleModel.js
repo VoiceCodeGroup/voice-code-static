@@ -1,8 +1,8 @@
 import codeFormatter from '../../../util/codeFormatter';
 
 class SetStyleModel {
-  constructor(targetID, updateContext) {
-    this.updateContext = updateContext;
+  constructor(editorCallbacks, targetID) {
+    this.editorCallbacks = editorCallbacks;
     this.targetID = targetID;
     this.style = {};
   }
@@ -44,7 +44,7 @@ class SetStyleModel {
 
   js_eventListener_codeSection_finish = () => {
     console.log('Close set style window');
-    this.updateContext(['js', 'createEventListener']);
+    this.editorCallbacks.updateContext(['js', 'createEventListener']);
   };
 }
 

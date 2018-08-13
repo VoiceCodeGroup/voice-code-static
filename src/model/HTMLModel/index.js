@@ -2,11 +2,12 @@ import codeFormatter from '../../util/codeFormatter';
 import ElementModel from './ElementModel';
 
 class HTMLModel {
-  constructor(updateContext) {
+  constructor(editorCallbacks) {
     this.html = {
-      root: new ElementModel(updateContext, 'div', { id: 'root' })
+      root: new ElementModel(editorCallbacks, 'div', { id: 'root' })
     };
-    this.updateContext = updateContext;
+
+    this.editorCallbacks = editorCallbacks;
   }
 
   // turn a dom element into a string
@@ -37,6 +38,7 @@ class HTMLModel {
     return formattedHTML;
   };
 
+  // Use DFS to find an elemetn
   getElementByID = id => {
     const stack = [this.html.root];
     const found = [];
@@ -47,6 +49,7 @@ class HTMLModel {
         return v;
       }
 
+      console.log(found);
       if (!found.includes(currentID)) {
         found.push(currentID);
         v.getChildren().forEach(child => {
@@ -58,6 +61,7 @@ class HTMLModel {
     return false;
   };
 
+  // Use DFS to remove element from parent
   removeElementByID = id => {
     const stack = [this.html.root];
     const found = [];
@@ -65,16 +69,13 @@ class HTMLModel {
     while (stack.length > 0) {
       let currentElement = stack.pop();
       let currentID = currentElement.getProps().id;
-      console.log('Current Element', currentElement);
 
       if (!found.includes(currentID)) {
         found.push(currentID);
         currentElement.getChildren().forEach(child => {
           let childID = child.getProps().id;
           if (childID === id) {
-            console.log('Parent before removing child', currentElement);
             currentElement.removeChildElement(child);
-            console.log('Parent after removing child', currentElement);
             element = child;
           }
           stack.push(child);
@@ -82,12 +83,13 @@ class HTMLModel {
       }
     }
 
-    console.log('ELEMENT', element);
     return element;
   };
 
   performAction = async ({ intent, params }, context) => {
     console.log('HTML action');
+
+    // If the context is only level 1
     if (!context[1]) {
       if (this[intent]) {
         //
@@ -95,6 +97,7 @@ class HTMLModel {
         await this[intent](params);
       }
     } else {
+      // Pass action to createElement context
       if (context[1] === 'createElement') {
         await this.currentElement.performAction({ intent, params }, context);
       }
@@ -106,25 +109,39 @@ class HTMLModel {
   // add an element to the 'dom' by pushing the created element
   createElement = ({ tag }) => {
     console.log(`Create Element`);
-    this.currentElement = new ElementModel(this.updateContext, tag);
+    this.currentElement = new ElementModel(this.editorCallbacks, tag);
     this.html.root.addChildElement(this.currentElement);
-    console.log('ADDED CHILD', this.html.root);
-    this.updateContext(['html', 'createElement']);
+    this.editorCallbacks.updateContext(['html', 'createElement']);
   };
 
   // id, id = child, parent to be nested under
-  nestElement = ({ childID, parentID }) => {
+  html_nestElement = ({ childID, parentID }) => {
     console.log(`Nest element ${childID} under ${parentID}`);
-    console.log('ADDED CHILD', this.html.root);
+
+    if (childID === 'root') {
+      this.editorCallbacks.handleError(`Cannot nest 'root' element`);
+      return;
+    }
+
+    // remove child from current postion
     const child = this.removeElementByID(childID);
-    this.getElementByID(parentID).addChildElement(child);
+
+    // handle error
+    if (!child) {
+      this.editorCallbacks.handleError(`Child ID '${childID}' not found`);
+      return;
+    }
+
+    const parent = this.getElementByID(parentID);
+
+    //handle error
+    if (!parent) {
+      this.editorCallbacks.handleError(`Parent ID '${parentID}' not found`);
+      return;
+    }
+    // nest child in parent
+    parent.addChildElement(child);
   };
 }
 
 export default HTMLModel;
-
-// this.h(
-//   'div',
-//   { id: 'second' },
-//   this.h('button', { id: 'button' }, this.h('text', { id: 'text' }, 'oh hello1'))
-// )

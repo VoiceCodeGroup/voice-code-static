@@ -1,8 +1,8 @@
 import codeFormatter from '../../util/codeFormatter';
 
 class StyleModel {
-  constructor(updateContext, id) {
-    this.updateContext = updateContext;
+  constructor(editorCallbacks, id) {
+    this.editorCallbacks = editorCallbacks;
 
     this.selectorType = '';
     this.selectorValue = '';
@@ -71,7 +71,7 @@ class StyleModel {
   };
 
   css_style_finish = () => {
-    this.updateContext(['css']);
+    this.editorCallbacks.updateContext(['css']);
   };
 }
 

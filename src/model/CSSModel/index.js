@@ -2,14 +2,13 @@ import codeFormatter from '../../util/codeFormatter';
 import StyleModel from './StyleModel';
 
 class CSSModel {
-  constructor(updateContext) {
+  constructor(editorCallbacks) {
     this.styles = [];
-    this.updateContext = updateContext;
+    this.editorCallbacks = editorCallbacks;
   }
 
   toString = async () => {
     let cssString = '';
-    console.log('css TO STRING');
 
     // Create each style
     // #id {}
@@ -46,9 +45,9 @@ class CSSModel {
   //----------------------------------------------------------Actions-------------------------------------------//
 
   createStyle = () => {
-    this.currentStyle = new StyleModel(this.updateContext);
+    this.currentStyle = new StyleModel(this.editorCallbacks);
     this.styles.push(this.currentStyle);
-    this.updateContext(['css', 'createStyle']);
+    this.editorCallbacks.updateContext(['css', 'createStyle']);
   };
 }
 

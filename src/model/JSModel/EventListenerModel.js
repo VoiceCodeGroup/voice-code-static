@@ -3,8 +3,8 @@ import FunctionModel from './FunctionModel';
 import SetStyleModel from './CodeSections/SetStyleModel';
 
 class EventListenerModel {
-  constructor(updateContext, eventType) {
-    this.updateContext = updateContext;
+  constructor(editorCallbacks, eventType) {
+    this.editorCallbacks = editorCallbacks;
     this.eventType = eventType;
     this.targetID = '';
     this.callback = '';
@@ -49,15 +49,15 @@ class EventListenerModel {
   };
 
   js_eventListener_setStyle = ({ targetID }) => {
-    const setStyleSection = new SetStyleModel(targetID, this.updateContext);
+    const setStyleSection = new SetStyleModel(this.editorCallbacks, targetID);
     this.eventCallback.addCodeSection(setStyleSection);
     this.currentSection = setStyleSection;
-    this.updateContext(['js', 'createEventListener', 'codeSection']);
+    this.editorCallbacks.updateContext(['js', 'createEventListener', 'codeSection']);
   };
 
   js_eventListener_finish = () => {
     console.log('Close event listener window');
-    this.updateContext(['js']);
+    this.editorCallbacks.updateContext(['js']);
   };
 }
 
