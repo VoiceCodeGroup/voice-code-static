@@ -27,7 +27,8 @@ const styles = {
 
 class EventListenerModal extends Component {
   state = {
-    codeVal: ''
+    codeVal: '',
+    formattedCode: ''
   };
 
   componentDidMount = () => {
@@ -38,8 +39,8 @@ class EventListenerModal extends Component {
     const codeVal = await this.props.model.toString();
     // Only update if there is a change
     if (codeVal !== prevState.codeVal) {
-      const codeVal = await this.props.model.toFormattedString();
-      this.setState({ codeVal });
+      const formattedCode = await this.props.model.toFormattedString();
+      this.setState({ codeVal, formattedCode });
     }
   };
 
@@ -82,7 +83,7 @@ class EventListenerModal extends Component {
                 mode="js"
                 id="eventListener"
                 label="Event Listener"
-                val={this.state.codeVal}
+                val={this.state.formattedCode}
               />
               <QuerySection
                 onInputChange={onInputChange}

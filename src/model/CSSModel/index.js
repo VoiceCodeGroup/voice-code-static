@@ -44,7 +44,7 @@ class CSSModel {
 
   //----------------------------------------------------------Actions-------------------------------------------//
 
-  createStyle = () => {
+  css_createStyle = () => {
     this.currentStyle = new StyleModel(this.editorCallbacks);
     this.styles.push(this.currentStyle);
     this.editorCallbacks.updateContext(['css', 'createStyle']);

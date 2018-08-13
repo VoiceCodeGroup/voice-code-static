@@ -4,7 +4,15 @@ class SetStyleModel {
   constructor(editorCallbacks, targetID) {
     this.editorCallbacks = editorCallbacks;
     this.targetID = targetID;
-    this.style = {};
+    this.code = {
+      styles: {},
+      text: undefined,
+      class: {
+        add: [],
+        remove: [],
+        toggle: []
+      }
+    };
   }
 
   getTargetID = () => this.targetID;
@@ -14,11 +22,32 @@ class SetStyleModel {
   };
 
   toString = () => {
-    let codeString = `document.getElementById("${this.targetID}")`;
+    let variable = `element${this.targetID}`;
+    let codeString = `const ${variable} = document.getElementById("${this.targetID}")`;
 
-    if (this.style.property) {
-      codeString += `.style.${this.style.property} = "${this.style.value}"`;
+    // Styles
+    Object.entries(this.code.styles).forEach(([property, value]) => {
+      codeString += `\n${variable}.style.${property} = "${value}"`;
+    });
+
+    // Text
+    if (this.code.text) {
+      codeString += `\n${variable}.innerHTML = "${this.code.text}"`;
     }
+
+    this.code.class.add.forEach(className => {
+      codeString += `\n${variable}.classList.add("${className}")`;
+    });
+
+    this.code.class.remove.forEach(className => {
+      codeString += `\n${variable}.classList.remove("${className}")`;
+    });
+
+    this.code.class.toggle.forEach(className => {
+      codeString += `\n${variable}.classList.toggle("${className}")`;
+    });
+
+    codeString;
 
     return codeString;
   };
@@ -38,8 +67,27 @@ class SetStyleModel {
 
   js_eventListener_codeSection_setStyle = ({ property, value }) => {
     console.log(`Setting ${property} to ${value}`);
-    this.style.property = property;
-    this.style.value = value;
+    this.code.styles[property] = value;
+  };
+
+  js_eventListener_codeSection_addClass = ({ className }) => {
+    console.log(`Adding class ${className}`);
+    this.code.class.add.push(className);
+  };
+
+  js_eventListener_codeSection_removeClass = ({ className }) => {
+    console.log(`Removing class ${className}`);
+    this.code.class.remove.push(className);
+  };
+
+  js_eventListener_codeSection_toggleClass = ({ className }) => {
+    console.log(`Toggling class ${className}`);
+    this.code.class.toggle.push(className);
+  };
+
+  js_eventListener_codeSection_setText = ({ text }) => {
+    console.log(`Setting text to ${text}`);
+    this.code.text = text;
   };
 
   js_eventListener_codeSection_finish = () => {

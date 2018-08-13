@@ -21,7 +21,7 @@ class EventListenerModel {
   toString = () => {
     let codeString = `document.getElementById("${this.targetID}").addEventListener("${
       this.eventType
-    }", ${this.eventCallback.toString()})`;
+    }", ${this.eventCallback.toString()}); `;
 
     return codeString;
   };
@@ -48,7 +48,7 @@ class EventListenerModel {
     this.setTargetID(targetID);
   };
 
-  js_eventListener_setStyle = ({ targetID }) => {
+  js_eventListener_selectID = ({ targetID }) => {
     const setStyleSection = new SetStyleModel(this.editorCallbacks, targetID);
     this.eventCallback.addCodeSection(setStyleSection);
     this.currentSection = setStyleSection;
