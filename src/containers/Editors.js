@@ -59,15 +59,15 @@ export default class extends Component {
   };
 
   toggleListening = () => {
-    console.log("current listening state: "+this.state.listening);
+    console.log('current listening state: ' + this.state.listening);
     this.setState(prevState => ({
       listening: !prevState.listening
     }));
-    console.log("next listening state: "+this.state.listening);
+    console.log('next listening state: ' + this.state.listening);
 
-    if(this.state.listening){
+    if (this.state.listening) {
       this.startSpeechRecognition();
-    }else{
+    } else {
       this.stopSpeechRecognition();
     }
   };

@@ -28,7 +28,7 @@ export default class SpeechRecognition {
     };
   }
 
-  finish = () => {
+  stop = () => {
     this.recognition.stop();
   };
 
