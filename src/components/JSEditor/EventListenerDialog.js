@@ -136,6 +136,8 @@ class EventListenerModal extends Component {
                 onInputChange={onInputChange}
                 sendQuery={sendQuery}
                 spokenText={spokenText}
+                toggleListening={this.props.toggleListening}
+                listening={this.props.listening}
                 startSpeechRecognition={startSpeechRecognition}
               />
             </ContentWrapper>
@@ -151,6 +153,8 @@ class EventListenerModal extends Component {
             onInputChange={onInputChange}
             sendQuery={sendQuery}
             spokenText={spokenText}
+            toggleListening={this.props.toggleListening}
+            listening={this.props.listening}
             startSpeechRecognition={startSpeechRecognition}
           />
         )}

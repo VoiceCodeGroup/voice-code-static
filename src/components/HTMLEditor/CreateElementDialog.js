@@ -119,6 +119,8 @@ class ElementModal extends Component {
               onInputChange={onInputChange}
               sendQuery={sendQuery}
               spokenText={spokenText}
+              toggleListening={this.props.toggleListening}
+              listening={this.props.listening}
               startSpeechRecognition={startSpeechRecognition}
             />
           </ContentWrapper>

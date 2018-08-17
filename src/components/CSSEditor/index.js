@@ -32,6 +32,8 @@ class CSSEditor extends Component {
               onInputChange={this.props.onInputChange}
               sendQuery={this.props.sendQuery}
               spokenText={this.props.spokenText}
+              toggleListening={this.props.toggleListening}
+              listening={this.props.listening}
               startSpeechRecognition={this.props.startSpeechRecognition}
             />
           )}

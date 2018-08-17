@@ -43,7 +43,7 @@ export default class extends Component {
   };
 
   componentDidMount() {
-    this.setState({ SpeechRecognition: new speechRecognition(this.onSpeechResult) });
+    this.setState({ SpeechRecognition: new speechRecognition(this.onSpeechResult, this.toggleListening, this.isListening) });
     init();
   }
 
@@ -58,9 +58,9 @@ export default class extends Component {
     this.setState({ spokenText: event.target.value });
   };
 
-  toggleListening = () => {
+  toggleListening = async () => {
     console.log("current listening state: "+this.state.listening);
-    this.setState(prevState => ({
+    await this.setState(prevState => ({
       listening: !prevState.listening
     }));
     console.log("next listening state: "+this.state.listening);
@@ -78,7 +78,7 @@ export default class extends Component {
   };
 
   stopSpeechRecognition = () => {
-    // this.state.SpeechRecognition.stop();
+    this.state.SpeechRecognition.finish();
   };
 
   onSpeechResult = async event => {
@@ -95,6 +95,8 @@ export default class extends Component {
       await this.setState({ spokenText });
       this.sendQuery();
     }
+    console.log("starting speech again");
+    this.state.SpeechRecognition.start();
   };
 
   sendQuery = async (e, query) => {
@@ -123,6 +125,13 @@ export default class extends Component {
 
   handleErrorClose = () => this.setState({ errorText: null });
 
+  isListening = () => {
+    if(this.state.listening){
+      return true;
+    }else{
+      return false;
+    }};
+
   updateContext = context => {
     console.log('Updating context', context);
     this.setState({ context });
@@ -145,6 +154,8 @@ export default class extends Component {
           onInputChange={this.onChange}
           sendQuery={this.sendQuery}
           spokenText={this.state.spokenText}
+          toggleListening={this.toggleListening}
+          listening={this.state.listening}
           startSpeechRecognition={this.startSpeechRecognition}
           model={this.EditorModel}
           help={this.state.help}
@@ -167,6 +178,8 @@ export default class extends Component {
           onInputChange={this.onChange}
           sendQuery={this.sendQuery}
           spokenText={this.state.spokenText}
+          toggleListening={this.toggleListening}
+          listening={this.state.listening}
           startSpeechRecognition={this.startSpeechRecognition}
         />
 

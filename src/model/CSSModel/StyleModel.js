@@ -64,7 +64,7 @@ class StyleModel {
 
   css_style_setSelectorValue = ({ selectorValue }) => {
     this.selectorValue = selectorValue;
-  };
+    };
 
   css_style_setCSSProperty = ({ property, value }) => {
     this.properties[property] = value;

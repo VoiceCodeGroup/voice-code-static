@@ -83,7 +83,6 @@ class StyleDialog extends Component {
     }
 
     // const properties = model.getProps();
-    console.log(properties);
     let data = [];
     data.push(createData('Selector Type', selectorSection["Selector Type"]));
     data.push(createData('Selector Value', selectorSection["Selector Value"]));
@@ -125,13 +124,14 @@ class StyleDialog extends Component {
               </TableBody>
             </Table>
 
-
             <CodeSnippet mode="css" id="style" label="Style" val={this.state.codeVal} />
 
             <QuerySection
               onInputChange={onInputChange}
               sendQuery={sendQuery}
               spokenText={spokenText}
+              toggleListening={this.props.toggleListening}
+              listening={this.props.listening}
               startSpeechRecognition={startSpeechRecognition}
             />
           </ContentWrapper>

@@ -86,6 +86,8 @@ class ConfirmModal extends Component {
               onInputChange={this.onChange}
               sendQuery={this.handleSubmit}
               spokenText={this.spokenText}
+              toggleListening={this.props.toggleListening}
+              listening={this.props.listening}
               startSpeechRecognition={this.startSpeechRecognition}
             />
           </ContentWrapper>
