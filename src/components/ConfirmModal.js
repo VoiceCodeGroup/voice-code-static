@@ -26,16 +26,33 @@ const styles = {
 
 class ConfirmModal extends Component {
   state = {
-    spokenText: ''
+    spokenText: '',
+    listening: false
   };
 
   componentDidMount() {
     this.setState({ SpeechRecognition: new speechRecognition(this.onSpeechResult) });
   }
 
+  toggleListening = async () => {
+    await this.setState(prevState => ({
+      listening: !prevState.listening
+    }));
+
+    if (this.state.listening) {
+      this.startSpeechRecognition();
+    } else {
+      this.stopSpeechRecognition();
+    }
+  };
+
   startSpeechRecognition = () => {
     this.state.SpeechRecognition.start();
     this.setState({ spokenText: '' });
+  };
+
+  stopSpeechRecognition = () => {
+    this.state.SpeechRecognition.stop();
   };
 
   onChange = event => {
@@ -68,7 +85,7 @@ class ConfirmModal extends Component {
   };
 
   render() {
-    const { classes, isOpen, handleClose, title, sendQuery } = this.props;
+    const { classes, isOpen, handleClose, title, spokenText } = this.props;
 
     return (
       <Dialog
@@ -80,7 +97,7 @@ class ConfirmModal extends Component {
         <DialogContent>
           <ContentWrapper>
             <Title>{title}</Title>
-            <DialogContentText>{this.spokenText}</DialogContentText>
+            <DialogContentText>{spokenText}</DialogContentText>
 
             <QuerySection
               onInputChange={this.onChange}
@@ -89,6 +106,7 @@ class ConfirmModal extends Component {
               toggleListening={this.props.toggleListening}
               listening={this.props.listening}
               startSpeechRecognition={this.startSpeechRecognition}
+
             />
           </ContentWrapper>
         </DialogContent>
