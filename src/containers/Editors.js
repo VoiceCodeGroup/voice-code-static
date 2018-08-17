@@ -58,15 +58,9 @@ export default class extends Component {
     this.setState({ spokenText: event.target.value });
   };
 
-<<<<<<< HEAD
   toggleListening = async () => {
     console.log("current listening state: "+this.state.listening);
     await this.setState(prevState => ({
-=======
-  toggleListening = () => {
-    console.log('current listening state: ' + this.state.listening);
-    this.setState(prevState => ({
->>>>>>> 61552614dd99a274b42b0b33b7950eb144ab4b51
       listening: !prevState.listening
     }));
     console.log('next listening state: ' + this.state.listening);
