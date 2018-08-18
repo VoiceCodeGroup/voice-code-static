@@ -12,6 +12,7 @@ import EditorModel from '../model/EditorModel';
 import ErrorPopup from '../components/ErrorPopup';
 import ConfirmModal from '../components/ConfirmModal';
 import HelpButton from '../components/HelpButton';
+import Suggestion from '../components/Suggestion';
 
 const PageWrapper = styled.div`
   min-height: 100vh;
@@ -43,7 +44,13 @@ export default class extends Component {
   };
 
   componentDidMount() {
-    this.setState({ SpeechRecognition: new speechRecognition(this.onSpeechResult, this.toggleListening, this.isListening) });
+    this.setState({
+      SpeechRecognition: new speechRecognition(
+        this.onSpeechResult,
+        this.toggleListening,
+        this.isListening
+      )
+    });
     init();
   }
 
@@ -59,7 +66,7 @@ export default class extends Component {
   };
 
   toggleListening = async () => {
-    console.log("current listening state: "+this.state.listening);
+    console.log('current listening state: ' + this.state.listening);
     await this.setState(prevState => ({
       listening: !prevState.listening
     }));
@@ -95,7 +102,7 @@ export default class extends Component {
       await this.setState({ spokenText });
       this.sendQuery();
     }
-    console.log("starting speech again");
+    console.log('starting speech again');
     this.state.SpeechRecognition.start();
   };
 
@@ -126,11 +133,12 @@ export default class extends Component {
   handleErrorClose = () => this.setState({ errorText: null });
 
   isListening = () => {
-    if(this.state.listening){
+    if (this.state.listening) {
       return true;
-    }else{
+    } else {
       return false;
-    }};
+    }
+  };
 
   updateContext = context => {
     console.log('Updating context', context);
@@ -160,7 +168,7 @@ export default class extends Component {
           model={this.EditorModel}
           help={this.state.help}
         />
-        <PreviewButton onClick={this.handlePreviewOpen} />
+        <PreviewButton onClick={this.handlePreviewOpen} preview={this.state.preview} />
 
         <PreviewModal
           isOpen={this.state.preview}
