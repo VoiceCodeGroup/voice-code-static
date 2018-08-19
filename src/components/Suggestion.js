@@ -13,7 +13,7 @@ export default ({ text, fontSize }) => {
   return (
     <Wrapper>
       <SpeechIcon style={{ fontSize: 14, marginRight: 5 }} />
-      <p style={{ margin: 0, fontSize: fontSize || 11 }}>{text}</p>
+      <p style={{ margin: 0, fontSize: fontSize || 11 }}>{`"${text}"`}</p>
     </Wrapper>
   );
 };

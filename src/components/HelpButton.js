@@ -26,7 +26,7 @@ const HelpButton = ({ onClick, help }) => (
   <StyledHelpButton onClick={onClick} variant="extendedFab" color="secondary">
     <Wrapper>
       {help ? <CodeIcon /> : <HelpIcon />}
-      <Suggestion text={help ? '"close"' : '"Help"'} />
+      <Suggestion text={help ? 'close' : 'Help'} />
     </Wrapper>
   </StyledHelpButton>
 );

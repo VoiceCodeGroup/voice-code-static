@@ -23,7 +23,7 @@ export default ({ inFocus, label, ...other }) => {
   return (
     <Wrapper elevation={height} inFocus={inFocus}>
       <Label>{label}</Label>
-      <Suggestion text={`"${label === 'JavaScript' ? 'JS' : label}"`} />
+      <Suggestion text={label === 'JavaScript' ? 'JS' : label} />
       <CodeEditor {...other} />
     </Wrapper>
   );

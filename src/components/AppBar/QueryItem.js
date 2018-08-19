@@ -47,7 +47,7 @@ export default ({ toggleListening, spokenText, onInputChange, sendQuery, listeni
         >
           <VoiceRecordIcon />
         </IconButton>
-        {listening && <Suggestion text={'"STOP"'} fontSize={10} />}
+        {listening && <Suggestion text={'STOP'} fontSize={10} />}
       </Wrapper>
 
       <StyledInput

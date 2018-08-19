@@ -26,7 +26,7 @@ const PreviewButton = ({ onClick, preview }) => (
   <StyledPreviewButton onClick={onClick} variant="extendedFab" color="secondary">
     <Wrapper>
       {preview ? <CodeIcon /> : <PreviewIcon />}
-      <Suggestion text={preview ? '"close"' : '"preview"'} />
+      <Suggestion text={preview ? 'close' : 'preview'} />
     </Wrapper>
   </StyledPreviewButton>
 );
