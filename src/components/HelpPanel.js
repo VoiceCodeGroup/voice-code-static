@@ -41,14 +41,17 @@ function createData(action, command) {
   return { id, action, command};
 }
     const htmlData = [
+        createData('Go to HTML', 'HTML'),
         createData('Insert element', 'Create element [element name]'),
         createData('Add property', 'Set [property] to [value]'),
     ];
     const cssData = [
+        createData('Go to CSS', 'CSS'),
         createData('Insert style', 'Create style for [id]'),
         createData('Add attribute', 'Set [attribute] to [value]'),
     ];
     const jsData = [
+        createData('Go to JavaScript', 'Js'),
         createData('Insert listener', 'Create [type] listener to [id]'),
         createData('Add style logic', 'Set [property] to [value]'),
     ];

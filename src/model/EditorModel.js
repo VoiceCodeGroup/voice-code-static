@@ -62,6 +62,26 @@ class Model {
   switchEditorToJS = () => {
     this.editorCallbacks.updateContext(['js']);
   };
+
+  stopSpeechRecognition = () => {
+    this.editorCallbacks.toggleListening();
+  }
+
+  openHelp = () => {
+    this.editorCallbacks.openHelp();  
+  }
+
+  closeHelp= () => {
+    this.editorCallbacks.closeHelp();
+  }
+
+  openPreview = () => {
+    this.editorCallbacks.openPreview();
+  }
+
+  closePreview = () => {
+    this.editorCallbacks.closePreview();
+  }
 }
 
 export default Model;

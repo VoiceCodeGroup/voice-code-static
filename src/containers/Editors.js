@@ -26,7 +26,7 @@ const PageWrapper = styled.div`
 export default class extends Component {
   constructor(props) {
     super(props);
-    const callbacks = { updateContext: this.updateContext, handleError: this.handleError };
+    const callbacks = { updateContext: this.updateContext, handleError: this.handleError, toggleListening: this.toggleListening, openHelp : this.handleHelpOpen, closeHelp : this.handleHelpClose, openPreview : this.handlePreviewOpen, closePreview : this.handlePreviewClose };
     this.EditorModel = new EditorModel(callbacks);
   }
 
@@ -93,7 +93,13 @@ export default class extends Component {
     } else {
       // tts(spokenText);
       await this.setState({ spokenText });
-      this.sendQuery();
+
+      if(speechConfirmation){
+        if(!this.state.spokenText === 'yes'){
+          this.handleConfirmationClose();
+      }}else{
+        this.sendQuery();
+      }
     }
     console.log("starting speech again");
     this.state.SpeechRecognition.start();
@@ -113,6 +119,10 @@ export default class extends Component {
   handlePreviewOpen = () => this.setState({ preview: true });
 
   handlePreviewClose = () => this.setState({ preview: false });
+
+  handleHelpOpen = () => this.setState({ help: true });
+
+  handleHelpClose = () => this.setState({ help: false });
 
   handleHelpToggle = () => {
     this.setState({ help: !this.state.help });

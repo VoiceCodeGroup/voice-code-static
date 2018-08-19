@@ -34,58 +34,58 @@ class ConfirmModal extends Component {
     this.setState({ SpeechRecognition: new speechRecognition(this.onSpeechResult) });
   }
 
-  toggleListening = async () => {
-    await this.setState(prevState => ({
-      listening: !prevState.listening
-    }));
+  // toggleListening = async () => {
+  //   await this.setState(prevState => ({
+  //     listening: !prevState.listening
+  //   }));
 
-    if (this.state.listening) {
-      this.startSpeechRecognition();
-    } else {
-      this.stopSpeechRecognition();
-    }
-  };
+  //   if (this.state.listening) {
+  //     this.startSpeechRecognition();
+  //   } else {
+  //     this.stopSpeechRecognition();
+  //   }
+  // };
 
-  startSpeechRecognition = () => {
-    this.state.SpeechRecognition.start();
-    this.setState({ spokenText: '' });
-  };
+  // startSpeechRecognition = () => {
+  //   this.state.SpeechRecognition.start();
+  //   this.setState({ spokenText: '' });
+  // };
 
-  stopSpeechRecognition = () => {
-    this.state.SpeechRecognition.stop();
-  };
+  // stopSpeechRecognition = () => {
+  //   this.state.SpeechRecognition.stop();
+  // };
 
-  onChange = event => {
-    this.setState({ spokenText: event.target.value });
-  };
+  // onChange = event => {
+  //   this.setState({ spokenText: event.target.value });
+  // };
 
-  onSpeechResult = async event => {
-    const last = event.results.length - 1;
-    const spokenText = event.results[last][0].transcript;
-    if (spokenText === 'yes') {
-      this.props.sendQuery();
-      this.props.handleClose();
-    } else {
-      this.props.handleClose();
-    }
-  };
+  // onSpeechResult = async event => {
+  //   const last = event.results.length - 1;
+  //   const spokenText = event.results[last][0].transcript;
+  //   if (spokenText === 'yes') {
+  //     this.props.sendQuery();
+  //     this.props.handleClose();
+  //   } else {
+  //     this.props.handleClose();
+  //   }
+  // };
 
   handleClickYes = () => {
     this.props.sendQuery();
     this.props.handleClose();
   };
 
-  handleSubmit = () => {
-    if (this.state.spokenText === 'yes') {
-      this.props.sendQuery();
-      this.props.handleClose();
-    } else {
-      this.props.handleClose();
-    }
-  };
+  // handleSubmit = () => {
+  //   if (this.state.spokenText === 'yes') {
+  //     this.props.sendQuery();
+  //     this.props.handleClose();
+  //   } else {
+  //     this.props.handleClose();
+  //   }
+  // };
 
   render() {
-    const { classes, isOpen, handleClose, title, spokenText } = this.props;
+    const { classes, isOpen, handleClose, title, spokenText, sendQuery, onChange, toggleListening, listening, startSpeechRecognition } = this.props;
 
     return (
       <Dialog
@@ -100,12 +100,12 @@ class ConfirmModal extends Component {
             <DialogContentText>{spokenText}</DialogContentText>
 
             <QuerySection
-              onInputChange={this.onChange}
-              sendQuery={this.handleSubmit}
-              spokenText={this.spokenText}
-              toggleListening={this.props.toggleListening}
-              listening={this.props.listening}
-              startSpeechRecognition={this.startSpeechRecognition}
+              onInputChange={onChange}
+              sendQuery={sendQuery}
+              spokenText={spokenText}
+              toggleListening={toggleListening}
+              listening={listening}
+              startSpeechRecognition={startSpeechRecognition}
 
             />
           </ContentWrapper>
