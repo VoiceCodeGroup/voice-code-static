@@ -1,21 +1,17 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 import QuerySection from '../AppBar/QueryItem';
-import PropertiesSection from '../PropertiesSection';
 import CodeSnippet from '../CodeSnippet';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import PropertiesSection from '../PropertiesSection';
+import Suggestion from '../Suggestion';
 
-const Title = styled.h2``;
+const Title = styled.h3`
+  margin-bottom: 0;
+  margin-top: 5px;
+`;
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -26,11 +22,11 @@ const ContentWrapper = styled.div`
 
 const styles = {
   dialogPaper: {},
-  tabletitle:{
+  tabletitle: {
     fontSize: '16pt'
   },
-  tablecell:{
-    fontSize:'12pt'
+  tablecell: {
+    fontSize: '12pt'
   }
 };
 
@@ -69,28 +65,21 @@ class StyleDialog extends Component {
       model
     } = this.props;
 
-    const selectorSection = {
-      'Selector Type': model.getSelectorType(),
-      'Selector Value': model.getSelectorValue()
+    const defaultProperties = {
+      'Selector Type': model.getSelectorType() || <Suggestion text="[class, id, element] type" />,
+      'Selector Value': model.getSelectorValue() || <Suggestion text="set value to {value}" />,
+      property: <Suggestion text="set {property} to {value}" />
     };
 
-    const properties = model.getProperties();
+    const modelProperties = model.getProperties();
+    const mergedProperties = { ...defaultProperties };
 
-    let id = 0;
-    function createData(property, value) {
-      id += 1;
-      return { id, property, value};
-    }
-
-    // const properties = model.getProps();
-    let data = [];
-    data.push(createData('Selector Type', selectorSection["Selector Type"]));
-    data.push(createData('Selector Value', selectorSection["Selector Value"]));
-
-    Object.keys(properties).forEach(n =>{
-      data.push(createData(n, properties[n]));
+    Object.entries(modelProperties).map(([name, value]) => {
+      mergedProperties[name] = modelProperties[name];
     });
-    
+
+    const propsArray = Object.entries(mergedProperties);
+
     return (
       <Dialog
         classes={{ paper: classes.dialogPaper }}
@@ -102,30 +91,8 @@ class StyleDialog extends Component {
         <DialogContent>
           <ContentWrapper>
             <Title>{title}</Title>
-
-            <Table >
-              <TableHead>
-                <TableRow>
-                  <TableCell className={classes.tabletitle}>Properties</TableCell>
-                  <TableCell className={classes.tabletitle}>Value</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.map(n => {
-                  return (
-                    <TableRow key={n.id} className={classes.tablecell}>
-                      <TableCell component="th" scope="row" className={classes.tablecell}>
-                        {n.property}
-                      </TableCell>
-                      <TableCell className={classes.tablecell}>{n.value}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-
+            <PropertiesSection properties={propsArray} />
             <CodeSnippet mode="css" id="style" label="Style" val={this.state.codeVal} />
-
             <QuerySection
               onInputChange={onInputChange}
               sendQuery={sendQuery}
@@ -142,10 +109,3 @@ class StyleDialog extends Component {
 }
 
 export default withStyles(styles)(StyleDialog);
-
-
-{/* <DialogContentText>Selector info</DialogContentText>
-<PropertiesSection properties={selectorSection} />
-
-<DialogContentText>Properties</DialogContentText>
-<PropertiesSection properties={properties} /> */}

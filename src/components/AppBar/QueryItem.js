@@ -1,17 +1,33 @@
+import IconButton from '@material-ui/core/IconButton';
+import SendIcon from '@material-ui/icons/PlayCircleFilled';
+import VoiceRecordIcon from '@material-ui/icons/SettingsVoice';
+import Input from '@material-ui/core/Input';
 import React from 'react';
 import styled from 'styled-components';
-import SendIcon from '@material-ui/icons/PlayCircleFilled';
-import Input from '@material-ui/core/Input';
-import IconButton from '@material-ui/core/IconButton';
-import VoiceRecordIcon from '@material-ui/icons/SettingsVoice';
+import Suggestion from '../Suggestion';
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-right: 10px;
+`;
+
+const PageWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+`;
 
 const StyledInput = styled(Input)`
   && {
   }
 `;
-// ${props => (props.light ? 'color: white;' : '')};
 
-export default ({ toggleListening, spokenText, onInputChange, sendQuery, light, listening }) => {
+export default ({ toggleListening, spokenText, onInputChange, sendQuery, listening }) => {
   const onKeyPress = event => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -19,12 +35,21 @@ export default ({ toggleListening, spokenText, onInputChange, sendQuery, light, 
     }
   };
 
-  const colour = listening ? "secondary" : "inherit";
+  const colour = listening ? 'secondary' : 'inherit';
   return (
-    <div>
-      <IconButton onClick={toggleListening} color={colour} aria-label="Menu">
-        <VoiceRecordIcon />
-      </IconButton>
+    <PageWrapper>
+      <Wrapper>
+        <IconButton
+          onClick={toggleListening}
+          color={colour}
+          aria-label="Menu"
+          style={{ height: 36 }}
+        >
+          <VoiceRecordIcon />
+        </IconButton>
+        {listening && <Suggestion text={'STOP'} fontSize={10} />}
+      </Wrapper>
+
       <StyledInput
         light
         color="secondary"
@@ -38,6 +63,6 @@ export default ({ toggleListening, spokenText, onInputChange, sendQuery, light, 
       <IconButton onClick={sendQuery} color="inherit" aria-label="Menu">
         <SendIcon />
       </IconButton>
-    </div>
+    </PageWrapper>
   );
 };

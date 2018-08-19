@@ -1,21 +1,16 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import styled from 'styled-components';
 import QuerySection from '../AppBar/QueryItem';
-import PropertiesSection from '../PropertiesSection';
 import CodeSnippet from '../CodeSnippet';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import PropertiesSection from '../PropertiesSection';
+import Suggestion from '../Suggestion';
 
-const Title = styled.h2``;
+const Title = styled.h3`
+  margin-bottom: 0;
+  margin-top: 5px;
+`;
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -23,16 +18,6 @@ const ContentWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-const styles = {
-  dialogPaper: {},
-  tabletitle:{
-    fontSize: '16pt'
-  },
-  tablecell:{
-    fontSize:'12pt'
-  }
-};
 
 class ElementModal extends Component {
   state = {
@@ -58,7 +43,6 @@ class ElementModal extends Component {
 
   render() {
     const {
-      classes,
       isOpen,
       handleClose,
       title,
@@ -69,22 +53,22 @@ class ElementModal extends Component {
       model
     } = this.props;
 
-    let id = 0;
-    function createData(property, value) {
-      id += 1;
-      return { id, property, value};
-    }
+    const defaultProperties = {
+      id: <Suggestion text="set id to {id}" />,
+      class: <Suggestion text="set class to {class}" />
+    };
 
-    const properties = model.getProps();
-    console.log(properties);
-    let data = [];
-    Object.keys(properties).forEach(n =>{
-      data.push(createData(n, properties[n]));
+    const modelProperties = model.getProps();
+    const mergedProperties = { ...defaultProperties };
+
+    Object.entries(modelProperties).map(([name, value]) => {
+      mergedProperties[name] = modelProperties[name];
     });
+
+    const propsArray = Object.entries(mergedProperties);
 
     return (
       <Dialog
-        classes={{ paper: classes.dialogPaper }}
         open={isOpen}
         onClose={handleClose}
         aria-labelledby="simple-dialog-title"
@@ -93,27 +77,7 @@ class ElementModal extends Component {
         <DialogContent>
           <ContentWrapper>
             <Title>{title}</Title>
-            <Table >
-              <TableHead>
-                <TableRow>
-                  <TableCell className={classes.tabletitle}>Properties</TableCell>
-                  <TableCell className={classes.tabletitle}>Value</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.map(n => {
-                  return (
-                    <TableRow key={n.id} className={classes.tablecell}>
-                      <TableCell component="th" scope="row" className={classes.tablecell}>
-                        {n.property}
-                      </TableCell>
-                      <TableCell className={classes.tablecell}>{n.value}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-            {/* <PropertiesSection properties={properties} /> */}
+            <PropertiesSection properties={propsArray} />
             <CodeSnippet mode="html" id="element" label="Element" val={this.state.codeVal} />
             <QuerySection
               onInputChange={onInputChange}
@@ -130,4 +94,4 @@ class ElementModal extends Component {
   }
 }
 
-export default withStyles(styles)(ElementModal);
+export default ElementModal;

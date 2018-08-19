@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Paper from '@material-ui/core/Paper';
 import CodeEditor from './CodeEditor';
+import Suggestion from './Suggestion';
 
 const Wrapper = styled(Paper)`
   width: 31%;
@@ -22,6 +23,7 @@ export default ({ inFocus, label, ...other }) => {
   return (
     <Wrapper elevation={height} inFocus={inFocus}>
       <Label>{label}</Label>
+      <Suggestion text={label === 'JavaScript' ? 'JS' : label} />
       <CodeEditor {...other} />
     </Wrapper>
   );
