@@ -65,6 +65,8 @@ class EventListenerModal extends Component {
       'Target ID': model.getTargetID()
     };
 
+    Object.entries(targetIDSection);
+
     return (
       <Dialog
         classes={{ paper: classes.dialogPaper }}
@@ -76,7 +78,7 @@ class EventListenerModal extends Component {
         <DialogContent>
           <ContentWrapper>
             <Title>{title}</Title>
-            <PropertiesSection properties={targetIDSection} />
+            <PropertiesSection properties={Object.entries(targetIDSection)} />
             <CodeSnippet
               mode="js"
               id="eventListener"
