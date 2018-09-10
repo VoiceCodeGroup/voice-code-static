@@ -29,7 +29,7 @@ function ButtonAppBar(props) {
     <AppBar position="absolute">
       <Toolbar>
         <Typography variant="title" color="inherit" className={classes.flex}>
-          VoiceCode
+          CSI : CodeSpeechInterface
         </Typography>
 
         <QueryItem

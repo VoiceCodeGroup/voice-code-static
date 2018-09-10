@@ -31,7 +31,7 @@ class ConfirmModal extends Component {
   };
 
   componentDidMount() {
-    this.setState({ SpeechRecognition: new speechRecognition(this.onSpeechResult) });
+    // this.setState({ SpeechRecognition: new speechRecognition(this.onSpeechResult) });
   }
 
   // toggleListening = async () => {
@@ -75,14 +75,14 @@ class ConfirmModal extends Component {
     this.props.handleClose();
   };
 
-  // handleSubmit = () => {
-  //   if (this.state.spokenText === 'yes') {
-  //     this.props.sendQuery();
-  //     this.props.handleClose();
-  //   } else {
-  //     this.props.handleClose();
-  //   }
-  // };
+  handleSubmit = () => {
+    if (this.state.spokenText === 'yes') {
+      this.props.sendQuery();
+      this.props.handleClose();
+    } else {
+      this.props.handleClose();
+    }
+  };
 
   render() {
     const { classes, isOpen, handleClose, title, spokenText, sendQuery, onChange, toggleListening, listening, startSpeechRecognition } = this.props;

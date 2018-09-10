@@ -68,7 +68,7 @@ class StyleDialog extends Component {
     const defaultProperties = {
       'Selector Type': model.getSelectorType() || <Suggestion text="[class, id, element] type" />,
       'Selector Value': model.getSelectorValue() || <Suggestion text="set value to {value}" />,
-      property: <Suggestion text="set {property} to {value}" />
+      Property: <Suggestion text="set {property} to {value}" />
     };
 
     const modelProperties = model.getProperties();

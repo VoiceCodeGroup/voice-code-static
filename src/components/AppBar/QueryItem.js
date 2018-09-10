@@ -23,11 +23,10 @@ const PageWrapper = styled.div`
 `;
 
 const StyledInput = styled(Input)`
-  && {
-  }
+  &&{color:${props=> props.light ? 'white' : 'black' }
 `;
 
-export default ({ toggleListening, spokenText, onInputChange, sendQuery, listening }) => {
+export default ({ toggleListening, spokenText, onInputChange, sendQuery, listening, light }) => {
   const onKeyPress = event => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -51,7 +50,7 @@ export default ({ toggleListening, spokenText, onInputChange, sendQuery, listeni
       </Wrapper>
 
       <StyledInput
-        light
+        light={light}
         color="secondary"
         id="query"
         label="Query"

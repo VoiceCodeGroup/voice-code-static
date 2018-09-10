@@ -94,14 +94,15 @@ export default class extends Component {
     const confidence = event.results[0][0].confidence;
     console.log('Speech:' + spokenText);
     console.log('Confidence: ' + event.results[0][0].confidence);
-    if (confidence < 0.9) {
+    if (confidence < 0) {
       console.log('Await confirmation');
       this.setState({ speechConfirmation: true, spokenText });
     } else {
       // tts(spokenText);
       await this.setState({ spokenText });
 
-      if(speechConfirmation){
+      if(this.state.speechConfirmation){
+        console.log("this is speech confirming and the spoken text is "+this.state.spokenText);
         if(!this.state.spokenText === 'yes'){
           this.handleConfirmationClose();
       }}else{
