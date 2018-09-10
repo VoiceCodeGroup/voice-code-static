@@ -13,7 +13,7 @@ class CSSModel {
     // Create each style
     // #id {}
     this.styles.forEach(style => {
-      cssString = `${style.getSelectorString()} {`;
+      cssString += `${style.getSelectorString()} {`;
 
       // add each property e.g. width: 100px
       Object.entries(style.getProperties()).map(([key, value]) => {
