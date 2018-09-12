@@ -161,6 +161,22 @@ class HTMLModel {
       return;
     }
   };
+
+  html_openPreview = () => {
+    this.editorCallbacks.openPreview();
+  };
+
+  html_closePreview = () => {
+    this.editorCallbacks.closePreview();
+  };
+
+  html_openHelp = () => {
+    this.editorCallbacks.openHelp();
+  };
+
+  html_closeHelp = () => {
+    this.editorCallbacks.closeHelp();
+  };
 }
 
 export default HTMLModel;

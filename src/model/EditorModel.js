@@ -65,23 +65,15 @@ class Model {
 
   stopSpeechRecognition = () => {
     this.editorCallbacks.toggleListening();
-  }
+  };
 
   openHelp = () => {
-    this.editorCallbacks.openHelp();  
-  }
+    this.editorCallbacks.openHelp();
+  };
 
-  closeHelp= () => {
+  closeHelp = () => {
     this.editorCallbacks.closeHelp();
-  }
-
-  openPreview = () => {
-    this.editorCallbacks.openPreview();
-  }
-
-  closePreview = () => {
-    this.editorCallbacks.closePreview();
-  }
+  };
 }
 
 export default Model;

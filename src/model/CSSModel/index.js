@@ -65,6 +65,22 @@ class CSSModel {
       return;
     }
   };
+
+  css_openPreview = () => {
+    this.editorCallbacks.openPreview();
+  };
+
+  css_closePreview = () => {
+    this.editorCallbacks.closePreview();
+  };
+
+  css_openHelp = () => {
+    this.editorCallbacks.openHelp();
+  };
+
+  css_closeHelp = () => {
+    this.editorCallbacks.closeHelp();
+  };
 }
 
 export default CSSModel;

@@ -66,6 +66,22 @@ class JSModel {
       this.editorCallbacks.handleError(`Section with id '${id}' not found`);
     }
   };
+
+  js_openPreview = () => {
+    this.editorCallbacks.openPreview();
+  };
+
+  js_closePreview = () => {
+    this.editorCallbacks.closePreview();
+  };
+
+  js_openHelp = () => {
+    this.editorCallbacks.openHelp();
+  };
+
+  js_closeHelp = () => {
+    this.editorCallbacks.closeHelp();
+  };
 }
 
 export default JSModel;
