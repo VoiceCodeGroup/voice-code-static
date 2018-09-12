@@ -14,7 +14,7 @@ class JSModel {
   toString = async () => {
     let js = '';
     this.codeSections.forEach((section, index) => {
-      js += `// ${index + 1}\n`;
+      js += `// id: ${index + 1}\n`;
       js += this.processSection(section);
       js += '/n/n';
     });
