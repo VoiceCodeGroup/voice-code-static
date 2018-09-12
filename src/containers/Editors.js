@@ -27,14 +27,22 @@ const PageWrapper = styled.div`
 export default class extends Component {
   constructor(props) {
     super(props);
-    const callbacks = { updateContext: this.updateContext, handleError: this.handleError, toggleListening: this.toggleListening, openHelp : this.handleHelpOpen, closeHelp : this.handleHelpClose, openPreview : this.handlePreviewOpen, closePreview : this.handlePreviewClose };
+    const callbacks = {
+      updateContext: this.updateContext,
+      handleError: this.handleError,
+      toggleListening: this.toggleListening,
+      openHelp: this.handleHelpOpen,
+      closeHelp: this.handleHelpClose,
+      openPreview: this.handlePreviewOpen,
+      closePreview: this.handlePreviewClose
+    };
     this.EditorModel = new EditorModel(callbacks);
   }
 
   state = {
     compiledCode: '',
-    spokenText: 'new div',
-    defaultText: 'new div',
+    spokenText: '',
+    defaultText: '',
     context: ['html'],
     preview: false,
     errorText: null,
@@ -101,11 +109,12 @@ export default class extends Component {
       // tts(spokenText);
       await this.setState({ spokenText });
 
-      if(this.state.speechConfirmation){
-        console.log("this is speech confirming and the spoken text is "+this.state.spokenText);
-        if(!this.state.spokenText === 'yes'){
+      if (this.state.speechConfirmation) {
+        console.log('this is speech confirming and the spoken text is ' + this.state.spokenText);
+        if (!this.state.spokenText === 'yes') {
           this.handleConfirmationClose();
-      }}else{
+        }
+      } else {
         this.sendQuery();
       }
     }

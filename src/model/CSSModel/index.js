@@ -49,6 +49,22 @@ class CSSModel {
     this.styles.push(this.currentStyle);
     this.editorCallbacks.updateContext(['css', 'createStyle']);
   };
+
+  css_deleteStyle = ({ selectorType, selectorValue }) => {
+    console.log(`Delete style ${selectorType} ${selectorValue}`);
+    let found = false;
+    this.styles.forEach((style, index) => {
+      if (style.getSelectorType() === selectorType && style.getSelectorValue() === selectorValue) {
+        this.styles.splice(index, 1);
+        found = true;
+      }
+    });
+
+    if (!found) {
+      this.editorCallbacks.handleError(`Style ${selectorType} ${selectorValue} not found`);
+      return;
+    }
+  };
 }
 
 export default CSSModel;
