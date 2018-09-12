@@ -142,6 +142,25 @@ class HTMLModel {
     // nest child in parent
     parent.addChildElement(child);
   };
+
+  // id, id = child, parent to be nested under
+  html_deleteElement = ({ id }) => {
+    console.log(`Delete element ${id}`);
+
+    if (id === 'root') {
+      this.editorCallbacks.handleError(`Cannot delete 'root' element`);
+      return;
+    }
+
+    // remove child from current postion
+    const element = this.removeElementByID(id);
+
+    // handle error
+    if (!element) {
+      this.editorCallbacks.handleError(`Element '${id}' not found`);
+      return;
+    }
+  };
 }
 
 export default HTMLModel;
