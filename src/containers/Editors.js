@@ -90,7 +90,7 @@ export default class extends Component {
 
   onSpeechResult = async event => {
     const last = event.results.length - 1;
-    const spokenText = event.results[last][0].transcript;
+    const spokenText = event.results[last][0].transcript.toLowerCase();
     const confidence = event.results[0][0].confidence;
     console.log('Speech:' + spokenText);
     console.log('Confidence: ' + event.results[0][0].confidence);
