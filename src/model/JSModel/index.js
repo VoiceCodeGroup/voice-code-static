@@ -13,8 +13,10 @@ class JSModel {
 
   toString = async () => {
     let js = '';
-    this.codeSections.forEach(section => {
+    this.codeSections.forEach((section, index) => {
+      js += `// ${index + 1}\n`;
       js += this.processSection(section);
+      js += '/n/n';
     });
 
     console.log('JS', js);
@@ -53,6 +55,16 @@ class JSModel {
       type: 'STATEMENT',
       string: `document.getElementById("${id}").style.${property} = "${value}";`
     });
+  };
+
+  js_delete = ({ id }) => {
+    console.log(`deleting js with id ${id}`);
+    const index = id - 1;
+    if (index > -1 && index < this.codeSections.length) {
+      this.codeSections.splice(index, 1);
+    } else {
+      this.editorCallbacks.handleError(`Section with id '${id}' not found`);
+    }
   };
 }
 
