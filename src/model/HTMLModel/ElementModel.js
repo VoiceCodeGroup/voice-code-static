@@ -60,6 +60,11 @@ class ElementModel {
     return this.model.text;
   };
 
+  // If element has text inside it
+  getTextProp = () => {
+    return this.model.textProp;
+  };
+
   // turn a dom element into a string
   // first element is an empty dom node
   processElement = element => {
@@ -101,10 +106,17 @@ class ElementModel {
   };
 
   //----------------------------------------------------------Actions-------------------------------------------//
-  setElementProperty = ({ property, value }) => {
+  html_element_setElementProperty = ({ property, value }) => {
     const currentProps = this.model.props;
     const newProps = { ...currentProps, [property]: value };
     this.updateModel(this.getTag(), newProps, this.getChildren());
+  };
+
+  html_element_setText = ({ text }) => {
+    console.log('IN intent');
+    const textElement = new ElementModel(this.editorCallbacks, 'text', {}, [text]);
+    this.model.children.push(textElement);
+    this.model.textProp = text;
   };
 
   addChildElement = element => {
@@ -121,7 +133,7 @@ class ElementModel {
     this.updateModel(this.getTag(), this.getProps(), newChildren);
   };
 
-  finishCreateElement = () => {
+  html_element_finish = () => {
     this.editorCallbacks.updateContext(['html']);
   };
 }

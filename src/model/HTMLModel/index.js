@@ -107,7 +107,7 @@ class HTMLModel {
   //----------------------------------------------------------Actions-------------------------------------------//
 
   // add an element to the 'dom' by pushing the created element
-  createElement = ({ tag }) => {
+  html_createElement = ({ tag }) => {
     console.log(`Create Element`);
     this.currentElement = new ElementModel(this.editorCallbacks, tag);
     this.html.root.addChildElement(this.currentElement);

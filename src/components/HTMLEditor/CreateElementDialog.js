@@ -55,7 +55,8 @@ class ElementModal extends Component {
 
     const defaultProperties = {
       id: <Suggestion text="set id to {id}" />,
-      class: <Suggestion text="set class to {class}" />
+      class: <Suggestion text="set class to {class}" />,
+      text: <Suggestion text="set text to {text}" />
     };
 
     const modelProperties = model.getProps();
@@ -64,6 +65,10 @@ class ElementModal extends Component {
     Object.entries(modelProperties).map(([name, value]) => {
       mergedProperties[name] = modelProperties[name];
     });
+
+    if (model.getTextProp()) {
+      mergedProperties['text'] = model.getTextProp();
+    }
 
     const propsArray = Object.entries(mergedProperties);
 
