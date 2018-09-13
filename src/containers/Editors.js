@@ -67,7 +67,6 @@ export default class extends Component {
 
   compile = () => {
     const { html, css, js } = this.EditorModel.getVals();
-    console.log('COMPILING', html, css, js);
     this.setState({
       compiledCode: { html, css, js }
     });

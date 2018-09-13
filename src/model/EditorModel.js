@@ -80,7 +80,6 @@ class Model {
 
   refresh = async () => {
     await window.location.reload();
-    this.editorCallbacks.toggleListening();
   };
 
   createTemplate = async (params, context) => {
@@ -183,7 +182,6 @@ class Model {
     const cssModel = this.state['css'].model;
     for (let i = 0; i < styles.length; i++) {
       await this.addStyle(styles[i]);
-      this.state['css'].val = await cssModel.toString();
     }
 
     this.state['css'].val = await cssModel.toString();
@@ -230,7 +228,6 @@ class Model {
 
     await Promise.all(propPromises);
     await cssModel.performAction({ intent: 'css_style_finish' }, ['css', 'createStyle']);
-    this.state['css'].val = await cssModel.toString();
   };
 }
 
