@@ -52,8 +52,8 @@ export default class extends Component {
     listening: false
   };
 
-  componentDidMount = async () => {
-    await this.setState({
+  componentDidMount = () => {
+    this.setState({
       SpeechRecognition: new speechRecognition(
         this.onSpeechResult,
         this.toggleListening,
@@ -61,7 +61,6 @@ export default class extends Component {
       )
     });
 
-    await this.toggleListening();
     init();
   };
 
