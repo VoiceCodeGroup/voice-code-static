@@ -34,7 +34,8 @@ export default class extends Component {
       openHelp: this.handleHelpOpen,
       closeHelp: this.handleHelpClose,
       openPreview: this.handlePreviewOpen,
-      closePreview: this.handlePreviewClose
+      closePreview: this.handlePreviewClose,
+      compile: this.compile
     };
     this.EditorModel = new EditorModel(callbacks);
   }
@@ -64,6 +65,7 @@ export default class extends Component {
 
   compile = () => {
     const { html, css, js } = this.EditorModel.getVals();
+    console.log('COMPILING', html, css, js);
     this.setState({
       compiledCode: { html, css, js }
     });

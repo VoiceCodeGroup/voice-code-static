@@ -88,6 +88,7 @@ class HTMLModel {
 
   performAction = async ({ intent, params }, context) => {
     console.log('HTML action');
+    console.log('context', context);
 
     // If the context is only level 1
     if (!context[1]) {

@@ -107,9 +107,11 @@ class ElementModel {
 
   //----------------------------------------------------------Actions-------------------------------------------//
   html_element_setElementProperty = ({ property, value }) => {
+    console.log(`Setting ${property} ${value}`);
     const currentProps = this.model.props;
     const newProps = { ...currentProps, [property]: value };
     this.updateModel(this.getTag(), newProps, this.getChildren());
+    console.log('new model', this.model);
   };
 
   html_element_setText = ({ text }) => {
