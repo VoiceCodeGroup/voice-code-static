@@ -4,7 +4,11 @@ import React from 'react';
 import Frame from './Frame';
 
 const styles = {
-  dialogPaper: {}
+  dialogPaper: {
+    width: '80vw',
+    maxWidth: '80vw',
+    minHeigt: '90vh'
+  }
 };
 
 const PreviewModal = ({ classes, isOpen, handleClose, codeVals }) => (

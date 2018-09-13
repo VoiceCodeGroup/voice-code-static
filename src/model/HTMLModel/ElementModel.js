@@ -20,9 +20,9 @@ class ElementModel {
   // Construct <div> and </div> strings
   constructTagStrings = (tag, props = {}) => {
     const selfEnding = tag === 'input';
-    let startString = `<${tag} `;
+    let startString = `<${tag}`;
     Object.entries(props).map(prop => {
-      startString += `${prop[0]}="${prop[1]}"`;
+      startString += ` ${prop[0]}="${prop[1]}"`;
     });
 
     startString += selfEnding ? '/>' : '>';
@@ -76,11 +76,16 @@ class ElementModel {
 
       if (element.getChildren()) {
         element.getChildren().forEach(child => {
-          htmlString += this.processElement(child);
+          htmlString += `\n  ${this.processElement(child)}`;
         });
       }
 
-      htmlString += element.getEndString();
+      console.log('HTML STRING', htmlString);
+      if (element.getChildren()) {
+        htmlString += `${element.getEndString()}`;
+      } else {
+        htmlString += `${element.getEndString()}`;
+      }
     }
 
     return htmlString;

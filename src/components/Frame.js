@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledFrame = styled.iframe`
   width: 80vw;
-  min-height: 80vh;
+  min-height: 90vh;
 `;
 
 class Frame extends Component {

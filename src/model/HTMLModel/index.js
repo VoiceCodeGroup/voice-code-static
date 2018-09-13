@@ -12,30 +12,39 @@ class HTMLModel {
 
   // turn a dom element into a string
   // first element is an empty dom node
-  processElement = element => {
+  processElement = (element, level) => {
     let htmlString = '';
+    let space = '';
+    for (let i = 0; i < level; i++) {
+      space += '  ';
+    }
+
     if (element.isText()) {
       htmlString += element.getText();
     } else {
-      htmlString += element.getStartString();
+      htmlString += space + element.getStartString();
 
       if (element.getChildren()) {
         element.getChildren().forEach(child => {
-          htmlString += this.processElement(child);
+          htmlString += `\n${this.processElement(child, level + 1)}`;
         });
       }
 
-      htmlString += element.getEndString();
+      if (element.getChildren().length > 0) {
+        htmlString += `\n${space}${element.getEndString()}`;
+      } else {
+        htmlString += `${element.getEndString()}`;
+      }
     }
 
     return htmlString;
   };
 
   toString = async () => {
-    const htmlString = this.processElement(this.html.root);
+    const htmlString = this.processElement(this.html.root, 0);
 
-    const formattedHTML = await codeFormatter(htmlString, 'html');
-    return formattedHTML;
+    // const formattedHTML = await codeFormatter(htmlString, 'html');
+    return htmlString;
   };
 
   // Use DFS to find an elemetn

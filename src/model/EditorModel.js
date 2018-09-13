@@ -83,15 +83,109 @@ class Model {
 
     await this.addHTML(htmlElements);
 
-    const cssStyles = [];
+    // [child, parent]
+    const htmlNest = [
+      ['circle', 'alpha'],
+      ['purple', 'bravo'],
+      ['text', 'purple'],
+      ['click', 'charlie']
+    ];
+
+    await this.nestHTML(htmlNest);
+
+    const cssStyles = [
+      {
+        selectorType: 'id',
+        selectorValue: 'root',
+        properties: {
+          margin: 'auto',
+          height: '800px',
+          width: '50%'
+        }
+      },
+      {
+        selectorType: 'class',
+        selectorValue: 'panel',
+        properties: {
+          margin: '10px 10px 10px 10px',
+          height: '150px',
+          width: '100%',
+          'border-style': 'solid',
+          display: 'flex',
+          'justify-content': 'center',
+          'align-items': 'center'
+        }
+      },
+      {
+        selectorType: 'id',
+        selectorValue: 'circle',
+        properties: {
+          'border-radius': '50px',
+          'border-style': 'solid',
+          height: '100px',
+          width: '100px',
+          background: 'red'
+        }
+      },
+      {
+        selectorType: 'class',
+        selectorValue: 'blue',
+        properties: {
+          background: 'blue'
+        }
+      },
+      {
+        selectorType: 'id',
+        selectorValue: 'click',
+        properties: {
+          height: '50px',
+          width: '50px'
+        }
+      },
+      {
+        selectorType: 'id',
+        selectorValue: 'purple',
+        properties: {
+          height: '100px',
+          width: '100px',
+          background: 'purple',
+          color: 'orange'
+        }
+      }
+    ];
+
+    await this.addCSS(cssStyles);
   };
 
   addHTML = async elements => {
+    const htmlModel = this.state['html'].model;
     for (let i = 0; i < elements.length; i++) {
       await this.addElement(elements[i]);
     }
 
     this.state['html'].val = await htmlModel.toString();
+  };
+
+  nestHTML = async elements => {
+    const htmlModel = this.state['html'].model;
+    for (let i = 0; i < elements.length; i++) {
+      const [childID, parentID] = elements[i];
+      await htmlModel.performAction({ intent: 'html_nestElement', params: { childID, parentID } }, [
+        'html'
+      ]);
+    }
+
+    this.state['html'].val = await htmlModel.toString();
+  };
+
+  addCSS = async styles => {
+    const cssModel = this.state['css'].model;
+    for (let i = 0; i < styles.length; i++) {
+      await this.addStyle(styles[i]);
+      this.state['css'].val = await cssModel.toString();
+    }
+
+    this.state['css'].val = await cssModel.toString();
   };
 
   addElement = async element => {
@@ -109,6 +203,33 @@ class Model {
     await Promise.all(propPromises);
     await htmlModel.performAction({ intent: 'html_element_finish' }, ['html', 'createElement']);
     this.state['html'].val = await htmlModel.toString();
+  };
+
+  addStyle = async style => {
+    const { selectorType, selectorValue, properties } = style;
+    const cssModel = this.state['css'].model;
+    await cssModel.performAction({ intent: 'css_createStyle' }, ['css']);
+
+    await cssModel.performAction(
+      { intent: 'css_style_setSelectorType', params: { selectorType } },
+      ['css', 'createStyle']
+    );
+
+    await cssModel.performAction(
+      { intent: 'css_style_setSelectorValue', params: { selectorValue } },
+      ['css', 'createStyle']
+    );
+
+    const propPromises = Object.entries(properties).map(async ([property, value]) => {
+      await cssModel.performAction(
+        { intent: 'css_style_setCSSProperty', params: { property, value } },
+        ['css', 'createStyle']
+      );
+    });
+
+    await Promise.all(propPromises);
+    await cssModel.performAction({ intent: 'css_style_finish' }, ['css', 'createStyle']);
+    this.state['css'].val = await cssModel.toString();
   };
 }
 
