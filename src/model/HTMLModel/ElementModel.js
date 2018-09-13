@@ -80,7 +80,6 @@ class ElementModel {
         });
       }
 
-      console.log('HTML STRING', htmlString);
       if (element.getChildren()) {
         htmlString += `${element.getEndString()}`;
       } else {
@@ -116,11 +115,10 @@ class ElementModel {
     const currentProps = this.model.props;
     const newProps = { ...currentProps, [property]: value };
     this.updateModel(this.getTag(), newProps, this.getChildren());
-    console.log('new model', this.model);
   };
 
   html_element_setText = ({ text }) => {
-    console.log('IN intent');
+    console.log('adding text');
     const textElement = new ElementModel(this.editorCallbacks, 'text', {}, [text]);
     this.model.children.push(textElement);
     this.model.textProp = text;

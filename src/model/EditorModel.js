@@ -68,12 +68,26 @@ class Model {
     this.editorCallbacks.toggleListening();
   };
 
+  resetCode = () => {
+    this.state = {
+      currentMode: 'html',
+      html: { model: new HTMLModel(this.editorCallbacks), val: '<div id="root" />' },
+      css: { model: new CSSModel(this.editorCallbacks), val: '' },
+      js: { model: new JSModel(this.editorCallbacks), val: '' }
+    };
+    this.editorCallbacks.updateContext(['html']);
+  };
+
+  refresh = async () => {
+    await window.location.reload();
+    this.editorCallbacks.toggleListening();
+  };
+
   createTemplate = async (params, context) => {
     console.log('Create templates bitches');
 
     const htmlElements = [
       { tag: 'div', properties: { id: 'alpha', class: 'panel border' } },
-      { tag: 'div', properties: { id: 'circle' } },
       { tag: 'div', properties: { id: 'bravo', class: 'panel border' } },
       { tag: 'button', properties: { id: 'purple' } },
       { tag: 'p', properties: { id: 'text' }, text: 'This is text' },
@@ -84,12 +98,7 @@ class Model {
     await this.addHTML(htmlElements);
 
     // [child, parent]
-    const htmlNest = [
-      ['circle', 'alpha'],
-      ['purple', 'bravo'],
-      ['text', 'purple'],
-      ['click', 'charlie']
-    ];
+    const htmlNest = [['purple', 'bravo'], ['text', 'purple'], ['click', 'charlie']];
 
     await this.nestHTML(htmlNest);
 
@@ -141,20 +150,12 @@ class Model {
           height: '50px',
           width: '50px'
         }
-      },
-      {
-        selectorType: 'id',
-        selectorValue: 'purple',
-        properties: {
-          height: '100px',
-          width: '100px',
-          background: 'purple',
-          color: 'orange'
-        }
       }
     ];
 
     await this.addCSS(cssStyles);
+
+    this.editorCallbacks.updateContext(['html']);
   };
 
   addHTML = async elements => {

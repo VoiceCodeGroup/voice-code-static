@@ -16,7 +16,7 @@ class JSModel {
     this.codeSections.forEach((section, index) => {
       js += `// id: ${index + 1}\n`;
       js += this.processSection(section);
-      js += '/n/n';
+      js += '\n\n';
     });
 
     console.log('JS', js);

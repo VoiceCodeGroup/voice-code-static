@@ -52,16 +52,18 @@ export default class extends Component {
     listening: false
   };
 
-  componentDidMount() {
-    this.setState({
+  componentDidMount = async () => {
+    await this.setState({
       SpeechRecognition: new speechRecognition(
         this.onSpeechResult,
         this.toggleListening,
         this.isListening
       )
     });
+
+    await this.toggleListening();
     init();
-  }
+  };
 
   compile = () => {
     const { html, css, js } = this.EditorModel.getVals();
