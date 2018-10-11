@@ -15,7 +15,8 @@ const styles = {
     flexGrow: 1
   },
   flex: {
-    flex: 1
+    flex: 1,
+    fontSize: 30
   },
   menuButton: {
     marginLeft: -12,
@@ -29,7 +30,7 @@ function ButtonAppBar(props) {
     <AppBar position="absolute">
       <Toolbar>
         <Typography variant="title" color="inherit" className={classes.flex}>
-          CSI : CodeSpeechInterface
+          Decode
         </Typography>
 
         <QueryItem
